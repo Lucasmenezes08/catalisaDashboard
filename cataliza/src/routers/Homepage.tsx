@@ -4,9 +4,9 @@ import catalizaLogo from '../assets/catalizaLogo.png'
 
 export default function Homepage (){
     return (
-        <section className='w-full h-[70vh] flex flex-col justify-center items-center gap-20'>
-            <section className='h-40 flex flex-col'>
-                <img className='w-105 h-22' src={catalizaLogo}/>
+        <section className='w-full h-[80vh] flex flex-col justify-center items-center gap-20 px-4'>
+            <section className='w-full max-w-md flex flex-col'>
+                <img className='w-full h-auto' src={catalizaLogo}/>
                 <p className='text-xs text-right pt-2 font-bold'>Consultoria e soluções em tecnologia e análise de dados</p>
             </section>
 
