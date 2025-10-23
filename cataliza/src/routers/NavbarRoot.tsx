@@ -3,7 +3,7 @@ import NavBar from "../components/layout/Navbar"
 
 export default function NavbarRoot (){
     return (
-        <section>
+        <section className="font-sans antialiased">
             <NavBar/>
             <Outlet/>
         </section>
