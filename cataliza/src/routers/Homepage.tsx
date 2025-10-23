@@ -11,8 +11,8 @@ export default function Homepage (){
             </section>
 
             <section className='flex flex-col justify-center items-center'>
-                <p>Já é cliente?</p>
-                <Link to={"/Login"} className='text-[#0F0FA6]'>Login</Link>
+                <p className='text-sm font-semibold'>Já é cliente?</p>
+                <Link to={"/Login"} className='text-[#0F0FA6] text-sm'>Login</Link>
             </section>
         </section>
     )

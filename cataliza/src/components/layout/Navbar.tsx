@@ -10,7 +10,7 @@ export default function NavBar (){
                 <NavLink to={"/"}>Inicio</NavLink>
                 <section className="flex flex-row justify-center items-center gap-2 ">
                     <NavLink to={"/Login"} className="text-[#0F0FA6]">Login</NavLink>
-                    <IoPersonCircleOutline size={40}/>
+                    <IoPersonCircleOutline size={35}/>
                 </section>
             </section>
         </section>

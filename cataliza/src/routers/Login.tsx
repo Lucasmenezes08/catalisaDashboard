@@ -2,7 +2,20 @@ import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 
+import { useState } from "react";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
+
 export default function Login (){
+
+    const [showPassword , setShowPassword] = useState(false);
+
+
+    function handleShow (){
+        setShowPassword(!showPassword);
+    }
+
+
 
     const [showPassword , setShowPassword] = useState(false);
 
