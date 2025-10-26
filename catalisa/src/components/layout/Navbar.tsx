@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 export default function NavBar (){
     return (
-        <section className="bg-gray-200 w-full py-4 px-4 mb-5">
+        <section className="bg-gray-200 w-full py-4 px-6 mb-5">
             <section className="flex flex-row justify-between items-center">
                 <NavLink to={"/"}>Use nossos serviços</NavLink>
                 <NavLink to={"/"}>Inicio</NavLink>

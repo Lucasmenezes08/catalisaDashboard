@@ -2,14 +2,24 @@ import {Routes , Route} from 'react-router-dom';
 import NavbarRoot from './routers/NavbarRoot';
 import Homepage from './routers/Homepage';
 import Login from './routers/Login';
+import Dashboard from './routers/Dashboard';
+import NavbarRootDashboard from './routers/NavbarRootDashboard';
 
 function App() {
   return (
     <Routes>
+
       <Route path='/' element={<NavbarRoot/>}>
         <Route index element={<Homepage/>} />
         <Route path='/Login' element={<Login/>}/>
       </Route>
+
+      <Route path='/dashboard' element={<NavbarRootDashboard/>}>
+        <Route index element={<Dashboard/>}>
+        
+        </Route>
+      </Route>
+
     </Routes>
   )
  
