@@ -16,7 +16,7 @@ function App() {
 
       <Route path='/dashboard' element={<NavbarRootDashboard/>}>
         <Route index element={<Dashboard/>}>
-        
+          
         </Route>
       </Route>
 

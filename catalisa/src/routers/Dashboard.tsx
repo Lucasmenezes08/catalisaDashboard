@@ -1,7 +1,9 @@
+import Filtro from "@/components/dashboard/filtro/Filtro";
+
 export default function Dashboard (){
     return (
         <section>
-            <h1>Olá mundo</h1>
+            <Filtro/>
         </section>
     )
 }
