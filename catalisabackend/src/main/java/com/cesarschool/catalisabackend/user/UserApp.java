@@ -19,7 +19,7 @@ public class UserApp implements Serializable {
     private Long id;
 
     @NotBlank
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(unique = true, length = 50)
     private String name;
 
     @Email
