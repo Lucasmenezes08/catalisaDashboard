@@ -1,9 +1,11 @@
 import Filtro from "@/components/dashboard/filtro/Filtro";
+import { Outlet } from "react-router-dom";
 
 export default function Dashboard (){
     return (
-        <section>
+        <section className="px-4">
             <Filtro/>
+            <Outlet/>
         </section>
     )
 }

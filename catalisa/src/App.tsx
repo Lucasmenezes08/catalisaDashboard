@@ -4,6 +4,8 @@ import Homepage from './routers/Homepage';
 import Login from './routers/Login';
 import Dashboard from './routers/Dashboard';
 import NavbarRootDashboard from './routers/NavbarRootDashboard';
+import Filtro from './components/dashboard/filtro/Filtro';
+import Insights from './routers/Insights';
 
 function App() {
   return (
@@ -15,9 +17,7 @@ function App() {
       </Route>
 
       <Route path='/dashboard' element={<NavbarRootDashboard/>}>
-        <Route index element={<Dashboard/>}>
-          
-        </Route>
+        <Route index element={<Dashboard/>}></Route>
       </Route>
 
     </Routes>
