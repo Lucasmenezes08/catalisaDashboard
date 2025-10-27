@@ -22,11 +22,12 @@ public class UserApp implements Serializable {
     @Column(unique = true, length = 50)
     private String name;
 
+    @NotBlank
     @Email
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     @Setter(AccessLevel.NONE)
     private String password;
 
