@@ -6,6 +6,7 @@ import Dashboard from './routers/Dashboard';
 import NavbarRootDashboard from './routers/NavbarRootDashboard';
 import Filtro from './components/dashboard/filtro/Filtro';
 import Insights from './routers/Insights';
+import ProtectedRoute from './routers/ProtectedRoute';
 
 function App() {
   return (
@@ -16,9 +17,12 @@ function App() {
         <Route path='/Login' element={<Login/>}/>
       </Route>
 
-      <Route path='/dashboard' element={<NavbarRootDashboard/>}>
-        <Route index element={<Dashboard/>}></Route>
+      <Route element={<ProtectedRoute/>}>
+        <Route path='/dashboard' element={<NavbarRootDashboard/>}>
+          <Route index element={<Dashboard/>}></Route>
+        </Route>
       </Route>
+      
 
     </Routes>
   )

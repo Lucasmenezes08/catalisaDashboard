@@ -12,7 +12,7 @@ export default function PesquisaFiltro() {
   return (
     <Select defaultValue="fidelidade">
 
-      <SelectTrigger className="w-55 py-8 text-left border border-black cursor-pointer">
+      <SelectTrigger className="w-55 py-7 text-left border border-black cursor-pointer">
 
         <div className="flex flex-col">
           <span className="text-xs font-bold                                                                                                                                                                                                                                                                 uppercase text-black mb-0.5">

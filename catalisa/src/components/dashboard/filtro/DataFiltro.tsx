@@ -18,7 +18,7 @@ export default function DataFiltro (){
 
     return (
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger className="w-55 py-8 text-left border border-black cursor-pointer bg-gray-200 hover:bg-gray-200" asChild>  
+        <PopoverTrigger className="w-55 py-7 text-left border border-black cursor-pointer bg-gray-200 hover:bg-gray-200" asChild>  
           <Button
             variant="outline"
             id="date"
