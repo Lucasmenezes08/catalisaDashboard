@@ -1,4 +1,5 @@
 package com.cesarschool.catalisabackend.perguntas;
+import com.cesarschool.catalisabackend.pesquisa.Pesquisa;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Setter @Getter
-public class Pergunta implements Serializable{
+public class Pergunta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -18,9 +19,12 @@ public class Pergunta implements Serializable{
     @Column(unique = true, nullable = false, length = 600)
     private String texto;
 
-
     private int notaMinima;
     private int notaMaxima;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pesquisa_id")
+    private Pesquisa pesquisa;
 
     @NotBlank
     @Column(nullable = false, length = 30)

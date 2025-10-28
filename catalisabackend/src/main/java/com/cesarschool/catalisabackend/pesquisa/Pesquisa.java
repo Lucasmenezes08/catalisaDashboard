@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter @Getter
@@ -25,17 +27,17 @@ public class Pesquisa {
 
     @OneToMany(mappedBy = "pesquisa", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
-    private Pergunta[] perguntas;
+    private List<Pergunta> perguntas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "pesquisa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "resposta_id", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
-    private Resposta[] respostas;
+    private List<Resposta> respostas;
 
     public Pesquisa(){}
     public Pesquisa(long id, Consumo consumo, Pergunta[] perguntas, Resposta[] respostas){
         this.id = id;
         this.consumo = consumo;
-        this.perguntas = perguntas;
-        this.respostas = respostas;
+        this.perguntas = List.of(perguntas);
+        this.respostas = List.of(respostas);
     }
 }
