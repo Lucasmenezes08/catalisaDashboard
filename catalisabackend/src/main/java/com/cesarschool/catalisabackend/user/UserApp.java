@@ -47,6 +47,7 @@ public class UserApp implements UserDetails {
         this.name = name;
     }
 
+    void setEncodedPassword(String encoded) { this.password = encoded; }
     @Override public String getPassword() { return password; }
     @Override public String getUsername() { return email; }
     @Override public Collection<? extends GrantedAuthority> getAuthorities() { return List.of(); }
