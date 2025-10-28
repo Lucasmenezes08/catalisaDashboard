@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Setter @Getter
-public class Pesquisa {
+public class Pesquisa implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
