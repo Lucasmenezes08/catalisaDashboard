@@ -7,6 +7,8 @@ import NavbarRootDashboard from './routers/NavbarRootDashboard';
 import Filtro from './components/dashboard/filtro/Filtro';
 import Insights from './routers/Insights';
 import ProtectedRoute from './routers/ProtectedRoute';
+import Configuracoes from './routers/configuracoes';
+import SidebarConfiguracoes from './routers/sideBarConfiguracoes';
 
 function App() {
   return (
@@ -17,11 +19,11 @@ function App() {
         <Route path='/Login' element={<Login/>}/>
       </Route>
 
-      <Route element={<ProtectedRoute/>}>
         <Route path='/dashboard' element={<NavbarRootDashboard/>}>
           <Route index element={<Dashboard/>}></Route>
+          <Route path='/dashboard/configuracoes' element={<SidebarConfiguracoes/>}></Route>
         </Route>
-      </Route>
+      
       
 
     </Routes>
