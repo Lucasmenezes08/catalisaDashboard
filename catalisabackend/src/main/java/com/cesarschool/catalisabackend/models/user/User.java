@@ -32,7 +32,7 @@ public class User implements Serializable {
 
     @NotBlank
     @Column(nullable = false)
-    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private String password;
 
     protected User() {}

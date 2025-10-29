@@ -25,4 +25,19 @@ public class UserService {
 
         return new UserResponseDTO(user.getId(), user.getEmail(), user.getUsername());
     }
+
+    public boolean changePassword(Long id, String oldPassword, String newPassword) {
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (!user.getPassword().equals(oldPassword)) {
+            throw new IllegalArgumentException("Old password doesn't match");
+        }
+
+        user.changePassword(newPassword);
+        userRepository.save(user);
+
+        return true;
+    }
+
+
 }
