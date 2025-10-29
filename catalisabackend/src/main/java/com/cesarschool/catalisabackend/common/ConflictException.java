@@ -1,7 +1,0 @@
-package com.cesarschool.catalisabackend.common;
-
-public class ConflictException extends RuntimeException {
-    public ConflictException(String message) {
-        super(message);
-    }
-}

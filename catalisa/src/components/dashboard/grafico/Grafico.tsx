@@ -1,0 +1,21 @@
+import Comentario from "./Comentarios";
+import DistribuicaoResposta from "./DistribuicaoResposta";
+import Nps from "./nps";
+import PropocaoDeRespostas from "./ProporcaoDeRespostas";
+import TaxaDeResposta from "./TaxaDeResposta";
+
+export default function Grafico() {
+  return (
+    <section className="">
+        <section>
+           <DistribuicaoResposta/> 
+           <PropocaoDeRespostas/>
+           <TaxaDeResposta/>
+        </section>
+        <section>
+          <Comentario/>
+          <Nps/>
+        </section>
+    </section>
+  );
+}
