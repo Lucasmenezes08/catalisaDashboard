@@ -78,6 +78,22 @@ public class UserService {
         User user = userRepository.findByEmail(normalizedEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        return new UserResponseDTO(user.getId(), user.getEmail(), user.getUsername());
+        return new UserResponseDTO(
+                user.getId(),
+                user.getEmail(),
+                user.getUsername()
+        );
+    }
+
+    public UserResponseDTO getUserByCpfCnpj(String cpfCnpj) {
+        String normalizedCpfCnpj = cpfCnpj.trim().toLowerCase();
+        User user = userRepository.findByCpfCnpj(normalizedCpfCnpj)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        return new UserResponseDTO(
+                user.getId(),
+                user.getEmail(),
+                user.getUsername()
+        );
     }
 }
