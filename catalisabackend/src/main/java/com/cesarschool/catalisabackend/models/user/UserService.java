@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -58,5 +60,24 @@ public class UserService {
             throw new IllegalArgumentException("User not found");
         }
         userRepository.deleteById(id);
+    }
+
+    public UserResponseDTO getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        return new UserResponseDTO(
+                user.getId(),
+                user.getEmail(),
+                user.getUsername()
+        );
+    }
+
+    public UserResponseDTO getUserByEmail(String email) {
+        String normalizedEmail = email.trim().toLowerCase();
+        User user = userRepository.findByEmail(normalizedEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        return new UserResponseDTO(user.getId(), user.getEmail(), user.getUsername());
     }
 }
