@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CiCircleInfo } from "react-icons/ci";
-import ExplicacaoModal from "./explicacaoModal";
+import ExplicacaoModal from "../grafico/ExplicacaoModal";
 
 export default function Comentario(){
 
