@@ -3,7 +3,7 @@ import { CiCircleInfo } from "react-icons/ci";
 
 export default function Comentario(){
     return (
-        <section className="w-20 bg-blue-600">
+        <section className="">
             <section>
                 <h2>Comentarios</h2>
                 <CiCircleInfo />
