@@ -10,7 +10,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserResponseDTO createUser(UserCreateDTO createDTO) {
+    public UserResponseDTO createUser(UserRequestDTO createDTO) {
         String email = createDTO.email().trim().toLowerCase();
         String cpfCnpj = createDTO.cpfCnpj().trim();
         String username = createDTO.username() == null ? null : createDTO.username().trim();

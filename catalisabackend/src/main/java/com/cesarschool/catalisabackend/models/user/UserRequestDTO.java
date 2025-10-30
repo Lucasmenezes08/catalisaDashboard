@@ -1,6 +1,6 @@
 package com.cesarschool.catalisabackend.models.user;
 
-public record UserCreateDTO(
+public record UserRequestDTO(
         String email,
         String cpfCnpj,
         String username,
