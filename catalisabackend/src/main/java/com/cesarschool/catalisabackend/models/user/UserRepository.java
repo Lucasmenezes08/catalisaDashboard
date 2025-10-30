@@ -10,4 +10,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByCpfCnpj(String cpfCnpj);
     boolean existsByCpfCnpj(String cpfCnpj);
+
+    Optional<User> findByUsername(String username);
+    boolean existsByUsername(String username);
+
+    long deleteByEmail(String email);
+    long deleteByCpfCnpj(String cpfCnpj);
+    long deleteByUsername(String username);
+
 }

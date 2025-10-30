@@ -1,8 +1,12 @@
 package com.cesarschool.catalisabackend.models.user;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public record UserRequestDTO(
-        String email,
-        String cpfCnpj,
+        @NotBlank @Email String email,
+        @NotBlank String cpfCnpj,
         String username,
-        String password
+        @NotBlank String password
 ) {}
+
