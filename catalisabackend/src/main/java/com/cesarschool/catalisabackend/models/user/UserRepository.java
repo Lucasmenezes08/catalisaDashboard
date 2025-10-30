@@ -8,6 +8,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
 
-    Optional<User> findByCpfCnpj(String CpfCnpj);
-    boolean existsByCpfCnpj(String CpfCnpj);
+    Optional<User> findByCpfCnpj(String cpfCnpj);
+    boolean existsByCpfCnpj(String cpfCnpj);
 }

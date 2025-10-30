@@ -21,6 +21,7 @@ public class Product implements Serializable{
 
     @NotBlank
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ProductType type;
 
     private String description;

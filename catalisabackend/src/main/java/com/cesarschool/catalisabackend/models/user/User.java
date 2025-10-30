@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 @Entity
+@Access(AccessType.FIELD)
 @Setter @Getter
 @Table(name = "users")
 public class User implements Serializable {
@@ -26,7 +27,7 @@ public class User implements Serializable {
     @NotBlank
     @Column(nullable = false, unique = true)
     @Setter(AccessLevel.NONE)
-    private String CpfCnpj;
+    private String cpfCnpj;
 
     private String username;
 
@@ -39,7 +40,7 @@ public class User implements Serializable {
     public User(String email, String cpfCnpj, String password) {
         this();
         this.email = email;
-        this.CpfCnpj = cpfCnpj;
+        this.cpfCnpj = cpfCnpj;
         this.password = password;
     }
     public User(String email, String cpfCnpj, String username, String password) {
