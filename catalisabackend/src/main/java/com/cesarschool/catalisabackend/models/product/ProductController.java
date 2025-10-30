@@ -1,6 +1,6 @@
 package com.cesarschool.catalisabackend.models.product;
 
-import com.cesarschool.catalisabackend.models.product.*;
+import com.cesarschool.catalisabackend.models.utils.ResultService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class ProductController {
         // monta a entidade a partir do DTO de entrada
         Product toSave = new Product(req.name(), req.type(), req.description());
 
-        ResultProductService result = service.include(toSave);
+        ResultService result = service.include(toSave);
         if (!result.isValid()) {
             return badRequest(result);
         }
@@ -86,7 +86,7 @@ public class ProductController {
         existing.setType(req.type());
         existing.setDescription(req.description());
 
-        ResultProductService result = service.update(existing);
+        ResultService result = service.updateById(existing.getId(),existing);
         if (!result.isValid()) {
             return badRequest(result);
         }
@@ -103,7 +103,7 @@ public class ProductController {
     // DELETE by id: DELETE /api/v1/products/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable long id) {
-        ResultProductService result = service.delete(id);
+        ResultService result = service.delete(id);
         if (!result.isValid()) {
             return badRequest(result);
         }
@@ -117,7 +117,7 @@ public class ProductController {
     // DELETE by name: DELETE /api/v1/products/by-name/{name}
     @DeleteMapping("/by-name/{name}")
     public ResponseEntity<?> deleteByName(@PathVariable String name) {
-        ResultProductService result = service.delete(name);
+        ResultService result = service.delete(name);
         if (!result.isValid()) {
             return badRequest(result);
         }
@@ -130,7 +130,7 @@ public class ProductController {
 
     // ----------------- Helpers de resposta padronizada -----------------
 
-    private ResponseEntity<?> badRequest(ResultProductService result) {
+    private ResponseEntity<?> badRequest(ResultService result) {
         return ResponseEntity.badRequest().body(apiError(400, "Bad Request", result));
     }
 
@@ -139,12 +139,12 @@ public class ProductController {
                 .body(new ApiError(404, "Not Found", message));
     }
 
-    private ResponseEntity<?> notFound(ResultProductService result) {
+    private ResponseEntity<?> notFound(ResultService result) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(apiError(404, "Not Found", result));
     }
 
-    private ApiError apiError(int status, String error, ResultProductService result) {
+    private ApiError apiError(int status, String error, ResultService result) {
         // Tenta extrair mensagens de ListaString
         String message = result.getError() != null ? result.getError().toString() : error;
         return new ApiError(status, error, message);

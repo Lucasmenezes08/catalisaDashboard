@@ -1,14 +1,13 @@
-package com.cesarschool.catalisabackend.models.product;
+package com.cesarschool.catalisabackend.models.utils;
 import lombok.Getter;
 import lombok.Setter;
-import com.cesarschool.catalisabackend.models.utils.ListaString;
 
 @Getter @Setter
-public class ResultProductService {
+public class ResultService {
     private boolean valid;
     private boolean realized;
     private ListaString error;
-    public ResultProductService(boolean valid, boolean realized, ListaString error) {
+    public ResultService(boolean valid, boolean realized, ListaString error) {
         this.valid = valid;
         this.realized = realized;
         this.error = error;
