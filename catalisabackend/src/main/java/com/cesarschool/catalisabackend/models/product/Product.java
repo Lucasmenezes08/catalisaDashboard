@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class Product implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private long id;
 
     @Column(nullable = false)
