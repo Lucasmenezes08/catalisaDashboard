@@ -1,38 +1,28 @@
-import Login from "@/routers/Login";
-import { create} from "zustand";
-import { persist} from 'zustand/middleware'
+import { create } from "zustand";
+import { persist } from 'zustand/middleware'
 
-
-
-interface User {
-    id: string;
-    name: string;
+interface UserData {
+    id: number;
     email: string;
+    username: string | null;
 }
-
 
 interface AuthState {
     isAuthenticated: boolean;
-    user: User | null;
-    token: string | null;
-    login: (userData: User , token: string) => void;
+    user: UserData | null;
+    login: (userData: UserData) => void;
     logout: () => void;
 }
-
 
 export const useAuth = create<AuthState>()(
     persist(
         (set) => ({
             isAuthenticated: false,
             user: null,
-            token: null,    
-
-
-            login: (userData , token) => {
+            login: (userData) => {
                 set({
                     isAuthenticated: true,
                     user: userData,
-                    token: token,
                 })
             },
 
@@ -43,9 +33,8 @@ export const useAuth = create<AuthState>()(
                 })
             }
         }),
-
         {
-            name : 'auth-storage',
+            name: 'auth-storage',
         }
     )
 )

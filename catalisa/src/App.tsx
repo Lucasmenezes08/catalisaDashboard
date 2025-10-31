@@ -7,6 +7,8 @@ import NavbarRootDashboard from './routers/NavbarRootDashboard';
 import LayoutConfig from './routers/LayoutConfig';
 import PerfilConfig from './components/configuracoes/PerfilConfig';
 import EmpresaConfig from './components/configuracoes/EmpresaConfig';
+import ProtectedRoute from "@/routers/ProtectedRoute.tsx";
+import Test from "@/routers/Test.tsx";
 
 
 function App() {
@@ -18,14 +20,18 @@ function App() {
         <Route path='/Login' element={<Login/>}/>
       </Route>
 
-        <Route path='/dashboard' element={<NavbarRootDashboard/>}>
-          <Route index element={<Dashboard/>}></Route>
-          <Route path='/dashboard/configuracoes' element={<LayoutConfig/>}>
-            <Route index element={<PerfilConfig/>}/>
-            <Route path='/dashboard/configuracoes/empresa' element={<EmpresaConfig/>} /> 
-          </Route>
+        <Route element={<ProtectedRoute/>}>
+            <Route path='/dashboard' element={<NavbarRootDashboard/>}>
+              <Route index element={<Dashboard/>}></Route>
+              <Route path='configuracoes' element={<LayoutConfig/>}>
+                <Route index element={<PerfilConfig/>}/>
+                <Route path='empresa' element={<EmpresaConfig/>} />
+              </Route>
+            </Route>
         </Route>
-      
+
+        <Route path={'/teste'} element={<Test/>}/>
+
       
 
     </Routes>

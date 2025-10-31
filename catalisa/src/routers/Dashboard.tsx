@@ -30,6 +30,8 @@ export default function Dashboard (){
         }
     }
 
+    
+
     console.log(getId());
     return (
         <section className="max-h-screen px-4 mt-3">
