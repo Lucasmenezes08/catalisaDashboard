@@ -38,6 +38,7 @@ public class User implements Serializable {
     private String password;
 
     protected User() {}
+
     public User(String email, String cpfCnpj, String password) {
         this();
         this.email = email;

@@ -30,6 +30,7 @@ import java.util.NoSuchElementException;
  *  - DELETE /api/v1/users/by-email/{email}
  *  - DELETE /api/v1/users/by-username/{username}
  *  - DELETE /api/v1/users/by-cpf-cnpj/{cpfCnpj}
+ *  - POST   /api/v1/users/login           (autenticação)
  *
  * Filtros opcionais no GET paginado:
  *  - /api/v1/users?email={email}
@@ -37,15 +38,25 @@ import java.util.NoSuchElementException;
  *  - /api/v1/users?cpfCnpj={cpfCnpj}
  *
  * DTOs:
- *  - UserRequestDTO  : { "email", "cpfCnpj", "username", "password" }
- *  - UserResponseDTO : { "id", "email", "username" }
- *  - ChangePasswordDTO: { "oldPassword", "newPassword" } (para /{id}/password)
- *  - UpdateUsernameDTO: { "username" } (para /{id}/username)
+ *  - UserRequestDTO      : { "email", "cpfCnpj", "username", "password" }
+ *  - UserResponseDTO     : { "id", "email", "username" }
+ *  - ChangePasswordDTO   : { "oldPassword", "newPassword" } (para /{id}/password)
+ *  - UpdateUsernameDTO   : { "username" } (para /{id}/username)
+ *  - LoginRequestDTO     : { "email", "password" } (para /login)
+ *  - LoginResponseDTO    : { "authenticated", "message" } (retorno do /login)
  *
  * Regras:
- *  - email e cpfCnpj são únicos. username opcional, mas se enviado também deve ser único.
+ *  - email e cpfCnpj são únicos. username é opcional, mas se enviado também deve ser único.
  *  - Senha é alterada apenas via PATCH /{id}/password (valida oldPassword != newPassword).
  *  - Respostas de erro padronizadas via ApiError { code, message }.
+ *
+ * Autenticação (/login):
+ *  - POST /api/v1/users/login
+ *    Body: { "email": "ana@exemplo.com", "password": "Strong@123" }
+ *    Respostas:
+ *      200 OK            -> { "authenticated": true,  "message": "Authenticated" }
+ *      401 Unauthorized  -> { "authenticated": false, "message": "Invalid credentials" }
+ *      404 Not Found     -> { "authenticated": false, "message": "User not found" }
  *
  * Exemplos:
  *  - Criar usuário:
@@ -96,7 +107,9 @@ import java.util.NoSuchElementException;
  *
  * Segurança (recomendado):
  *  - Use hash de senha (BCrypt) no service antes de salvar/comparar.
+ *  - Em produção, prefira tokens (JWT) ou sessão; evite retornar dados sensíveis no login.
  */
+
 
 @RestController
 @RequiredArgsConstructor
@@ -106,6 +119,13 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO body) {
+        //função lança IllegalArgumentException com mensagens específicas
+        boolean ok = userService.authenticate(body.email(), body.password());
+        return ResponseEntity.ok(new LoginResponseDTO(true, "Authenticated"));
+    }
 
     // ==== CREATE =============================================================
 
@@ -170,7 +190,22 @@ public class UserController {
     }
 
     // ==== UPDATE (password) ==================================================
-
+    // === Handler específico para erros de autenticação (adicione na seção de EXCEPTIONS) ===
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleAuthIllegalArgument(IllegalArgumentException ex) {
+        String msg = ex.getMessage();
+        if ("User not found".equalsIgnoreCase(msg)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiError("NOT_FOUND", "User not found"));
+        }
+        if ("Password doesn't match".equalsIgnoreCase(msg)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiError("UNAUTHORIZED", "Invalid credentials"));
+        }
+        // fallback: mantém BAD_REQUEST para outras IllegalArgumentException
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiError("BAD_REQUEST", msg));
+    }
     public record ChangePasswordDTO(
             @NotBlank String oldPassword,
             @NotBlank String newPassword
