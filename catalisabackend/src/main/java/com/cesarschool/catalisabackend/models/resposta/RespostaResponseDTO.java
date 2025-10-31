@@ -1,7 +1,7 @@
 package com.cesarschool.catalisabackend.models.resposta;
 
 import com.cesarschool.catalisabackend.models.pergunta.Pergunta;
-
+import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 public record RespostaResponseDTO(
     long id,
     Pesquisa pesquisa,

@@ -1,12 +1,13 @@
 package com.cesarschool.catalisabackend.models.resposta;
 
+import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import com.cesarschool.catalisabackend.models.pergunta.Pergunta;
-
+import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 
 import java.io.Serializable;
 
