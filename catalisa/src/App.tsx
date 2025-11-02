@@ -9,6 +9,7 @@ import PerfilConfig from './components/configuracoes/PerfilConfig';
 import EmpresaConfig from './components/configuracoes/EmpresaConfig';
 import ProtectedRoute from "@/routers/ProtectedRoute.tsx";
 import Test from "@/routers/Test.tsx";
+import NotFound from './components/common/notFound';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         </Route>
 
         <Route path={'/teste'} element={<Test/>}/>
+        <Route path='*' element={<NotFound/>}/>
 
       
 
