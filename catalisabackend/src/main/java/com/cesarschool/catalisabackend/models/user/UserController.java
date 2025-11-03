@@ -120,6 +120,7 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
 
+    //====== LOGIN ==============================================================
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO body) {
         //função lança IllegalArgumentException com mensagens específicas

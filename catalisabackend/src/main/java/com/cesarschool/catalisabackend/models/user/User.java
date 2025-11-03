@@ -37,6 +37,8 @@ public class User implements Serializable {
     @Setter(AccessLevel.NONE)
     private String password;
 
+    //private List<Consumo> consumos;
+
     protected User() {}
 
     public User(String email, String cpfCnpj, String password) {
