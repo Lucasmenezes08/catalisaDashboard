@@ -18,7 +18,10 @@ export default function NavbarDashboard (){
             <img onClick={navegarInicio} className='w-20 h-5 cursor-pointer' src={catalizaLogo}/>
             <section className='flex flex-row items-center gap-5'>
                 <button onClick={logout} className='font-semibold cursor-pointer'>Logout</button>
-                <IoPersonCircleOutline size={35}/>
+                <Link className={"cursor-pointer"} to={"configuracoes"}>
+                    <IoPersonCircleOutline size={35}/>
+                </Link>
+
             </section>
         </nav>
     )

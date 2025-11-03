@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { CiCircleInfo } from "react-icons/ci";
-import ExplicacaoModal from "./explicacaoModal";
+import ExplicacaoModal from "./ExplicacaoModal";
 
 export default function TaxaDeResposta(){
-    const [isHovered , setIsHovered] = useState(false);
+
+
+    const [isCLicked , setIsCLicked] = useState(false);
+
+    function handleCLick (){
+        setIsCLicked(!isCLicked);
+    }
 
     return(
         <section className="w-full h-full flex flex-col rounded-xl border border-solid border-black">
             <section className="relative flex justify-center items-center p-4 border-b border-black">
                 <h2 className="text-md font-medium text-black uppercase">Taxa de Resposta</h2>
-               <CiCircleInfo className="absolute right-4 text-blue-700" size={30} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}/>
-                {isHovered && 
-                    <section className="fixed pr-15 pt-15">
+               <CiCircleInfo className="absolute right-4 text-blue-700 cursor-pointer" size={30} onClick={handleCLick}/>
+                {isCLicked &&
+                    <section className="absolute top-10">
                         <ExplicacaoModal mensagem={"cálculo feito com base na quantidade de respostas pela quantidade pesquisas realizadas"}/>
                     </section>
                 }
