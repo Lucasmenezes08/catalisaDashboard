@@ -1,5 +1,6 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
+import com.cesarschool.catalisabackend.models.consumo.Consumo;
 import com.cesarschool.catalisabackend.models.pergunta.Pergunta;
 import com.cesarschool.catalisabackend.models.resposta.Resposta;
 import jakarta.persistence.*;
@@ -16,9 +17,9 @@ public class Pesquisa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@NotNull
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //private Consumo consumo
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Consumo consumo;
 
     @NotNull
     @OneToMany

@@ -106,7 +106,7 @@ public class RespostaController {
     public ResponseEntity<RespostaResponseDTO> findById(@PathVariable Long id) {
         Resposta r = respostaService.search(id);
         if (r == null) {
-            throw new NoSuchElementException("Resposta not found");
+            throw new NoSuchElementException("Resposta Não encontrada");
         }
         return ResponseEntity.ok(RespostaResponseDTO.create(r));
     }

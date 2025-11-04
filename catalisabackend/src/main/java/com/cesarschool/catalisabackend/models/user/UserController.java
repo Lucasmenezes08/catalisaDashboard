@@ -125,7 +125,7 @@ public class UserController {
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO body) {
         //função lança IllegalArgumentException com mensagens específicas
         boolean ok = userService.authenticate(body.email(), body.password());
-        return ResponseEntity.ok(new LoginResponseDTO(true, "Authenticated"));
+        return ResponseEntity.ok(new LoginResponseDTO(true, "Autenticado com sucesso"));
     }
 
     // ==== CREATE =============================================================
@@ -186,7 +186,7 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {
         var dto = userRepository.findById(id)
                 .map(u -> new UserResponseDTO(u.getId(), u.getEmail(), u.getUsername()))
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+                .orElseThrow(() -> new NoSuchElementException("Usuario não encontrado"));
         return ResponseEntity.ok(dto);
     }
 
@@ -197,11 +197,11 @@ public class UserController {
         String msg = ex.getMessage();
         if ("User not found".equalsIgnoreCase(msg)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiError("NOT_FOUND", "User not found"));
+                    .body(new ApiError("NOT_FOUND", "Usuario não encontrado"));
         }
         if ("Password doesn't match".equalsIgnoreCase(msg)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiError("UNAUTHORIZED", "Invalid credentials"));
+                    .body(new ApiError("UNAUTHORIZED", "Credenciais invalidas"));
         }
         // fallback: mantém BAD_REQUEST para outras IllegalArgumentException
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -226,11 +226,11 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> changeUsername(@PathVariable Long id,
                                                           @Valid @RequestBody UpdateUsernameDTO body) {
         var user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+                .orElseThrow(() -> new NoSuchElementException("Usuario não encontrado"));
 
         String newUsername = body.username().trim();
         if (!newUsername.equals(user.getUsername()) && userRepository.existsByUsername(newUsername)) {
-            throw new IllegalArgumentException("Username already exists");
+            throw new IllegalArgumentException("Username ja existente");
         }
         user.setUsername(newUsername);
         userRepository.save(user);
@@ -243,7 +243,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         if (!userRepository.existsById(id)) {
-            throw new NoSuchElementException("User not found");
+            throw new NoSuchElementException("Usuario não encontrado");
         }
         userRepository.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -252,21 +252,21 @@ public class UserController {
     @DeleteMapping("/by-email/{email}")
     public ResponseEntity<Void> deleteByEmail(@PathVariable String email) {
         long deleted = userRepository.deleteByEmail(email.trim().toLowerCase());
-        if (deleted == 0) throw new NoSuchElementException("User not found");
+        if (deleted == 0) throw new NoSuchElementException("Usuario não encontrado");
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/by-username/{username}")
     public ResponseEntity<Void> deleteByUsername(@PathVariable String username) {
         long deleted = userRepository.deleteByUsername(username.trim());
-        if (deleted == 0) throw new NoSuchElementException("User not found");
+        if (deleted == 0) throw new NoSuchElementException("Usuario não encontrado");
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/by-cpf-cnpj/{cpfCnpj}")
     public ResponseEntity<Void> deleteByCpfCnpj(@PathVariable String cpfCnpj) {
         long deleted = userRepository.deleteByCpfCnpj(cpfCnpj.trim());
-        if (deleted == 0) throw new NoSuchElementException("User not found");
+        if (deleted == 0) throw new NoSuchElementException("Usuario não encontrado");
         return ResponseEntity.noContent().build();
     }
 
