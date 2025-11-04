@@ -12,6 +12,8 @@ export default function Login (){
     const [password , setPassword] = useState('');
     const [showUser , setShowUser] = useState(true);
     const [showPassword , setShowPassword] = useState(false);
+    const [errorMessage , setErrorMessage] = useState('');
+
 
     function handleShow (){
         setShowPassword(!showPassword);
@@ -21,7 +23,6 @@ export default function Login (){
         setShowUser(!showUser);
     }
 
-    // --- LÓGICA DE SUBMIT CORRIGIDA ---
     async function handleSubmit (e: React.FormEvent){
         e.preventDefault();
 
@@ -64,7 +65,7 @@ export default function Login (){
         }
         catch (error){
             console.log (error);
-            alert((error as Error).message);
+            setErrorMessage((error as Error).message);
         }
     }
 
@@ -72,18 +73,19 @@ export default function Login (){
         <section className="w-full h-[79vh] flex justify-center items-center">
             <form className="w-full max-w-md flex flex-col gap-5 px-5" onSubmit={handleSubmit}>
                 <section className="flex flex-col justify-start gap-3 ">
-                    <label className="text-sm" htmlFor="user">Usuário</label>
-                    <section className="flex flex-row justify-between items-center h-12 w-full text-sm px-4 text-gray-400 font-light border border-solid border-gray-400 rounded-lg ">
-                        <input className="w-full outline-none" type={showUser ? "text" : "password"} name="user" placeholder="Seu ID" onChange={(e) => setEmail(e.target.value)} value={email} required/>
+                    <label className="text-sm" htmlFor="user">Email</label>
+                    <section className={`flex flex-row justify-between items-center h-12 w-full text-sm px-4 text-gray-400 font-light border border-solid border-gray-400 rounded-lg ${errorMessage ? "border border-red-500" : ''}`}>
+                        <input className="w-full outline-none" type={showUser ? "text" : "password"} name="user" placeholder="Seu Email" onChange={(e) => setEmail(e.target.value)} value={email} required/>
                         {!showUser && <FaEye className="cursor-pointer" size={18} onClick={handleShowUser}/>}
                         {showUser && <FaEyeSlash className="cursor-pointer" size={18} onClick={handleShowUser}/>}
                     </section>
+                    {errorMessage && (<p className={"text-red-800 text-sm"}>{errorMessage}</p>)}
                 </section>
 
                 <section className="flex flex-col justify-start gap-3">
                     <label className="text-sm" htmlFor="senha">Senha</label>
-                    <section className="flex flex-row justify-between items-center h-12 w-full text-sm px-4 text-gray-400 font-light border border-solid border-gray-400 rounded-lg ">
-                        <input className="w-full outline-none" type={showPassword ? "text" : "password"} name="senha" placeholder="Sua senha" onChange={(e) => setPassword(e.target.value)} value={password} required/>
+                    <section className={`flex flex-row justify-between items-center h-12 w-full text-sm px-4 text-gray-400 font-light border border-solid border-gray-400 rounded-lg ${errorMessage ? "border border-red-500" : ''}`}>
+                        <input className={"w-full outline-none"} type={showPassword ? "text" : "password"} name="senha" placeholder="Sua senha" onChange={(e) => setPassword(e.target.value)} value={password} required/>
                         {!showPassword && <FaEye className="cursor-pointer" size={18} onClick={handleShow}/>}
                         {showPassword && <FaEyeSlash className="cursor-pointer" size={18} onClick={handleShow}/>}
                     </section>

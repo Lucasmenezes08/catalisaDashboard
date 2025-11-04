@@ -17,7 +17,7 @@ export default function DistribuicaoResposta(){
                 <CiCircleInfo className="absolute right-4 text-blue-700 cursor-pointer" size={30} onClick={handleCLick}/>
                      {isCLicked &&
                         <section className="absolute top-10">
-                            <ExplicacaoModal mensagem={"representação visual da quantidade e classificação das avaliações do período de tempo filtrado"}/>
+                            <ExplicacaoModal mensagem={"representação visual da <strong> quantidade</strong> e <strong>classificação</strong> das avaliações do período de tempo filtrado"}/>
                         </section>
                     }
             </section>

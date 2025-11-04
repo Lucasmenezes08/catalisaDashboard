@@ -18,7 +18,7 @@ export default function TaxaDeResposta(){
                <CiCircleInfo className="absolute right-4 text-blue-700 cursor-pointer" size={30} onClick={handleCLick}/>
                 {isCLicked &&
                     <section className="absolute top-10">
-                        <ExplicacaoModal mensagem={"cálculo feito com base na quantidade de respostas pela quantidade pesquisas realizadas"}/>
+                        <ExplicacaoModal mensagem={"cálculo feito com base na <strong>quantidade de respostas </strong> pela <strong>quantidade pesquisas realizadas </strong>"}/>
                     </section>
                 }
             </section>
