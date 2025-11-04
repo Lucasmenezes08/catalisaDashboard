@@ -1,0 +1,215 @@
+package com.cesarschool.catalisabackend.models.consumo;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+/**
+ * API REST para Consumo (User consumindo Product) — pronta para o front.
+ *
+ * Base path: /api/v1/consumos
+ *
+ * Endpoints:
+ *  - POST   /api/v1/consumos
+ *  - GET    /api/v1/consumos
+ *  - GET    /api/v1/consumos/{id}
+ *  - PATCH  /api/v1/consumos/{id}
+ *  - DELETE /api/v1/consumos/{id}
+ *
+ * Filtros opcionais no GET paginado (/api/v1/consumos):
+ *  - ?userId={id}                 -> consumos de um usuário
+ *  - ?productId={id}              -> consumos de um produto
+ *  - ?respondida={true|false}     -> se pesquisa foi respondida
+ *  - ?startDate=YYYY-MM-DD        -> data inicial (inclusiva)
+ *  - ?endDate=YYYY-MM-DD          -> data final   (inclusiva)
+ *  - Com paginação: page, size, sort (ex.: sort=dataConsumo,desc)
+ *
+ * Contratos:
+ *  - ConsumoRequestDTO  : { user, product, dataConsumo, avaliacao, pesquisaRespondida, pesquisa }
+ *    *IMPORTANTE*: o seu DTO recebe objetos completos (User/Product/Pesquisa).
+ *                  Em produção normalmente receberíamos apenas IDs, mas aqui seguimos seu modelo.
+ *
+ *  - ConsumoResponseDTO : { id, user, product, dataConsumo, avaliacao, pesquisaRespondida, pesquisa }
+ *
+ * Regras / Observações:
+ *  - create/update passam pelo ConsumoService.validate().
+ *  - Em caso de erro de validação, retornamos 422 com lista de mensagens.
+ *  - Em caso de recurso não encontrado, retornamos 404.
+ *  - Em caso de conflito/estado inválido, retornamos 400.
+ *
+ * Exemplos:
+ *  - Criar:
+ *      POST /api/v1/consumos
+ *      {
+ *        "user": { ... },
+ *        "product": { ... },
+ *        "dataConsumo": "2025-11-04",
+ *        "avaliacao": 5,
+ *        "pesquisaRespondida": true,
+ *        "pesquisa": { ... }
+ *      }
+ *      -> 201 Created + Location: /api/v1/consumos/{id}
+ *
+ *  - Listar com filtros:
+ *      GET /api/v1/consumos?userId=10&startDate=2025-10-01&endDate=2025-11-30&page=0&size=10&sort=dataConsumo,desc
+ */
+@RestController
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/consumos")
+public class ConsumoController {
+
+    private final ConsumoService consumoService;
+    private final ConsumoRepository consumoRepository;
+
+    // ------------------------ CREATE ------------------------
+
+    @PostMapping
+    public ResponseEntity<?> create(@Valid @RequestBody ConsumoRequestDTO body) {
+        Consumo entity = toEntity(body, null);
+        var result = consumoService.include(entity);
+
+        if (!result.isValid()) {
+            return unprocessable(result);
+        }
+        if (!result.isRealized()) {
+            return badRequest(result);
+        }
+
+        // entity persistido — buscar o ID recém-gerado
+        // Como o service salva a mesma instância, o ID já estará no entity
+        ConsumoResponseDTO dto = toResponse(entity);
+        return ResponseEntity
+                .created(URI.create("/api/v1/consumos/" + dto.id()))
+                .body(dto);
+    }
+
+    // ------------------------ READ (LIST) -------------------
+
+    @GetMapping
+    public ResponseEntity<Page<ConsumoResponseDTO>> list(
+            Pageable pageable,
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) Long productId,
+            @RequestParam(required = false) Boolean respondida,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate
+    ) {
+        Page<Consumo> page;
+
+        // Prioridade de filtros combináveis: userId/productId + data/flag
+        if (userId != null && productId != null) {
+            page = consumoRepository.findByUser_IdAndProduct_Id(userId, productId, pageable);
+        } else if (userId != null) {
+            page = consumoRepository.findByUser_Id(userId, pageable);
+        } else if (productId != null) {
+            page = consumoRepository.findByProduct_Id(productId, pageable);
+        } else if (respondida != null) {
+            page = consumoRepository.findByPesquisaRespondida(respondida, pageable);
+        } else if (startDate != null && endDate != null) {
+            page = consumoRepository.findByDataConsumoBetween(startDate, endDate, pageable);
+        } else {
+            page = consumoRepository.findAll(pageable);
+        }
+
+        return ResponseEntity.ok(page.map(this::toResponse));
+    }
+
+    // ------------------------ READ (BY ID) ------------------
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ConsumoResponseDTO> getById(@PathVariable Long id) {
+        Consumo entity = consumoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Consumo não encontrado"));
+        return ResponseEntity.ok(toResponse(entity));
+    }
+
+    // ------------------------ UPDATE -----------------------
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id,
+                                    @Valid @RequestBody ConsumoRequestDTO body) {
+        Consumo exists = consumoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Consumo não encontrado"));
+
+        Consumo toUpdate = toEntity(body, exists); // reaproveita a instância existente
+        var result = consumoService.update(id, toUpdate);
+
+        if (!result.isValid()) {
+            return unprocessable(result);
+        }
+        if (!result.isRealized()) {
+            return badRequest(result);
+        }
+        return ResponseEntity.ok(toResponse(exists));
+    }
+
+    // ------------------------ DELETE -----------------------
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        Consumo exists = consumoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Consumo não encontrado"));
+        var result = consumoService.delete(id);
+
+        if (!result.isValid()) {
+            // Erro lógico — por simplicidade, tratamos como 400
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    // ------------------------ MAPEADORES --------------------
+
+    private Consumo toEntity(ConsumoRequestDTO dto, Consumo targetOrNull) {
+        Consumo c = (targetOrNull != null) ? targetOrNull : new Consumo();
+        c.setUser(dto.user());
+        c.setProduct(dto.product());
+        c.setDataConsumo(dto.dataConsumo());
+        c.setAvaliacao(dto.avaliacao());
+        c.setPesquisaRespondida(dto.pesquisaRespondida());
+        c.setPesquisa(dto.pesquisa());
+        return c;
+    }
+
+    private ConsumoResponseDTO toResponse(Consumo c) {
+        return new ConsumoResponseDTO(
+                c.getId(),
+                c.getUser(),
+                c.getProduct(),
+                c.getDataConsumo(),
+                c.getAvaliacao(),
+                c.isPesquisaRespondida(),
+                c.getPesquisa()
+        );
+    }
+
+    // ------------------------ ERROS PADRÃO ------------------
+
+    private ResponseEntity<ApiError> unprocessable(com.cesarschool.catalisabackend.models.utils.ResultService r) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(new ApiError("VALIDATION_ERROR", r.getError() != null ? r.getError().toString() : "Dados inválidos"));
+    }
+
+    private ResponseEntity<ApiError> badRequest(com.cesarschool.catalisabackend.models.utils.ResultService r) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiError("BUSINESS_RULE", r.getError() != null ? r.getError().toString() : "Regra de negócio violada"));
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ApiError> handleNotFound(NoSuchElementException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError("NOT_FOUND", ex.getMessage()));
+    }
+
+    public record ApiError(String code, String message) {}
+}

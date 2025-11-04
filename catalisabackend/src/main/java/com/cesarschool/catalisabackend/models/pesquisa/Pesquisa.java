@@ -18,7 +18,8 @@ public class Pesquisa {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "consumo_id", nullable = false, unique = true) // garante 1:1 no BD
     private Consumo consumo;
 
     @NotNull
@@ -26,7 +27,7 @@ public class Pesquisa {
     private List<Pergunta> perguntas;
 
     @NotNull
-    @OneToMany
+    @OneToMany(mappedBy = "pesquisa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Resposta> respostas;
 
     public Pesquisa() {}

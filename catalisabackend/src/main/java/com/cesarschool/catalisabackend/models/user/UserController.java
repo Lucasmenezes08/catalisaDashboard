@@ -1,5 +1,6 @@
 package com.cesarschool.catalisabackend.models.user;
 
+import com.cesarschool.catalisabackend.models.consumo.ConsumoRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -108,7 +109,51 @@ import java.util.NoSuchElementException;
  * Segurança (recomendado):
  *  - Use hash de senha (BCrypt) no service antes de salvar/comparar.
  *  - Em produção, prefira tokens (JWT) ou sessão; evite retornar dados sensíveis no login.
- */
+ *
+ *
+ *  GET /api/v1/users/{id}/consumos
+ * Retorna todas as ocorrências de consumo (historico do usuário) associadas ao usuário identificado por {id}.
+ * Descrição
+ * Busca o usuário por id.
+ * Se existir, carrega os Consumos (Consumo) relacionados a ele, converte cada um para ConsumoResponseDTO e devolve em uma lista.
+ * Sem paginação nesta versão (retorna lista completa).
+ * Path Params
+ * id (Long) — ID do usuário.
+ * Responses
+ * 200 OK
+ // Corpo: List<ConsumoResponseDTO>
+ * 404 Not Found
+ * Quando o usuário não é encontrado.
+ * Corpo: ApiError { code: "NOT_FOUND", message: "Usuario não encontrado" }
+ * 500 Internal Server Error
+ * Erros inesperados.
+ * Schema: ConsumoResponseDTO
+ * {
+ *   "id": 1,
+ //   "user": { /* objeto User vinculado ao consumo */ //},
+//        *"product":{ /* objeto Product consumido */ },
+//        *"dataConsumo":"2025-10-31",
+//        *"avaliacao":5,
+//        *"pesquisaRespondida":true,
+//        *"pesquisa":{ /* objeto Pesquisa vinculado (1:1) ou null */ }
+//        *}
+//        *
+//        *
+//        *Observação:
+//        por padrão, o
+//DTO atual
+//retorna os
+//objetos completos
+//        de user, product
+//e pesquisa.
+//Se o
+//front preferir
+//respostas mais
+//
+//leves(apenas IDs ou campos essenciais),crie um DTO “slim”
+//específico para
+//listagem
+// */
 
 
 @RestController
@@ -119,6 +164,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final ConsumoRepository consumoRepository;
 
     //====== LOGIN ==============================================================
     @PostMapping("/login")
@@ -189,7 +235,27 @@ public class UserController {
                 .orElseThrow(() -> new NoSuchElementException("Usuario não encontrado"));
         return ResponseEntity.ok(dto);
     }
+    @GetMapping("/{id}/consumos")
+    public ResponseEntity<java.util.List<com.cesarschool.catalisabackend.models.consumo.ConsumoResponseDTO>>
+    listUserConsumos(@PathVariable Long id) {
+        var user = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Usuario não encontrado"));
 
+        var consumos = consumoRepository.findByUser_Id(user.getId())
+                .stream()
+                .map(c -> new com.cesarschool.catalisabackend.models.consumo.ConsumoResponseDTO(
+                        c.getId(),
+                        c.getUser(),
+                        c.getProduct(),
+                        c.getDataConsumo(),
+                        c.getAvaliacao(),
+                        c.isPesquisaRespondida(),
+                        c.getPesquisa()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(consumos);
+    }
     // ==== UPDATE (password) ==================================================
     // === Handler específico para erros de autenticação (adicione na seção de EXCEPTIONS) ===
     @ExceptionHandler(IllegalArgumentException.class)

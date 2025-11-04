@@ -1,5 +1,7 @@
 package com.cesarschool.catalisabackend.models.user;
 
+import com.cesarschool.catalisabackend.models.consumo.Consumo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -37,7 +40,9 @@ public class User implements Serializable {
     @Setter(AccessLevel.NONE)
     private String password;
 
-    //private List<Consumo> consumos;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+    @JsonIgnore
+    private List<Consumo> consumos;
 
     protected User() {}
 
