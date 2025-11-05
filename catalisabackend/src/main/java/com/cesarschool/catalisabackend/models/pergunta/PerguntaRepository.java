@@ -14,7 +14,7 @@ public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
     List<Pergunta> findByTextoStartingWithIgnoreCase(String texto);
     Optional<Pergunta> findById(long id);
     List<Pergunta> findByTipo(PerguntaTipo tipo);
-    Optional<Pergunta> deleteByTipo(PerguntaTipo tipo);
+    long deleteByTipo(PerguntaTipo tipo);
     List<Pergunta> findAllByTipo(PerguntaTipo tipo);
     List<Pergunta> findAllByTipoOrderByTextoAsc(PerguntaTipo tipo);
     List<Pergunta> findAllByTexto(String texto);

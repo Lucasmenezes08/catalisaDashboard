@@ -12,7 +12,10 @@ import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "respostas")
+@Table(
+        name = "respostas",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"pesquisa_id", "pergunta_id"})
+)
 @Getter @Setter
 public class Resposta implements Serializable {
     @Id

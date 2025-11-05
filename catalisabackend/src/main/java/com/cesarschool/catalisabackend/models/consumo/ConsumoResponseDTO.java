@@ -7,12 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public record ConsumoResponseDTO(
-    long id,
-    User user,
-    Product product,
-    LocalDate dataConsumo,
-    int avaliacao,
-    boolean pesquisaRespondida,
-    Pesquisa pesquisa
-
+        long id,
+        Long userId,
+        Long productId,
+        LocalDate dataConsumo,
+        int avaliacao,
+        boolean pesquisaRespondida,
+        Long pesquisaId
 ) {}

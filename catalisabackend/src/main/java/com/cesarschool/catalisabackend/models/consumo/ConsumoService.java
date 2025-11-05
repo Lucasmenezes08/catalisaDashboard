@@ -85,9 +85,9 @@ public class ConsumoService {
             valido = false;
             erros.adicionar("Produto Consumido Inexistente");
         }
-        if(consumo.getDataConsumo() == null || LocalDate.now().isAfter(consumo.getDataConsumo())) {
+        if (consumo.getDataConsumo() == null || consumo.getDataConsumo().isAfter(LocalDate.now())) {
             valido = false;
-            erros.adicionar("Data de Consumo Inexistente ou maior que a atual");
+            erros.adicionar("Data de consumo inexistente ou no futuro");
         }
         if(consumo.getPesquisa() == null){
             valido = false;

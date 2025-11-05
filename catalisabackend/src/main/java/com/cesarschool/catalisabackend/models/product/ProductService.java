@@ -33,6 +33,7 @@ public class ProductService {
         }
         return result;
     }
+    @Transactional
     public ResultService updateById(long id, Product product){
         ResultService result = validate(product);
         if(result.isValid()){
@@ -51,6 +52,7 @@ public class ProductService {
         }
         return result;
     }
+    @Transactional
     public ResultService delete(String name){
         ListaString error = new ListaString();
         if(StringUtils.estaVazia(name)) {
@@ -67,6 +69,7 @@ public class ProductService {
             return new ResultService(true,false,error);
         }
     }
+    @Transactional
     public ResultService delete(long id){
         ListaString error = new ListaString();
         if(id <= 0) {
@@ -83,12 +86,15 @@ public class ProductService {
             return new ResultService(true,false,error);
         }
     }
+    @Transactional
     public Product search(String name){
         return productRepository.findByNameIgnoreCase(name).orElse(null);
     }
+    @Transactional
     public Product search(long id){
         return productRepository.findById(id).orElse(null);
     }
+    @Transactional
     public List<Product> findAll(){
         return productRepository.findAll();
     }

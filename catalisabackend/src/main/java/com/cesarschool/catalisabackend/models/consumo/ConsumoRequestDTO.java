@@ -10,10 +10,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record ConsumoRequestDTO(
-   @NotNull User user,
-   Product product,
-   LocalDate dataConsumo,
-   int avaliacao,
-   boolean pesquisaRespondida,
-   @NotNull Pesquisa pesquisa
+        Long userId,
+        Long productId,
+        LocalDate dataConsumo,
+        Integer avaliacao,
+        Boolean pesquisaRespondida,
+        Long pesquisaId
 ) {}

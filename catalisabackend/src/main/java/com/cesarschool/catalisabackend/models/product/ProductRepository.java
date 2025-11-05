@@ -10,20 +10,35 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
-    public Optional<Product> findByNameIgnoreCase(String name);
 
-    public Optional<Product> deleteProductByName(String name);
+    Optional<Product> findByNameIgnoreCase(String name);
 
-    public boolean existsByNameIgnoreCase(String name);
+    // use este padrão para delete:
+    long deleteByNameIgnoreCase(String name); // << troque o método
+
+    boolean existsByNameIgnoreCase(String name);
 
     List<Product> findAllByTypeOrderByNameAsc(ProductType type);
 
+    // Se quiser manter busca por texto, foque em name/description.
+    // Para filtrar por type, passe como parâmetro separado (p.type = :type).
     @Query("""
-   select p from Product p
-   where (:q is null or :q = '' 
-      or lower(p.name) like lower(concat('%', :q, '%'))
-      or lower(p.type) like lower(concat('%', :q, '%')))
-""")
+       select p from Product p
+       where (:q is null or :q = ''
+          or lower(p.name) like lower(concat('%', :q, '%'))
+          or lower(coalesce(p.description, '')) like lower(concat('%', :q, '%'))
+       )
+    """)
     List<Product> search(@Param("q") String q);
 
+    // Ex.: outra assinatura caso queira filtrar também por type
+    @Query("""
+       select p from Product p
+       where (:q is null or :q = ''
+          or lower(p.name) like lower(concat('%', :q, '%'))
+          or lower(coalesce(p.description, '')) like lower(concat('%', :q, '%'))
+       )
+       and (:type is null or p.type = :type)
+    """)
+    List<Product> search(@Param("q") String q, @Param("type") ProductType type);
 }

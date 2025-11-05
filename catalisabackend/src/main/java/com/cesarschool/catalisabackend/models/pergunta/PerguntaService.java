@@ -144,6 +144,10 @@ public class PerguntaService {
             valid = false;
             erros.adicionar("Texto inexistente");
         }
+        if(pergunta.getNotaMinima() < 1 ||  pergunta.getNotaMaxima() > 5){
+            valid = false;
+            erros.adicionar("Nota minima ou maxima invalida");
+        }
         return new ResultService(valid, realized, erros);
     }
 }

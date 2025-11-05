@@ -2,6 +2,7 @@ package com.cesarschool.catalisabackend.models.pergunta;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,7 @@ public class Pergunta implements Serializable {
     private int notaMinima; // filtro de acordo com a nota do usuário
     private int notaMaxima;
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PerguntaTipo tipo; // texto, multipla escolha, escala, etc.

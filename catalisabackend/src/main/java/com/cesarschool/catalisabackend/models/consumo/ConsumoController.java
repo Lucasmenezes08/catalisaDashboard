@@ -1,5 +1,7 @@
 package com.cesarschool.catalisabackend.models.consumo;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -171,26 +173,38 @@ public class ConsumoController {
 
     // ------------------------ MAPEADORES --------------------
 
+    @PersistenceContext
+    private EntityManager em;
+
     private Consumo toEntity(ConsumoRequestDTO dto, Consumo targetOrNull) {
         Consumo c = (targetOrNull != null) ? targetOrNull : new Consumo();
-        c.setUser(dto.user());
-        c.setProduct(dto.product());
+
+        if (dto.userId() != null) {
+            c.setUser(em.getReference(com.cesarschool.catalisabackend.models.user.User.class, dto.userId()));
+        }
+        if (dto.productId() != null) {
+            c.setProduct(em.getReference(com.cesarschool.catalisabackend.models.product.Product.class, dto.productId()));
+        }
         c.setDataConsumo(dto.dataConsumo());
-        c.setAvaliacao(dto.avaliacao());
-        c.setPesquisaRespondida(dto.pesquisaRespondida());
-        c.setPesquisa(dto.pesquisa());
+        c.setAvaliacao(dto.avaliacao() == null ? 0 : dto.avaliacao());
+        c.setPesquisaRespondida(Boolean.TRUE.equals(dto.pesquisaRespondida()));
+
+        if (dto.pesquisaId() != null) {
+            c.setPesquisa(em.getReference(com.cesarschool.catalisabackend.models.pesquisa.Pesquisa.class, dto.pesquisaId()));
+        }
+
         return c;
     }
 
     private ConsumoResponseDTO toResponse(Consumo c) {
         return new ConsumoResponseDTO(
                 c.getId(),
-                c.getUser(),
-                c.getProduct(),
+                c.getUser() != null ? c.getUser().getId() : null,
+                c.getProduct() != null ? c.getProduct().getId() : null,
                 c.getDataConsumo(),
                 c.getAvaliacao(),
                 c.isPesquisaRespondida(),
-                c.getPesquisa()
+                c.getPesquisa() != null ? c.getPesquisa().getId() : null
         );
     }
 

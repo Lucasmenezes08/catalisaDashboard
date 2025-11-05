@@ -245,12 +245,12 @@ public class UserController {
                 .stream()
                 .map(c -> new com.cesarschool.catalisabackend.models.consumo.ConsumoResponseDTO(
                         c.getId(),
-                        c.getUser(),
-                        c.getProduct(),
+                        (c.getUser()     != null ? c.getUser().getId()       : null), // userId
+                        (c.getProduct()  != null ? c.getProduct().getId()    : null), // productId
                         c.getDataConsumo(),
                         c.getAvaliacao(),
                         c.isPesquisaRespondida(),
-                        c.getPesquisa()
+                        (c.getPesquisa() != null ? c.getPesquisa().getId()   : null)  // pesquisaId
                 ))
                 .toList();
 

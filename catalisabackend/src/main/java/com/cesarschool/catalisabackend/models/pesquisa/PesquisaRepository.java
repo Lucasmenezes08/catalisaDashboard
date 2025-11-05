@@ -1,5 +1,6 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
+import com.cesarschool.catalisabackend.models.consumo.Consumo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PesquisaRepository extends JpaRepository<Pesquisa, Long> {
-
+    Pesquisa searchByConsumo(Consumo consumo);
     List<Pesquisa> findByConsumo_Id(Long consumoId);
     Page<Pesquisa> findByConsumo_Id(Long consumoId, Pageable pageable);
     long countByConsumo_Id(Long consumoId);

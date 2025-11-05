@@ -87,8 +87,13 @@ public class PerguntaController {
             return badRequest(result);
         }
         if (!result.isRealized()) {
+            String msg = result.getError() != null ? result.getError().toString() : "";
+            if (msg.toLowerCase().contains("inexistente") || msg.toLowerCase().contains("não encontr")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError(404, "Not Found", result));
+            }
             return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError(409, "Conflict", result));
         }
+
         Pergunta updated = service.search(id);
         return ResponseEntity.ok(PerguntaResponseDTO.fromEntity(updated));
     }
