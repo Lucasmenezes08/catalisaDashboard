@@ -9,7 +9,8 @@ import PerfilConfig from './components/configuracoes/PerfilConfig';
 import EmpresaConfig from './components/configuracoes/EmpresaConfig';
 import ProtectedRoute from "@/routers/ProtectedRoute.tsx";
 import Test from "@/routers/Test.tsx";
-import NotFound from './components/common/notFound';
+import NotFound from '../src/components/common/NotFound.tsx';
+import Pesquisa from "@/routers/Pesquisa.tsx";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
 
         <Route path={'/teste'} element={<Test/>}/>
         <Route path='*' element={<NotFound/>}/>
+        <Route path={"/pesquisa"} element={<Pesquisa/>}/>
 
       
 
