@@ -85,22 +85,25 @@ public class ConsumoService {
             valido = false;
             erros.adicionar("Produto Consumido Inexistente");
         }
-        if (consumo.getDataConsumo() == null || consumo.getDataConsumo().isAfter(LocalDate.now())) {
+
+        if (consumo.getDataConsumo() == null) {
             valido = false;
-            erros.adicionar("Data de consumo inexistente ou no futuro");
+            erros.adicionar("Data de consumo obrigatória");
         }
-        if(consumo.getPesquisa() == null){
+        else if (consumo.getDataConsumo().isAfter(LocalDate.now())) {
             valido = false;
-            erros.adicionar("Pesquisa Inexistente");
+            erros.adicionar("Data de consumo no futuro não é permitida");
         }
-        if(consumo.isPesquisaRespondida()){
-            if(consumo.getAvaliacao() < 0 || consumo.getAvaliacao() > 5) {
+
+        if (consumo.isPesquisaRespondida()) {
+            if (consumo.getPesquisa() == null) {
                 valido = false;
-                erros.adicionar("Não foi atribuida uma nota valida");
+                erros.adicionar("Informe a pesquisa ao marcar 'pesquisaRespondida=true'");
             }
-        }
-        else{
-            erros.adicionar("Pesquisa Não respondida");
+            if (consumo.getAvaliacao() < 1 || consumo.getAvaliacao() > 5) {
+                valido = false;
+                erros.adicionar("Avaliacao deve estar entre 1 e 5 quando a pesquisa é respondida");
+            }
         }
 
         return new ResultService(valido, realizado, erros);

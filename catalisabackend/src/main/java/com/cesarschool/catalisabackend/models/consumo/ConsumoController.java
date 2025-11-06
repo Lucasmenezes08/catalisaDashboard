@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.cesarschool.catalisabackend.models.utils.ResultService;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -210,14 +211,22 @@ public class ConsumoController {
 
     // ------------------------ ERROS PADRÃO ------------------
 
-    private ResponseEntity<ApiError> unprocessable(com.cesarschool.catalisabackend.models.utils.ResultService r) {
+    private ResponseEntity<ApiError> unprocessable(ResultService r) {
+        String msg = (r != null && r.getError() != null)
+                ? String.join("; ", r.getError().listar())
+                : "Dados inválidos";
+
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                .body(new ApiError("VALIDATION_ERROR", r.getError() != null ? r.getError().toString() : "Dados inválidos"));
+                .body(new ApiError("VALIDATION_ERROR", msg));
     }
 
-    private ResponseEntity<ApiError> badRequest(com.cesarschool.catalisabackend.models.utils.ResultService r) {
+    private ResponseEntity<ApiError> badRequest(ResultService r) {
+        String msg = (r != null && r.getError() != null)
+                ? String.join("; ", r.getError().listar())
+                : "Regra de negócio violada";
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiError("BUSINESS_RULE", r.getError() != null ? r.getError().toString() : "Regra de negócio violada"));
+                .body(new ApiError("BUSINESS_RULE", msg));
     }
 
     @ExceptionHandler(NoSuchElementException.class)
