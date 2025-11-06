@@ -11,6 +11,8 @@ import ProtectedRoute from "@/routers/ProtectedRoute.tsx";
 import Test from "@/routers/Test.tsx";
 import NotFound from '../src/components/common/NotFound.tsx';
 import Pesquisa from "@/routers/Pesquisa.tsx";
+import TestConsumo from "@/routers/TestConsumo.tsx";
+import TestProduct from "@/routers/TestProduct.tsx";
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
         <Route path={'/teste'} element={<Test/>}/>
         <Route path='*' element={<NotFound/>}/>
         <Route path={"/pesquisa"} element={<Pesquisa/>}/>
+        <Route path={"/testeconsumo"} element={<TestConsumo/>}/>
+        <Route path={'/testeproduto'} element={<TestProduct/>}/>
 
       
 
