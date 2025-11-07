@@ -1,9 +1,5 @@
-package com.cesarschool.catalisabackend.models.pergunta;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.pergunta;
 
-import com.cesarschool.catalisabackend.models.pergunta.Pergunta;
-import com.cesarschool.catalisabackend.models.pergunta.PerguntaRequestDTO;
-import com.cesarschool.catalisabackend.models.pergunta.PerguntaResponseDTO;
-import com.cesarschool.catalisabackend.models.pergunta.PerguntaService;
 import com.cesarschool.catalisabackend.models.utils.ResultService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

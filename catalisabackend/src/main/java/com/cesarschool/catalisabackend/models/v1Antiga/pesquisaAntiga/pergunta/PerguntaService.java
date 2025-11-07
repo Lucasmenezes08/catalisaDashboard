@@ -1,7 +1,6 @@
-package com.cesarschool.catalisabackend.models.pergunta;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.pergunta;
 
 
-import com.cesarschool.catalisabackend.models.product.Product;
 import org.springframework.stereotype.Service;
 import com.cesarschool.catalisabackend.models.utils.StringUtils;
 import com.cesarschool.catalisabackend.models.utils.ResultService;

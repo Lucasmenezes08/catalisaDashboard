@@ -1,38 +1,97 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
 import com.cesarschool.catalisabackend.models.consumo.Consumo;
-import com.cesarschool.catalisabackend.models.pergunta.Pergunta;
-import com.cesarschool.catalisabackend.models.resposta.Resposta;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDate;
 @Entity
 @Getter @Setter
-@Table(name="pesquisas")
+@Table(name = "pesquisas")
 public class Pesquisa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Setter(AccessLevel.NONE)
+    private long id;
 
-    @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "consumo_id", nullable = false, unique = true) // garante 1:1 no BD
+    @JoinColumn(name = "consumo_id", nullable = false)
+    @NotNull
     private Consumo consumo;
 
     @NotNull
-    @OneToMany
-    private List<Pergunta> perguntas;
+    @Min(0) @Max(10)
+    @Setter(AccessLevel.NONE)
+    private int nota;
+
+    private String resposta;
 
     @NotNull
-    @OneToMany(mappedBy = "pesquisa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Resposta> respostas;
+    private LocalDate dataPesquisa;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Setter(AccessLevel.NONE)
+    private TipoPesquisa tipoPesquisa;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Setter(AccessLevel.NONE)
+    private TipoCliente tipoCliente;
 
     public Pesquisa() {}
-    public Pesquisa(List<Pergunta> perguntas,List<Resposta> respostas) {
-        this.perguntas = perguntas;
-        this.respostas = respostas;
+    public Pesquisa(Consumo consumo, int nota, LocalDate dataPesquisa, TipoPesquisa tipoPesquisa) {
+        this.consumo = consumo;
+        this.nota = nota;
+        this.dataPesquisa = dataPesquisa;
+        this.tipoPesquisa = tipoPesquisa;
+        this.tipoCliente = definirTipo(nota, tipoPesquisa);
+    }
+    public Pesquisa(Consumo consumo, int nota, LocalDate dataPesquisa, TipoPesquisa tipoPesquisa, String resposta) {
+        this(consumo, nota, dataPesquisa, tipoPesquisa);
+        this.resposta = resposta;
+    }
+    public void recalcularNotaPesquisa(int nota, TipoPesquisa tipoPesquisa) {
+        this.nota = nota;
+        this.tipoPesquisa = tipoPesquisa;
+        this.tipoCliente = definirTipo(this.nota, this.tipoPesquisa);
+    }
+    @PrePersist @PreUpdate
+    private void garantirConsistencia() {
+        this.tipoCliente = definirTipo(this.nota, this.tipoPesquisa);
+    }
+    private TipoCliente definirTipo(int nota, TipoPesquisa tipoPesquisa) {
+        TipoCliente resultado = null;
+        if (tipoPesquisa == TipoPesquisa.CSAT && (nota >= 0 && nota <= 5)) {
+            if(nota >= 4){
+                resultado = TipoCliente.PROMOTOR;
+            }
+            else if(nota == 3){
+                resultado = TipoCliente.NEUTRO;
+            }
+            else{
+                resultado = TipoCliente.DETRATOR;
+            }
+        }
+        else if (tipoPesquisa == TipoPesquisa.NPS && (nota >= 0 && nota <= 10)) {
+            if(nota >= 9){
+                resultado = TipoCliente.PROMOTOR;
+            }
+            else if(nota >= 7){
+                resultado = TipoCliente.NEUTRO;
+            }
+            else{
+                resultado = TipoCliente.DETRATOR;
+            }
+        }
+        else{
+            throw new IllegalArgumentException("Nota inválida para o tipo de pesquisa.");
+        }
+        return resultado;
     }
 }

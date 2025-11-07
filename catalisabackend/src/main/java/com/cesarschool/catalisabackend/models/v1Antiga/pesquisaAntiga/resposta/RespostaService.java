@@ -1,12 +1,9 @@
-package com.cesarschool.catalisabackend.models.resposta;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.resposta;
 
-import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 import com.cesarschool.catalisabackend.models.utils.ListaString;
 import com.cesarschool.catalisabackend.models.utils.ResultService;
 import com.cesarschool.catalisabackend.models.utils.StringUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RespostaService {
@@ -44,7 +41,7 @@ public class RespostaService {
                 Resposta atual = respostaRepository.findById(id).orElse(null);
                 atual.setResposta(resposta.getResposta());
                 atual.setPergunta(resposta.getPergunta());
-                atual.setPesquisa(resposta.getPesquisa());
+                atual.setPesquisaAntiga(resposta.getPesquisaAntiga());
                 respostaRepository.save(atual);
                 result.setRealized(true);
             }
@@ -77,7 +74,7 @@ public class RespostaService {
         }
         boolean valido = true;
         boolean realized = false;
-        if(resposta.getPesquisa() == null){
+        if(resposta.getPesquisaAntiga() == null){
             valido = false;
             erros.adicionar("Pesquisa inexistente");
         }

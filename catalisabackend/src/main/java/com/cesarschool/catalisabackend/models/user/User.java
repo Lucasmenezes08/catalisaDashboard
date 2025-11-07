@@ -1,6 +1,6 @@
 package com.cesarschool.catalisabackend.models.user;
 
-import com.cesarschool.catalisabackend.models.consumo.Consumo;
+import com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.consumoAntigo.ConsumoAntigo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -42,7 +42,7 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
     @JsonIgnore
-    private List<Consumo> consumos;
+    private List<ConsumoAntigo> consumoAntigos;
 
     protected User() {}
 

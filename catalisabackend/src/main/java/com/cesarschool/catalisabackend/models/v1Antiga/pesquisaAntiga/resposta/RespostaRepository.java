@@ -1,6 +1,5 @@
-package com.cesarschool.catalisabackend.models.resposta;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.resposta;
 
-import com.cesarschool.catalisabackend.models.resposta.Resposta;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

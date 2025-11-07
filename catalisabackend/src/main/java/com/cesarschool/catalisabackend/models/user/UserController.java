@@ -1,6 +1,7 @@
 package com.cesarschool.catalisabackend.models.user;
 
-import com.cesarschool.catalisabackend.models.consumo.ConsumoRepository;
+import com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.consumoAntigo.ConsumoRepositoryAntigo;
+import com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.consumoAntigo.ConsumoResponseDTOAntigo;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -164,7 +165,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-    private final ConsumoRepository consumoRepository;
+    private final ConsumoRepositoryAntigo consumoRepositoryAntigo;
 
     //====== LOGIN ==============================================================
     @PostMapping("/login")
@@ -236,21 +237,21 @@ public class UserController {
         return ResponseEntity.ok(dto);
     }
     @GetMapping("/{id}/consumos")
-    public ResponseEntity<java.util.List<com.cesarschool.catalisabackend.models.consumo.ConsumoResponseDTO>>
+    public ResponseEntity<java.util.List<ConsumoResponseDTOAntigo>>
     listUserConsumos(@PathVariable Long id) {
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Usuario não encontrado"));
 
-        var consumos = consumoRepository.findByUser_Id(user.getId())
+        var consumos = consumoRepositoryAntigo.findByUser_Id(user.getId())
                 .stream()
-                .map(c -> new com.cesarschool.catalisabackend.models.consumo.ConsumoResponseDTO(
+                .map(c -> new ConsumoResponseDTOAntigo(
                         c.getId(),
                         (c.getUser()     != null ? c.getUser().getId()       : null), // userId
                         (c.getProduct()  != null ? c.getProduct().getId()    : null), // productId
                         c.getDataConsumo(),
                         c.getAvaliacao(),
                         c.isPesquisaRespondida(),
-                        (c.getPesquisa() != null ? c.getPesquisa().getId()   : null)  // pesquisaId
+                        (c.getPesquisaAntiga() != null ? c.getPesquisaAntiga().getId()   : null)  // pesquisaId
                 ))
                 .toList();
 

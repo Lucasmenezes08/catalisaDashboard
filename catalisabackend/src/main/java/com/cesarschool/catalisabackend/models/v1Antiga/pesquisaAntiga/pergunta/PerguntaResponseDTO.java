@@ -1,9 +1,4 @@
-package com.cesarschool.catalisabackend.models.pergunta;
-
-import com.cesarschool.catalisabackend.models.product.Product;
-import com.cesarschool.catalisabackend.models.product.ProductResponseDTO;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.pergunta;
 
 public record PerguntaResponseDTO(
         long id,

@@ -1,8 +1,5 @@
-package com.cesarschool.catalisabackend.models.resposta;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.resposta;
 
-import com.cesarschool.catalisabackend.models.resposta.Resposta;
-import com.cesarschool.catalisabackend.models.resposta.RespostaRequestDTO;
-import com.cesarschool.catalisabackend.models.resposta.RespostaResponseDTO;
 import com.cesarschool.catalisabackend.models.utils.ResultService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -84,7 +81,7 @@ public class RespostaController {
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody RespostaRequestDTO body) {
         // Monta a entidade diretamente dos DTOs (seus DTOs trazem entidades completas)
-        Resposta entity = new Resposta(body.pesquisa(), body.pergunta(), body.resposta());
+        Resposta entity = new Resposta(body.pesquisaAntiga(), body.pergunta(), body.resposta());
 
         ResultService result = respostaService.include(entity);
         if (!result.isValid()) {
@@ -147,7 +144,7 @@ public class RespostaController {
                                     @Valid @RequestBody RespostaRequestDTO body) {
 
         // Monta um "dados" para o service sobrescrever tudo
-        Resposta dados = new Resposta(body.pesquisa(), body.pergunta(), body.resposta());
+        Resposta dados = new Resposta(body.pesquisaAntiga(), body.pergunta(), body.resposta());
 
         ResultService result = respostaService.update(id, dados);
         if (!result.isValid()) {

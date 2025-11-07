@@ -226,7 +226,7 @@ ConsumoResponseDTO-IDs (neste endpoint retorna apenas IDs relacionados):
 "dataConsumo": "2025-11-04",
 "avaliacao": 5,
 "pesquisaRespondida": true,
-"pesquisa": 7 // pesquisaId (ou null)
+"pesquisaAntiga": 7 // pesquisaId (ou null)
 }
 Erro: 404 Not Found (usuário não encontrado)
 
@@ -630,14 +630,14 @@ DTOs (contratos)
 
 Request (enviar ao criar/atualizar)
 
-consumo: objeto Consumo (mínimo conter { "id": <number> } para referenciar um consumo existente)
+consumoAntigo: objeto Consumo (mínimo conter { "id": <number> } para referenciar um consumoAntigo existente)
 
 perguntas: array de objetos Pergunta (cada item pode ser { "id": <number> } para referenciar)
 
 respostas: array de objetos Resposta (cada item pode ser { "id": <number> } para referenciar)
 Exemplo mínimo viável:
 {
-"consumo": { "id": 1 },
+"consumoAntigo": { "id": 1 },
 "perguntas": [ { "id": 10 }, { "id": 11 } ],
 "respostas": [ { "id": 100 } ]
 }
@@ -646,7 +646,7 @@ Response (recebido)
 
 id: number
 
-consumo: objeto Consumo (como está no banco)
+consumoAntigo: objeto Consumo (como está no banco)
 
 perguntas: array de Pergunta
 
@@ -654,14 +654,14 @@ respostas: array de Resposta
 Exemplo:
 {
 "id": 7,
-"consumo": { "id": 1, ... },
+"consumoAntigo": { "id": 1, ... },
 "perguntas": [ { "id": 10, ... }, { "id": 11, ... } ],
 "respostas": [ { "id": 100, ... } ]
 }
 
 Endpoints
 
-Criar pesquisa
+Criar pesquisaAntiga
 
 Método: POST
 
@@ -715,7 +715,7 @@ Corpo: Page de PesquisaResponseDTO (objeto paginado com content, totalElements, 
 
 Observações do filtro:
 
-Se consumoId ≠ null → filtra por consumo
+Se consumoId ≠ null → filtra por consumoAntigo
 
 Senão se perguntaId ≠ null → filtra por pergunta
 
@@ -777,7 +777,7 @@ Este endpoint aceita objetos “completos” nos arrays; porém, use somente IDs
 
 Em create/update, valide antes no front:
 
-consumo.id obrigatório
+consumoAntigo.id obrigatório
 
 listas perguntas/respostas não nulas (podem ser vazias, se a regra permitir)
 
@@ -792,7 +792,7 @@ Exemplos rápidos (corpos)
 Criar:
 POST /api/v1/pesquisas
 {
-"consumo": { "id": 1 },
+"consumoAntigo": { "id": 1 },
 "perguntas": [ { "id": 10 }, { "id": 11 } ],
 "respostas": [ { "id": 100 } ]
 }
@@ -800,20 +800,20 @@ POST /api/v1/pesquisas
 Atualizar:
 PUT /api/v1/pesquisas/7
 {
-"consumo": { "id": 1 },
+"consumoAntigo": { "id": 1 },
 "perguntas": [ { "id": 12 }, { "id": 13 } ],
 "respostas": [ { "id": 101 }, { "id": 102 } ]
 }
 
 Fluxo típico no front
 
-Criar uma pesquisa ao finalizar um consumo: POST /pesquisas com consumo.id + perguntas/respostas relacionadas.
+Criar uma pesquisaAntiga ao finalizar um consumoAntigo: POST /pesquisas com consumoAntigo.id + perguntas/respostas relacionadas.
 
-Listar pesquisas de um consumo específico: GET /pesquisas?consumoId={id}.
+Listar pesquisas de um consumoAntigo específico: GET /pesquisas?consumoId={id}.
 
-Editar uma pesquisa (trocar perguntas/respostas): PUT /pesquisas/{id} com o novo conjunto.
+Editar uma pesquisaAntiga (trocar perguntas/respostas): PUT /pesquisas/{id} com o novo conjunto.
 
-Deletar uma pesquisa: DELETE /pesquisas/{id} e atualizar a lista local.
+Deletar uma pesquisaAntiga: DELETE /pesquisas/{id} e atualizar a lista local.
 
 Exibir detalhes: GET /pesquisas/{id} para preencher uma tela de leitura/edição.
 
@@ -1046,7 +1046,7 @@ Modelos (contratos)
 
 RespostaRequestDTO (enviar em POST/PUT)
 {
-"pesquisa": { "id": number }, // obrigatório
+"pesquisaAntiga": { "id": number }, // obrigatório
 "pergunta": { "id": number }, // obrigatório
 "resposta": "string" // obrigatório (não vazio)
 }
@@ -1054,7 +1054,7 @@ RespostaRequestDTO (enviar em POST/PUT)
 RespostaResponseDTO (recebido nas respostas)
 {
 "id": number,
-"pesquisa": { ...objeto Pesquisa... },
+"pesquisaAntiga": { ...objeto Pesquisa... },
 "pergunta": { ...objeto Pergunta... },
 "resposta": "string"
 }
@@ -1066,7 +1066,7 @@ Ex.: ?page=0&size=10&sort=id,desc
 
 Filtros (combinados ao pageable)
 
-?pesquisaId={id} — respostas de uma pesquisa
+?pesquisaId={id} — respostas de uma pesquisaAntiga
 
 ?perguntaId={id} — respostas de uma pergunta
 
@@ -1096,7 +1096,7 @@ URL: /api/v1/respostas
 
 Body (RespostaRequestDTO):
 {
-"pesquisa": { "id": 1 },
+"pesquisaAntiga": { "id": 1 },
 "pergunta": { "id": 10 },
 "resposta": "Texto digitado pelo usuário"
 }
@@ -1111,7 +1111,7 @@ fetch("/api/v1/respostas", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify({
-pesquisa: { id: 1 },
+pesquisaAntiga: { id: 1 },
 pergunta: { id: 10 },
 resposta: "Minha resposta"
 })
@@ -1123,7 +1123,7 @@ Método: GET
 
 URL: /api/v1/respostas?page=0&size=10&sort=id,desc
 
-URL (filtrar por pesquisa): /api/v1/respostas?pesquisaId=1
+URL (filtrar por pesquisaAntiga): /api/v1/respostas?pesquisaId=1
 
 URL (filtrar por pergunta): /api/v1/respostas?perguntaId=10
 
@@ -1155,7 +1155,7 @@ URL: /api/v1/respostas/{id}
 
 Body (RespostaRequestDTO, estado final do recurso):
 {
-"pesquisa": { "id": 1 },
+"pesquisaAntiga": { "id": 1 },
 "pergunta": { "id": 10 },
 "resposta": "Texto corrigido"
 }
@@ -1168,7 +1168,7 @@ fetch("/api/v1/respostas/123", {
 method: "PUT",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify({
-pesquisa: { id: 1 },
+pesquisaAntiga: { id: 1 },
 pergunta: { id: 10 },
 resposta: "Texto corrigido"
 })
@@ -1203,7 +1203,7 @@ Formato de erro (padrão)
 
 Boas práticas no Front
 
-Sempre enviar IDs dentro de pesquisa e pergunta no body do POST/PUT (ex.: { "pesquisa": {"id": 1}, "pergunta": {"id": 10} }).
+Sempre enviar IDs dentro de pesquisaAntiga e pergunta no body do POST/PUT (ex.: { "pesquisaAntiga": {"id": 1}, "pergunta": {"id": 10} }).
 
 Validar no cliente que resposta não está vazia antes de enviar.
 
@@ -1213,7 +1213,7 @@ Após criar/atualizar, sincronize a lista local; após deletar, remova o item do
 
 Para listagens grandes, use paginação (page/size) e ordenação (sort=id,desc).
 
-Utilize os filtros pesquisaId/perguntaId para carregar respostas contextualizadas na tela de uma pesquisa/pergunta.
+Utilize os filtros pesquisaId/perguntaId para carregar respostas contextualizadas na tela de uma pesquisaAntiga/pergunta.
 
 Testes rápidos (curl)
 
@@ -1221,22 +1221,22 @@ Criar:
 curl -X POST http://localhost:8080/api/v1/respostas
 
 -H "Content-Type: application/json"
--d '{"pesquisa":{"id":1},"pergunta":{"id":10},"resposta":"Texto"}'
+-d '{"pesquisaAntiga":{"id":1},"pergunta":{"id":10},"resposta":"Texto"}'
 
 Atualizar:
 curl -X PUT http://localhost:8080/api/v1/respostas/123
 
 -H "Content-Type: application/json"
--d '{"pesquisa":{"id":1},"pergunta":{"id":10},"resposta":"Texto corrigido"}'
+-d '{"pesquisaAntiga":{"id":1},"pergunta":{"id":10},"resposta":"Texto corrigido"}'
 
-Listar por pesquisa:
+Listar por pesquisaAntiga:
 curl "http://localhost:8080/api/v1/respostas?pesquisaId=1&page=0&size=10&sort=id,desc
 "
 
 Observações importantes
 
-Os DTOs do backend carregam ENTIDADES; então o front deve ao menos enviar os IDs de pesquisa e pergunta.
+Os DTOs do backend carregam ENTIDADES; então o front deve ao menos enviar os IDs de pesquisaAntiga e pergunta.
 
-A validação de duplicidade atual do service é por id; se você precisar garantir “uma resposta por (pesquisa, pergunta)” no futuro, será necessário reforçar a regra no service/repository (e, idealmente, uma constraint única no banco).
+A validação de duplicidade atual do service é por id; se você precisar garantir “uma resposta por (pesquisaAntiga, pergunta)” no futuro, será necessário reforçar a regra no service/repository (e, idealmente, uma constraint única no banco).
 
 Campos ausentes/IDs inválidos resultarão em 400/404/422 conforme o caso.

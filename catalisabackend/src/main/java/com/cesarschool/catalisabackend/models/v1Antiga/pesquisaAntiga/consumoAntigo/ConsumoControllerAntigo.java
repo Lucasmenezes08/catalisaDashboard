@@ -1,11 +1,11 @@
-package com.cesarschool.catalisabackend.models.consumo;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.consumoAntigo;
 
+import com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.PesquisaAntiga;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,6 @@ import com.cesarschool.catalisabackend.models.utils.ResultService;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -70,17 +69,17 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/consumos")
-public class ConsumoController {
+public class ConsumoControllerAntigo {
 
-    private final ConsumoService consumoService;
-    private final ConsumoRepository consumoRepository;
+    private final ConsumoServiceAntigo consumoServiceAntigo;
+    private final ConsumoRepositoryAntigo consumoRepositoryAntigo;
 
     // ------------------------ CREATE ------------------------
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody ConsumoRequestDTO body) {
-        Consumo entity = toEntity(body, null);
-        var result = consumoService.include(entity);
+    public ResponseEntity<?> create(@Valid @RequestBody ConsumoRequestDTOAntigo body) {
+        ConsumoAntigo entity = toEntity(body, null);
+        var result = consumoServiceAntigo.include(entity);
 
         if (!result.isValid()) {
             return unprocessable(result);
@@ -91,7 +90,7 @@ public class ConsumoController {
 
         // entity persistido — buscar o ID recém-gerado
         // Como o service salva a mesma instância, o ID já estará no entity
-        ConsumoResponseDTO dto = toResponse(entity);
+        ConsumoResponseDTOAntigo dto = toResponse(entity);
         return ResponseEntity
                 .created(URI.create("/api/v1/consumos/" + dto.id()))
                 .body(dto);
@@ -100,7 +99,7 @@ public class ConsumoController {
     // ------------------------ READ (LIST) -------------------
 
     @GetMapping
-    public ResponseEntity<Page<ConsumoResponseDTO>> list(
+    public ResponseEntity<Page<ConsumoResponseDTOAntigo>> list(
             Pageable pageable,
             @RequestParam(required = false) Long userId,
             @RequestParam(required = false) Long productId,
@@ -108,21 +107,21 @@ public class ConsumoController {
             @RequestParam(required = false) LocalDate startDate,
             @RequestParam(required = false) LocalDate endDate
     ) {
-        Page<Consumo> page;
+        Page<ConsumoAntigo> page;
 
         // Prioridade de filtros combináveis: userId/productId + data/flag
         if (userId != null && productId != null) {
-            page = consumoRepository.findByUser_IdAndProduct_Id(userId, productId, pageable);
+            page = consumoRepositoryAntigo.findByUser_IdAndProduct_Id(userId, productId, pageable);
         } else if (userId != null) {
-            page = consumoRepository.findByUser_Id(userId, pageable);
+            page = consumoRepositoryAntigo.findByUser_Id(userId, pageable);
         } else if (productId != null) {
-            page = consumoRepository.findByProduct_Id(productId, pageable);
+            page = consumoRepositoryAntigo.findByProduct_Id(productId, pageable);
         } else if (respondida != null) {
-            page = consumoRepository.findByPesquisaRespondida(respondida, pageable);
+            page = consumoRepositoryAntigo.findByPesquisaRespondida(respondida, pageable);
         } else if (startDate != null && endDate != null) {
-            page = consumoRepository.findByDataConsumoBetween(startDate, endDate, pageable);
+            page = consumoRepositoryAntigo.findByDataConsumoBetween(startDate, endDate, pageable);
         } else {
-            page = consumoRepository.findAll(pageable);
+            page = consumoRepositoryAntigo.findAll(pageable);
         }
 
         return ResponseEntity.ok(page.map(this::toResponse));
@@ -131,8 +130,8 @@ public class ConsumoController {
     // ------------------------ READ (BY ID) ------------------
 
     @GetMapping("/{id}")
-    public ResponseEntity<ConsumoResponseDTO> getById(@PathVariable Long id) {
-        Consumo entity = consumoRepository.findById(id)
+    public ResponseEntity<ConsumoResponseDTOAntigo> getById(@PathVariable Long id) {
+        ConsumoAntigo entity = consumoRepositoryAntigo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Consumo não encontrado"));
         return ResponseEntity.ok(toResponse(entity));
     }
@@ -141,12 +140,12 @@ public class ConsumoController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                    @Valid @RequestBody ConsumoRequestDTO body) {
-        Consumo exists = consumoRepository.findById(id)
+                                    @Valid @RequestBody ConsumoRequestDTOAntigo body) {
+        ConsumoAntigo exists = consumoRepositoryAntigo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Consumo não encontrado"));
 
-        Consumo toUpdate = toEntity(body, exists); // reaproveita a instância existente
-        var result = consumoService.update(id, toUpdate);
+        ConsumoAntigo toUpdate = toEntity(body, exists); // reaproveita a instância existente
+        var result = consumoServiceAntigo.update(id, toUpdate);
 
         if (!result.isValid()) {
             return unprocessable(result);
@@ -161,9 +160,9 @@ public class ConsumoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        Consumo exists = consumoRepository.findById(id)
+        ConsumoAntigo exists = consumoRepositoryAntigo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Consumo não encontrado"));
-        var result = consumoService.delete(id);
+        var result = consumoServiceAntigo.delete(id);
 
         if (!result.isValid()) {
             // Erro lógico — por simplicidade, tratamos como 400
@@ -177,8 +176,8 @@ public class ConsumoController {
     @PersistenceContext
     private EntityManager em;
 
-    private Consumo toEntity(ConsumoRequestDTO dto, Consumo targetOrNull) {
-        Consumo c = (targetOrNull != null) ? targetOrNull : new Consumo();
+    private ConsumoAntigo toEntity(ConsumoRequestDTOAntigo dto, ConsumoAntigo targetOrNull) {
+        ConsumoAntigo c = (targetOrNull != null) ? targetOrNull : new ConsumoAntigo();
 
         if (dto.userId() != null) {
             c.setUser(em.getReference(com.cesarschool.catalisabackend.models.user.User.class, dto.userId()));
@@ -191,21 +190,21 @@ public class ConsumoController {
         c.setPesquisaRespondida(Boolean.TRUE.equals(dto.pesquisaRespondida()));
 
         if (dto.pesquisaId() != null) {
-            c.setPesquisa(em.getReference(com.cesarschool.catalisabackend.models.pesquisa.Pesquisa.class, dto.pesquisaId()));
+            c.setPesquisaAntiga(em.getReference(PesquisaAntiga.class, dto.pesquisaId()));
         }
 
         return c;
     }
 
-    private ConsumoResponseDTO toResponse(Consumo c) {
-        return new ConsumoResponseDTO(
+    private ConsumoResponseDTOAntigo toResponse(ConsumoAntigo c) {
+        return new ConsumoResponseDTOAntigo(
                 c.getId(),
                 c.getUser() != null ? c.getUser().getId() : null,
                 c.getProduct() != null ? c.getProduct().getId() : null,
                 c.getDataConsumo(),
                 c.getAvaliacao(),
                 c.isPesquisaRespondida(),
-                c.getPesquisa() != null ? c.getPesquisa().getId() : null
+                c.getPesquisaAntiga() != null ? c.getPesquisaAntiga().getId() : null
         );
     }
 
