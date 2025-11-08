@@ -31,7 +31,13 @@ public interface PesquisaRepository
     long countByTipoPesquisaAndTipoClienteAndDataPesquisaBetween(
             TipoPesquisa tipoPesquisa, TipoCliente tipoCliente, LocalDate inicio, LocalDate fim
     );
-
+    Page<Pesquisa> findByTipoPesquisaAndTipoClienteAndDataPesquisaBetween(
+            TipoPesquisa tipoPesquisa,
+            TipoCliente tipoCliente,
+            LocalDate inicio,
+            LocalDate fim,
+            Pageable pageable
+    );
     @Query("""
            select avg(p.nota) 
            from Pesquisa p

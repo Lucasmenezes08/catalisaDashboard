@@ -1,4 +1,166 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
+import com.cesarschool.catalisabackend.models.consumo.Consumo;
+import com.cesarschool.catalisabackend.models.utils.ResultService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v2/pesquisas")
 public class PesquisaController {
+
+    private final PesquisaService pesquisaService;
+    private final PesquisaRepository pesquisaRepository;
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public PesquisaController(PesquisaService pesquisaService, PesquisaRepository pesquisaRepository) {
+        this.pesquisaService = pesquisaService;
+        this.pesquisaRepository = pesquisaRepository;
+    }
+
+    // ========= CREATE =========
+    @PostMapping
+    @Transactional
+    public ResponseEntity<?> criar(@Valid @RequestBody PesquisaRequestDTO dto, BindingResult br) {
+        if (br.hasErrors()) return ResponseEntity.badRequest().body(br.getAllErrors());
+
+        Consumo consumo = em.find(Consumo.class, dto.consumoId());
+        if (consumo == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Consumo não encontrado: id=" + dto.consumoId());
+        }
+
+        Pesquisa nova = new Pesquisa(consumo, dto.nota(), dto.dataPesquisa(), dto.tipoPesquisa(), dto.resposta());
+        ResultService result = pesquisaService.createPesquisa(nova);
+
+        if (!result.isValid()) return ResponseEntity.badRequest().body(result.getError().listar());
+        if (!result.isRealized()) return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getError().listar());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(PesquisaResponseDTO.fromEntity(nova));
+    }
+
+    // ========= READ BY ID =========
+    @GetMapping("/{id}")
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> obterPorId(@PathVariable long id) {
+        Pesquisa p = pesquisaService.getPesquisa(id);
+        if (p == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(PesquisaResponseDTO.fromEntity(p));
+    }
+
+    // ========= READ BY CONSUMO =========
+    @GetMapping("/by-consumo/{consumoId}")
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> obterPorConsumo(@PathVariable long consumoId) {
+        Consumo consumo = em.find(Consumo.class, consumoId);
+        if (consumo == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Consumo não encontrado: id=" + consumoId);
+        }
+        Pesquisa p = pesquisaService.getPesquisa(consumo);
+        if (p == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(PesquisaResponseDTO.fromEntity(p));
+    }
+
+    // ========= LIST / FILTRO (v2) =========
+    // Ex.: GET /api/v2/pesquisas?tipoPesquisa=NPS&tipoCliente=PROMOTOR&inicio=2025-01-01&fim=2025-12-31&page=0&size=20
+    @GetMapping
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> listar(
+            @RequestParam TipoPesquisa tipoPesquisa,
+            @RequestParam(required = false) TipoCliente tipoCliente,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim,
+            @PageableDefault(size = 20) Pageable pageable
+    ) {
+        // período informado?
+        boolean temPeriodo = (inicio != null && fim != null);
+
+        Page<Pesquisa> page;
+
+        if (tipoCliente != null && temPeriodo) {
+            // v2: agora funciona com tipoCliente + período
+            page = pesquisaRepository.findByTipoPesquisaAndTipoClienteAndDataPesquisaBetween(
+                    tipoPesquisa, tipoCliente, inicio, fim, pageable);
+        } else if (tipoCliente != null) {
+            page = pesquisaRepository.findByTipoPesquisaAndTipoCliente(tipoPesquisa, tipoCliente, pageable);
+        } else if (temPeriodo) {
+            page = pesquisaRepository.findByTipoPesquisaAndDataPesquisaBetween(tipoPesquisa, inicio, fim, pageable);
+        } else {
+            page = pesquisaRepository.findByTipoPesquisa(tipoPesquisa, pageable);
+        }
+
+        return ResponseEntity.ok(page.map(PesquisaResponseDTO::fromEntity));
+    }
+
+    // ========= KPIs =========
+    // GET /api/v2/pesquisas/kpis?tipoPesquisa=NPS&inicio=2025-01-01&fim=2025-12-31
+    @GetMapping("/kpis")
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> kpis(
+            @RequestParam TipoPesquisa tipoPesquisa,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim
+    ) {
+        Double media = pesquisaRepository.mediaNotaPorTipoPesquisa(tipoPesquisa, inicio, fim);
+        List<PesquisaRepository.TipoClienteCount> dist =
+                pesquisaRepository.contarPorTipoClienteDentroDoTipoPesquisa(tipoPesquisa, inicio, fim);
+
+        var dto = new KpiResponseDTO(media, dist);
+        return ResponseEntity.ok(dto);
+    }
+
+    // ========= UPDATE =========
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> atualizar(@PathVariable long id,
+                                       @Valid @RequestBody PesquisaRequestDTO dto,
+                                       BindingResult br) {
+        if (br.hasErrors()) return ResponseEntity.badRequest().body(br.getAllErrors());
+
+        Consumo consumo = em.find(Consumo.class, dto.consumoId());
+        if (consumo == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Consumo não encontrado: id=" + dto.consumoId());
+        }
+
+        Pesquisa nova = new Pesquisa(consumo, dto.nota(), dto.dataPesquisa(), dto.tipoPesquisa(), dto.resposta());
+        ResultService result = pesquisaService.updatePesquisa(id, nova);
+
+        if (!result.isValid()) return ResponseEntity.badRequest().body(result.getError().listar());
+        if (!result.isRealized()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pesquisa para atualizar inexistente");
+
+        Pesquisa atualizada = pesquisaService.getPesquisa(id);
+        return ResponseEntity.ok(PesquisaResponseDTO.fromEntity(atualizada));
+    }
+
+    // ========= DELETE =========
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> deletar(@PathVariable long id) {
+        ResultService result = pesquisaService.deletePesquisa(id);
+        if (!result.isValid()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result.getError().listar());
+        return ResponseEntity.noContent().build();
+    }
+
+    // ===== DTO de resposta para KPIs =====
+    public record KpiResponseDTO(
+            Double media,
+            List<PesquisaRepository.TipoClienteCount> distribuicao
+    ) {}
 }

@@ -3,25 +3,53 @@ package com.cesarschool.catalisabackend.models.consumo;
 import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 import com.cesarschool.catalisabackend.models.product.Product;
 import com.cesarschool.catalisabackend.models.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Getter @Setter
-//@ToString
-//@AllArgsConstructor
 @Table(name = "consumos")
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Consumo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private long id;
+
+    // Muitos consumos para um usuário
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
     private User user;
-    private boolean consumiuPesquisa;
+
+    // Muitos consumos para um produto
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    @NotNull
     private Product produto;
+
+    @Column(nullable = false)
+    private boolean consumiuPesquisa;
+
+    @Column(name = "data_consumo", nullable = false)
     private LocalDate dataConsumo;
+
+    // Lado inverso da relação 1-1 com Pesquisa (dono está em Pesquisa.consumo)
+    @OneToOne(mappedBy = "consumo", fetch = FetchType.LAZY)
     private Pesquisa pesquisa;
+
+    // Construtor de conveniência (sem id/pesquisa)
+    public Consumo(User user, Product produto, boolean consumiuPesquisa, LocalDate dataConsumo) {
+        this.user = user;
+        this.produto = produto;
+        this.consumiuPesquisa = consumiuPesquisa;
+        this.dataConsumo = dataConsumo;
+    }
 }

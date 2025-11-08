@@ -57,6 +57,7 @@ public class Pesquisa {
         this.resposta = resposta;
     }
     public void recalcularNotaPesquisa(int nota, TipoPesquisa tipoPesquisa) {
+        if(tipoPesquisa == null) throw new RuntimeException("tipo de pesquisa não informada");
         this.nota = nota;
         this.tipoPesquisa = tipoPesquisa;
         this.tipoCliente = definirTipo(this.nota, this.tipoPesquisa);
