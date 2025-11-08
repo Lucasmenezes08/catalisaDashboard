@@ -12,27 +12,27 @@ import java.util.List;
 /**
  * API REST para Product, pronta para o front consumir.
  * Endpoints:
- *  - POST   /api/v1/products
- *  - GET    /api/v1/products
- *  - GET    /api/v1/products/{id}
- *  - GET    /api/v1/products/by-name/{name}
- *  - PUT    /api/v1/products/{id}
- *  - DELETE /api/v1/products/{id}
- *  - DELETE /api/v1/products/by-name/{name}
+ *  - POST   /api/v2/products
+ *  - GET    /api/v2/products
+ *  - GET    /api/v2/products/{id}
+ *  - GET    /api/v2/products/by-name/{name}
+ *  - PUT    /api/v2/products/{id}
+ *  - DELETE /api/v2/products/{id}
+ *  - DELETE /api/v2/products/by-name/{name}
  */
 @CrossOrigin(origins = "*") // ajuste para o domínio/porta do front em produção
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("/api/v2/products")
 public class ProductController {
     private final ProductService service;
 
     public ProductController(ProductService productService) {
         this.service = productService;
     }
-    // CREATE: POST /api/v1/products
+
+    // CREATE: POST /api/v2/products
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody ProductRequestDTO req) {
-        // monta a entidade a partir do DTO de entrada
         Product toSave = new Product(req.name(), req.type(), req.description());
 
         ResultService result = service.include(toSave);
@@ -40,18 +40,15 @@ public class ProductController {
             return badRequest(result);
         }
         if (!result.isRealized()) {
-            // Regra de negócio impediu (ex.: "Produto já existe")
             return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError(409, "Conflict", result));
         }
 
-        // Buscar o que acabou de ser salvo para devolver ao cliente
         Product saved = service.search(req.name());
         ProductResponseDTO body = ProductResponseDTO.fromEntity(saved);
-        // location opcional, apontando para o recurso criado
-        return ResponseEntity.created(URI.create("/api/v1/products/" + body.id())).body(body);
+        return ResponseEntity.created(URI.create("/api/v2/products/" + body.id())).body(body);
     }
 
-    // LIST: GET /api/v1/products
+    // LIST: GET /api/v2/products
     @GetMapping
     public List<ProductResponseDTO> listAll() {
         return service.findAll()
@@ -60,7 +57,7 @@ public class ProductController {
                 .toList();
     }
 
-    // READ by id: GET /api/v1/products/{id}
+    // READ by id: GET /api/v2/products/{id}
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
         Product p = service.search(id);
@@ -68,7 +65,7 @@ public class ProductController {
         return ResponseEntity.ok(ProductResponseDTO.fromEntity(p));
     }
 
-    // READ by name (exato): GET /api/v1/products/by-name/{name}
+    // READ by name (exato): GET /api/v2/products/by-name/{name}
     @GetMapping("/by-name/{name}")
     public ResponseEntity<?> findByName(@PathVariable String name) {
         Product p = service.search(name);
@@ -76,7 +73,7 @@ public class ProductController {
         return ResponseEntity.ok(ProductResponseDTO.fromEntity(p));
     }
 
-    // UPDATE (PUT completo): PUT /api/v1/products/{id}
+    // UPDATE (PUT completo): PUT /api/v2/products/{id}
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody ProductRequestDTO req) {
         Product existing = service.search(id);
@@ -86,21 +83,19 @@ public class ProductController {
         existing.setType(req.type());
         existing.setDescription(req.description());
 
-        ResultService result = service.updateById(existing.getId(),existing);
+        ResultService result = service.updateById(existing.getId(), existing);
         if (!result.isValid()) {
             return badRequest(result);
         }
         if (!result.isRealized()) {
-            // Por exemplo, conflito de nome único ou outra regra
             return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError(409, "Conflict", result));
         }
 
-        // Após update, devolve o estado atual
         Product updated = service.search(id);
         return ResponseEntity.ok(ProductResponseDTO.fromEntity(updated));
     }
 
-    // DELETE by id: DELETE /api/v1/products/{id}
+    // DELETE by id: DELETE /api/v2/products/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable long id) {
         ResultService result = service.delete(id);
@@ -108,13 +103,12 @@ public class ProductController {
             return badRequest(result);
         }
         if (!result.isRealized()) {
-            // Ex.: "ID inexistente"
             return notFound(result);
         }
         return ResponseEntity.noContent().build();
     }
 
-    // DELETE by name: DELETE /api/v1/products/by-name/{name}
+    // DELETE by name: DELETE /api/v2/products/by-name/{name}
     @DeleteMapping("/by-name/{name}")
     public ResponseEntity<?> deleteByName(@PathVariable String name) {
         ResultService result = service.delete(name);
@@ -122,7 +116,6 @@ public class ProductController {
             return badRequest(result);
         }
         if (!result.isRealized()) {
-            // Ex.: "Nome inexistente"
             return notFound(result);
         }
         return ResponseEntity.noContent().build();
@@ -145,11 +138,9 @@ public class ProductController {
     }
 
     private ApiError apiError(int status, String error, ResultService result) {
-        // Tenta extrair mensagens de ListaString
         String message = result.getError() != null ? result.getError().toString() : error;
         return new ApiError(status, error, message);
     }
 
-    // DTO simples de erro (poderia evoluir para trazer fieldErrors, timestamp, etc.)
     public record ApiError(int status, String error, String message) {}
 }

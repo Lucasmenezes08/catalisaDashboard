@@ -1,10 +1,5 @@
 package com.cesarschool.catalisabackend.models.user;
 
-import com.cesarschool.catalisabackend.models.user.LoginRequestDTO;
-import com.cesarschool.catalisabackend.models.user.LoginResponseDTO;
-import com.cesarschool.catalisabackend.models.user.UserRequestDTO;
-import com.cesarschool.catalisabackend.models.user.UserResponseDTO;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +20,8 @@ import java.util.NoSuchElementException;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/v1/users")
+// 🔁 trocado de /api/v1/users para /api/v2/users
+@RequestMapping("/api/v2/users")
 public class UserController {
 
     private final UserService userService;
@@ -36,7 +32,6 @@ public class UserController {
     //======================================
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO body) {
-        // Se lançar IllegalArgumentException, será tratado no handler abaixo
         boolean ok = userService.authenticate(body.email(), body.password());
         return ResponseEntity.ok(new LoginResponseDTO(ok, ok ? "Autenticado com sucesso" : "Credenciais inválidas"));
     }
@@ -47,7 +42,8 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody UserRequestDTO body) {
         UserResponseDTO created = userService.createUser(body);
-        URI location = URI.create("/api/v1/users/" + created.id());
+        // 🔁 atualiza Location para v2
+        URI location = URI.create("/api/v2/users/" + created.id());
         return ResponseEntity.created(location).body(created);
     }
 
@@ -128,7 +124,6 @@ public class UserController {
         return ResponseEntity.ok(consumos);
     }
 
-    // DTO "slim" local para consumos (pode mover para um pacote dto se preferir)
     public record ConsumoResponseDTO(
             Long id,
             Long userId,

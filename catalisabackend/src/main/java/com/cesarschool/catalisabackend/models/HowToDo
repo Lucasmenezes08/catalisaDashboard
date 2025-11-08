@@ -1,1242 +1,1009 @@
-GUIA DE USO (FRONTEND)
-==================================== USUARIO ========================================
+======================== USER ==============================
 
-Base URL
+HOW TO USE /api/v2/users – FRONT-END TUTORIAL (TXT VERSION)
 
-/api/v1/users
+============================================================
+BASE
 
-Content-Type: application/json
+Base URL: /api/v2/users
+Headers padrão: Content-Type: application/json
+CORS: liberado para qualquer origem
+Observação: Não há autenticação neste controller. Se o back adicionar no futuro, incluir Authorization: Bearer <token>.
 
-Modelos (contratos)
+============================================================
+DTOS (FORMATOS DOS DADOS)
 
-UserRequestDTO (enviar em POST)
+LoginRequestDTO:
+email: string
+password: string
+
+UserRequestDTO:
+email: string
+password: string
+username: string
+cpfCnpj: string
+
+LoginResponseDTO:
+ok: boolean
+message: string
+Valores comuns: "Autenticado com sucesso" ou "Credenciais inválidas"
+
+UserResponseDTO:
+id: number
+email: string
+username: string
+
+ChangePasswordDTO:
+oldPassword: string
+newPassword: string
+
+UpdateUsernameDTO:
+username: string
+
+ConsumoResponseDTO:
+id: number
+userId: number | null
+productId: number | null
+dataConsumo: string (yyyy-MM-dd)
+pesquisaRespondida: boolean
+pesquisaId: number | null
+
+ApiError:
+code: "NOT_FOUND" | "UNAUTHORIZED" | "BAD_REQUEST" | "VALIDATION_ERROR" | "CONSTRAINT_VIOLATION"
+message: string
+
+============================================================
+ENDPOINTS E EXEMPLOS
+
+LOGIN
+
+POST /api/v2/users/login
+
+Request (JSON):
 {
-"email": "ana@exemplo.com
+"email": "user@exemplo.com
 ",
-"cpfCnpj": "12345678900",
-"username": "aninha",
-"password": "Strong@123"
+"password": "SenhaForte123"
 }
 
-UserResponseDTO (recebido nas respostas)
+Response 200 (sucesso):
 {
-"id": 1,
-"email": "ana@exemplo.com
-",
-"username": "aninha"
-}
-
-LoginRequestDTO (enviar em POST /login)
-{
-"email": "ana@exemplo.com
-",
-"password": "Strong@123"
-}
-
-LoginResponseDTO (recebido do /login)
-{
-"authenticated": true,
+"ok": true,
 "message": "Autenticado com sucesso"
 }
 
-ChangePasswordDTO (enviar em PATCH /{id}/password)
+Response 200 (falha de credenciais):
 {
-"oldPassword": "Strong@123",
-"newPassword": "NewStronger@123"
+"ok": false,
+"message": "Credenciais inválidas"
 }
 
-UpdateUsernameDTO (enviar em PATCH /{id}/username)
-{
-"username": "ana.silva"
-}
-
-Paginação e filtros (GET /api/v1/users)
-
-page (0-based), size, sort (ex.: ?page=0&size=10&sort=email,asc)
-
-Filtros opcionais: ?email=..., ?username=..., ?cpfCnpj=...
-Observação: quando um filtro é usado, o backend retorna página com 0 ou 1 resultado.
-
-Códigos de status
-
-201 Created: criação bem-sucedida
-
-200 OK: leitura/atualização/login bem-sucedidos
-
-204 No Content: alterações sem conteúdo (ex.: troca de senha) e deletes
-
-400 Bad Request: erro de regra de negócio/argumentos inválidos genéricos
-
-401 Unauthorized: credenciais inválidas no login
-
-404 Not Found: usuário não encontrado
-
-409 Conflict: violação de unique/constraint
-
-422 Unprocessable Entity: erro de validação @Valid do body
-
-Endpoints e exemplos (frontend)
-
-Criar usuário
-Método: POST
-URL: /api/v1/users
-Body (UserRequestDTO):
-{
-"email": "ana@exemplo.com
-",
-"cpfCnpj": "12345678900",
-"username": "aninha",
-"password": "Strong@123"
-}
-Sucesso: 201 Created
-Location: /api/v1/users/{id}
-Body: UserResponseDTO
-
-fetch("/api/v1/users", {
+Exemplo (fetch, JavaScript):
+const res = await fetch("/api/v2/users/login", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
-body: JSON.stringify({
-email: "ana@exemplo.com
+body: JSON.stringify({ email, password })
+});
+const data = await res.json();
+if (data.ok) {
+// fluxo logado
+} else {
+// exibir data.message
+}
+
+CRIAR USUÁRIO
+
+POST /api/v2/users
+
+Request (JSON):
+{
+"email": "novo@exemplo.com
 ",
-cpfCnpj: "12345678900",
-username: "aninha",
-password: "Strong@123"
-})
-}).then(r => r.json())
+"password": "Senha@123",
+"username": "novoUser",
+"cpfCnpj": "12345678910"
+}
 
-Login
-Método: POST
-URL: /api/v1/users/login
-Body (LoginRequestDTO):
+Response 201 (Created) + Location header:
 {
-"email": "ana@exemplo.com
+"id": 42,
+"email": "novo@exemplo.com
 ",
-"password": "Strong@123"
+"username": "novoUser"
 }
-Respostas:
 
-200 OK: { "authenticated": true, "message": "Autenticado com sucesso" }
+Erros possíveis:
 
-401 Unauthorized: { "authenticated": false, "message": "Credenciais invalidas" }
+409 CONSTRAINT_VIOLATION (duplicidade unique: email/cpfCnpj/username)
 
-404 Not Found: { "authenticated": false, "message": "Usuario não encontrado" }
+422 VALIDATION_ERROR (campos inválidos)
 
-fetch("/api/v1/users/login", {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ email: "ana@exemplo.com
-", password: "Strong@123" })
-}).then(r => r.json())
+400 BAD_REQUEST (corpo malformado)
 
-Listar (paginado e filtrável)
-Método: GET
-URL (todos): /api/v1/users?page=0&size=10&sort=email,asc
-URL (por e-mail): /api/v1/users?email=ana@exemplo.com
+Exemplo (Axios):
+import axios from "axios";
+const { data } = await axios.post("/api/v2/users", {
+email, password, username, cpfCnpj
+});
+// data.id disponível
 
-URL (por username): /api/v1/users?username=aninha
-URL (por cpfCnpj): /api/v1/users?cpfCnpj=12345678900
-Sucesso: 200 OK
-Body: Page<UserResponseDTO> (content, totalElements, totalPages, size, number, etc.)
+LISTAR USUÁRIOS (PAGINAÇÃO E FILTROS)
 
-fetch("/api/v1/users?page=0&size=10&sort=email,asc").then(r => r.json())
+GET /api/v2/users
 
-Buscar por ID
-Método: GET
-URL: /api/v1/users/{id}
-Sucesso: 200 OK (UserResponseDTO)
-Erro: 404 Not Found
+Query params:
 
-fetch("/api/v1/users/1").then(r => r.json())
+page (0-based), size, sort (ex.: sort=username,ASC)
 
-Trocar senha
-Método: PATCH
-URL: /api/v1/users/{id}/password
-Body (ChangePasswordDTO):
-{
-"oldPassword": "Strong@123",
-"newPassword": "NewStronger@123"
-}
-Sucesso: 204 No Content
-Possíveis erros:
-
-404 Not Found (usuário não encontrado)
-
-401 Unauthorized (senha antiga não confere)
-
-400 Bad Request (mesma senha antiga/novas regras de negócio)
-
-fetch("/api/v1/users/1/password", {
-method: "PATCH",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ oldPassword: "Strong@123", newPassword: "NewStronger@123" })
-}).then(r => r.status) // 204
-
-Atualizar username
-Método: PATCH
-URL: /api/v1/users/{id}/username
-Body (UpdateUsernameDTO):
-{
-"username": "ana.silva"
-}
-Sucesso: 200 OK (UserResponseDTO atualizado)
-Erros:
-
-404 Not Found (usuário não encontrado)
-
-400/409 (username já existente ou inválido)
-
-fetch("/api/v1/users/1/username", {
-method: "PATCH",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ username: "ana.silva" })
-}).then(r => r.json())
-
-Deletar usuário por ID
-Método: DELETE
-URL: /api/v1/users/{id}
-Sucesso: 204 No Content
-Erro: 404 Not Found
-
-fetch("/api/v1/users/1", { method: "DELETE" }).then(r => r.status) // 204
-
-Deletar por e-mail/username/cpfCnpj
-Métodos: DELETE
-URLs:
-
-/api/v1/users/by-email/ana@exemplo.com
-
-/api/v1/users/by-username/ana.silva
-
-/api/v1/users/by-cpf-cnpj/12345678900
-Sucesso: 204 No Content
-Erro: 404 Not Found (quando nada foi removido)
-
-fetch("/api/v1/users/by-email/ana@exemplo.com", { method: "DELETE" }).then(r => r.status)
-
-Listar consumos do usuário (histórico)
-Método: GET
-URL: /api/v1/users/{id}/consumos
-Sucesso: 200 OK
-Body: List<ConsumoResponseDTO-IDs>
-ConsumoResponseDTO-IDs (neste endpoint retorna apenas IDs relacionados):
-{
-"id": 10, // consumoId
-"user": 1, // userId (ou null)
-"product": 55, // productId (ou null)
-"dataConsumo": "2025-11-04",
-"avaliacao": 5,
-"pesquisaRespondida": true,
-"pesquisaAntiga": 7 // pesquisaId (ou null)
-}
-Erro: 404 Not Found (usuário não encontrado)
-
-fetch("/api/v1/users/1/consumos").then(r => r.json())
-
-Padrão de erros (formato)
-
-400 Bad Request
-{ "code": "BAD_REQUEST", "message": "Descrição do erro" }
-
-401 Unauthorized (login/senha)
-{ "code": "UNAUTHORIZED", "message": "Credenciais invalidas" }
-
-404 Not Found
-{ "code": "NOT_FOUND", "message": "Usuario não encontrado" }
-
-409 Conflict
-{ "code": "CONSTRAINT_VIOLATION", "message": "Unique constraint or FK violation." }
-
-422 Validation Error (@Valid)
-{ "code": "VALIDATION_ERROR", "message": "detalhes de validação" }
-
-Boas práticas no front
-
-Validar e normalizar campos antes de enviar (email em minúsculas; trims).
-
-Tratar 409 para colisões (email/cpfCnpj/username já existentes).
-
-Em troca de senha, prevenir “nova senha igual à antiga” no front.
-
-Centralizar tratamento de erros por status code para mostrar mensagens amigáveis.
-
-Após criar/editar/deletar, sincronizar estado local (otimista com rollback se falhar).
-
-Para telas de listagem grandes, usar paginação/ordenação do backend.
-
-Segurança: em produção, autenticar via token (JWT) e não armazenar senha no front; este backend retorna apenas sinalização de sucesso.
-
-Observações importantes
-
-email e cpfCnpj devem ser únicos; username, se usado, também deve ser único.
-
-O endpoint /users/{id}/consumos retorna ConsumoResponseDTO “enxuto” (IDs relacionados).
-Caso o front precise de objetos completos, chame os endpoints específicos de Product/Pesquisa depois usando esses IDs, ou
-ajuste o DTO do backend para embutir mais informações.
-======================== CONSUMOS ============================================
-
-Base:
-
-Base URL: /api/v1/consumos
-
-Content-Type: application/json
-
-Datas: YYYY-MM-DD (ex.: 2025-11-04)
-
-CONTRATOS (DTOs)
-
-REQUEST (enviar ao backend):
-{
-"userId": 1,
-"productId": 42,
-"dataConsumo": "2025-11-04",
-"avaliacao": 5,
-"pesquisaRespondida": true,
-"pesquisaId": 7
-}
+Filtros exclusivos (o controller prioriza um):
+email=... OU
+username=... OU
+cpfCnpj=...
 
 Observações:
 
-userId (Long) -> obrigatório
+Se enviar email, os demais filtros são ignorados e o back retorna 0 ou 1 item.
 
-productId (Long) -> obrigatório
+Sem filtro, retorna página completa.
 
-dataConsumo (string) -> obrigatório, formato YYYY-MM-DD
-
-avaliacao (number) -> 1..5; obrigatório se pesquisaRespondida = true
-
-pesquisaRespondida (boolean)
-
-pesquisaId (Long) -> opcional (use quando já existir a Pesquisa vinculada)
-
-RESPONSE (recebido do backend):
+Response 200 (Page<UserResponseDTO>):
 {
-"id": 1001,
-"userId": 1,
-"productId": 42,
-"dataConsumo": "2025-11-04",
-"avaliacao": 5,
-"pesquisaRespondida": true,
-"pesquisaId": 7
+"content": [
+{ "id": 1, "email": "a@a.com
+", "username": "a" },
+{ "id": 2, "email": "b@b.com
+", "username": "b" }
+],
+"totalElements": 17,
+"totalPages": 9,
+"size": 2,
+"number": 0,
+"first": true,
+"last": false,
+"numberOfElements": 2,
+"empty": false
+// Demais metadados padrão do Spring podem aparecer
 }
 
-ENDPOINTS
+Exemplos de URLs:
 
-CRIAR CONSUMO
+/api/v2/users?page=0&size=10&sort=username,ASC
 
-Método: POST
-
-URL: /api/v1/consumos
-
-Body: ConsumoRequest (JSON)
-
-Sucesso: 201 Created
-
-Location: /api/v1/consumos/{id}
-
-Body: ConsumoResponse (JSON)
-
-Exemplo cURL:
-curl -X POST http://localhost:8080/api/v1/consumos
-
--H "Content-Type: application/json"
--d '{"userId":1,"productId":42,"dataConsumo":"2025-11-04","avaliacao":5,"pesquisaRespondida":true,"pesquisaId":7}'
-
-LISTAR CONSUMOS (paginado + filtros)
-
-Método: GET
-
-URL: /api/v1/consumos
-
-Parâmetros opcionais:
-userId (Long)
-productId (Long)
-respondida (boolean)
-startDate (YYYY-MM-DD)
-endDate (YYYY-MM-DD)
-
-Paginação/ordenacão (Spring):
-page=0..n, size=10, sort=campo,asc|desc
-Ex.: sort=dataConsumo,desc
-
-Sucesso: 200 OK
-
-Body: Page<ConsumoResponse>
-
-Exemplos:
-GET /api/v1/consumos?page=0&size=10&sort=dataConsumo,desc
-GET /api/v1/consumos?userId=1&startDate=2025-11-01&endDate=2025-11-30
-GET /api/v1/consumos?productId=42
-GET /api/v1/consumos?respondida=true
+/api/v2/users?email=alguem@dominio.com
 
 BUSCAR POR ID
 
-Método: GET
+GET /api/v2/users/{id}
 
-URL: /api/v1/consumos/{id}
+Response 200:
+{ "id": 42, "email": "novo@exemplo.com
+", "username": "novoUser" }
 
-Sucesso: 200 OK
+Erro 404:
+{ "code": "NOT_FOUND", "message": "Usuario não encontrado" }
 
-Body: ConsumoResponse
+LISTAR CONSUMOS DO USUÁRIO
 
-ATUALIZAR (parcial)
+GET /api/v2/users/{id}/consumos
 
-Método: PATCH
+Response 200 (array de ConsumoResponseDTO):
+[
+{
+"id": 11,
+"userId": 42,
+"productId": 7,
+"dataConsumo": "2025-11-01",
+"pesquisaRespondida": true,
+"pesquisaId": 99
+}
+]
 
-URL: /api/v1/consumos/{id}
+Erro 404:
+{ "code": "NOT_FOUND", "message": "Usuario não encontrado" }
 
-Body: qualquer subconjunto válido de ConsumoRequest
+TROCAR SENHA
 
-Sucesso: 200 OK
+PATCH /api/v2/users/{id}/password
 
-Body: ConsumoResponse
+Request (JSON):
+{ "oldPassword": "Senha@123", "newPassword": "NovaSenha@456" }
 
-Exemplo cURL (alterar apenas a nota):
-curl -X PATCH http://localhost:8080/api/v1/consumos/1001
+Response 204 (sem corpo)
 
--H "Content-Type: application/json"
--d '{"avaliacao":4}'
+Erros possíveis:
 
-DELETAR
+401 UNAUTHORIZED, message: "Credenciais invalidas"
 
-Método: DELETE
+404 NOT_FOUND
 
-URL: /api/v1/consumos/{id}
+422 VALIDATION_ERROR
 
-Sucesso: 204 No Content
+TROCAR USERNAME
 
-ERROS E STATUS
+PATCH /api/v2/users/{id}/username
 
-422 Unprocessable Entity (erros de validação de domínio)
-Body:
-{ "code": "VALIDATION_ERROR", "message": "Lista de erros..." }
+Request (JSON):
+{ "username": "novoApelido" }
 
-400 Bad Request (regra de negócio violada)
-Body:
-{ "code": "BUSINESS_RULE", "message": "Mensagem descritiva..." }
+Response 200:
+{ "id": 42, "email": "novo@exemplo.com
+", "username": "novoApelido" }
 
-404 Not Found (recurso inexistente)
-Body:
-{ "code": "NOT_FOUND", "message": "Consumo não encontrado" }
+Erros possíveis:
 
-DICAS PARA O FRONT
+404 NOT_FOUND
 
-Sempre envie IDs, não objetos:
-userId, productId, pesquisaId (quando houver).
+400 BAD_REQUEST, message: "Username ja existente"
 
-Valide a data:
-formato YYYY-MM-DD e, conforme suas regras, evite datas inválidas.
+422 VALIDATION_ERROR
 
-Valide a nota:
-se pesquisaRespondida = true, a nota deve ser 1..5.
+REMOVER USUÁRIO POR ID
 
-Use paginação do Spring:
-leia content e totalElements da resposta.
+DELETE /api/v2/users/{id}
 
-Exiba mensagens de erro do backend:
-use o campo "message" retornado em 422, 400 e 404.
+Response 204
 
-TIPOS SUGERIDOS (TypeScript) PARA O FRONT
+Erro 404:
+{ "code": "NOT_FOUND", "message": "Usuario não encontrado" }
 
-type ConsumoRequest = {
-userId?: number;
-productId?: number;
-dataConsumo?: string; // YYYY-MM-DD
-avaliacao?: number; // 1..5
-pesquisaRespondida?: boolean;
-pesquisaId?: number;
+REMOVER POR CHAVE ESPECÍFICA
+
+DELETE /api/v2/users/by-email/{email}
+DELETE /api/v2/users/by-username/{username}
+DELETE /api/v2/users/by-cpf-cnpj/{cpfCnpj}
+
+Response 204 ou 404 (Usuario não encontrado)
+
+============================================================
+PADRÕES DE ERRO (TRATAMENTO NO FRONT)
+
+HTTP 400 – BAD_REQUEST
+Quando: Requisição inválida ou regra de negócio falhou
+Ação: Mostrar ApiError.message
+
+HTTP 401 – UNAUTHORIZED
+Quando: Senha antiga incorreta no change password
+Ação: Exibir “Credenciais inválidas”
+
+HTTP 404 – NOT_FOUND
+Quando: Usuário não existe
+Ação: Exibir “Usuário não encontrado”
+
+HTTP 409 – CONSTRAINT_VIOLATION
+Quando: Violação de unique/FK (email/username/cpfCnpj duplicado etc.)
+Ação: Exibir “Já existe um registro com esses dados”
+
+HTTP 422 – VALIDATION_ERROR
+Quando: Campos faltando/violando validação
+Ação: Exibir erros por campo e orientar correção
+
+Dica geral: Sempre ler o corpo e usar ApiError.message para feedback amigável.
+
+============================================================
+SNIPPETS PRONTOS
+Client fino (Axios):
+
+import axios from "axios";
+
+const http = axios.create({
+baseURL: "/api/v2/users",
+headers: { "Content-Type": "application/json" }
+});
+
+export const UsersApi = {
+login: (body) =>
+http.post("/login", body).then(r => r.data),
+
+create: (body) =>
+http.post("", body).then(r => r.data),
+
+list: (params) =>
+http.get("/", { params }).then(r => r.data),
+
+getById: (id) =>
+http.get(/${id}).then(r => r.data),
+
+listConsumos: (id) =>
+http.get(/${id}/consumos).then(r => r.data),
+
+changePassword: (id, body) =>
+http.patch(/${id}/password, body).then(() => {}),
+
+changeUsername: (id, body) =>
+http.patch(/${id}/username, body).then(r => r.data),
+
+deleteById: (id) =>
+http.delete(/${id}).then(() => {}),
+
+deleteByEmail: (email) =>
+http.delete(/by-email/${encodeURIComponent(email)}).then(() => {}),
+
+deleteByUsername: (username) =>
+http.delete(/by-username/${encodeURIComponent(username)}).then(() => {}),
+
+deleteByCpfCnpj: (cpfCnpj) =>
+http.delete(/by-cpf-cnpj/${encodeURIComponent(cpfCnpj)}).then(() => {})
 };
 
-type ConsumoResponse = {
-id: number;
-userId: number | null;
-productId: number | null;
-dataConsumo: string;
-avaliacao: number;
-pesquisaRespondida: boolean;
-pesquisaId: number | null;
-};
-
-type Page<T> = {
-content: T[];
-totalElements: number;
-totalPages: number;
-number: number;
-size: number;
-first: boolean;
-last: boolean;
-};
-
-EXEMPLO DE USO (axios, pseudo-código)
-
-Base: /api/v1/consumos
-
-create(data: ConsumoRequest) -> POST "/" -> ConsumoResponse
-get(id: number) -> GET "/{id}" -> ConsumoResponse
-list(params) -> GET "/" com query -> Page<ConsumoResponse>
-patch(id, data) -> PATCH "/{id}" -> ConsumoResponse
-remove(id) -> DELETE "/{id}" -> void
-
-Params em list (opcionais):
-userId, productId, respondida, startDate, endDate, page, size, sort
-
-
-====================================== PERGUNTAS ====================================
-
-Base URL
-
-/api/v1/perguntas
-
-Content-Type: application/json
-
-DTOs (contratos)
-
-Request (enviar ao criar/atualizar)
-campos:
-
-texto (string, obrigatório)
-
-tipo (string, obrigatório: TEXTO | MULTIPLA_ESCOLHA | ESCALA)
-
-notaMinima (number, opcional)
-
-notaMaxima (number, opcional)
-exemplo:
-{ "texto": "Qual sua avaliação geral?", "tipo": "ESCALA", "notaMinima": 1, "notaMaxima": 5 }
-
-Response (recebido)
-campos:
-
-id (number)
-
-texto (string)
-
-tipo (string)
-
-notaMinima (number)
-
-notaMaxima (number)
-exemplo:
-{ "id": 12, "texto": "Qual sua avaliação geral?", "tipo": "ESCALA", "notaMinima": 1, "notaMaxima": 5 }
-
-Endpoints
-
-Criar pergunta
-método: POST
-url: /api/v1/perguntas
-body: PerguntaRequest
-sucesso: 201 Created
-headers: Location: /api/v1/perguntas/{id}
-corpo: PerguntaResponse
-erros comuns: 400 (regra/validação de serviço), 409 (conflito: texto já existente)
-
-Listar todas
-método: GET
-url: /api/v1/perguntas
-sucesso: 200 OK
-corpo: array de PerguntaResponse
-
-Buscar por ID
-método: GET
-url: /api/v1/perguntas/{id}
-sucesso: 200 OK
-corpo: PerguntaResponse
-erros: 404 Not Found
-
-Buscar por texto (match exato)
-método: GET
-url: /api/v1/perguntas/by-texto/{texto}
-sucesso: 200 OK
-corpo: PerguntaResponse
-erros: 404 Not Found
-observação: encode de URL pode ser necessário (espaços, acentos etc.)
-
-Atualizar por ID (PUT completo)
-método: PUT
-url: /api/v1/perguntas/{id}
-body: PerguntaRequest (enviar todos os campos que a pergunta deve passar a ter)
-sucesso: 200 OK
-corpo: PerguntaResponse
-erros: 400 (validação), 404 (inexistente), 409 (conflito)
-
-Atualizar pelo texto-alvo (PUT completo)
-método: PUT
-url: /api/v1/perguntas/by-texto/{textoAlvo}
-body: PerguntaRequest
-sucesso: 200 OK
-corpo: PerguntaResponse (já refletindo possível mudança de texto)
-erros: 400 (validação), 409 (conflito se “texto” novo já existir)
-
-Deletar por ID
-método: DELETE
-url: /api/v1/perguntas/{id}
-sucesso: 204 No Content
-erros: 404 Not Found (quando não existe)
-
-Deletar por texto
-método: DELETE
-url: /api/v1/perguntas/by-texto/{texto}
-sucesso: 204 No Content
-erros: 404 Not Found
-
-Padrão de erros (exemplos)
-
-400 Bad Request: { "status": 400, "error": "Bad Request", "message": "Texto inexistente" }
-
-404 Not Found: { "status": 404, "error": "Not Found", "message": "Pergunta inexistente" }
-
-409 Conflict: { "status": 409, "error": "Conflict", "message": "Texto já existente" }
-
-Dicas de integração (frontend)
-
-Enums: envie apenas “TEXTO”, “MULTIPLA_ESCOLHA” ou “ESCALA”.
-
-Faixa de notas: se usar notaMinima/notaMaxima, valide no front (ex.: notaMinima <= notaMaxima).
-
-Conflitos: ao renomear perguntas (update por texto ou por id alterando “texto”), trate 409 Conflict.
-
-Encode de URL: ao chamar /by-texto/{texto}, codifique o texto (ex.: encodeURIComponent no front).
-
-Mensagens: mostre ao usuário o campo “message” retornado nos erros (vem do ResultService).
-
-Exemplos rápidos (corpos)
-
-Criar:
-{ "texto": "Você recomendaria este produto?", "tipo": "MULTIPLA_ESCOLHA", "notaMinima": 0, "notaMaxima": 0 }
-
-Atualizar (por ID):
-{ "texto": "Como avalia o atendimento?", "tipo": "ESCALA", "notaMinima": 1, "notaMaxima": 5 }
-
-Fluxo típico no front
-
-Criar pergunta: POST /api/v1/perguntas com PerguntaRequest; salvar id retornado.
-
-Listar para exibir tabela: GET /api/v1/perguntas.
-
-Editar item: abrir formulário com dados atuais e enviar PUT /{id}.
-
-Excluir item: DELETE /{id}; atualizar listagem local.
-
-Pesquisar por texto (exato): GET /by-texto/{textoCodificado} para cenários de acesso direto.
-
-============================== PESQUISA ============================================
-
-Base URL
-
-/api/v1/pesquisas
-
-Content-Type: application/json
-
-DTOs (contratos)
-
-Request (enviar ao criar/atualizar)
-
-consumoAntigo: objeto Consumo (mínimo conter { "id": <number> } para referenciar um consumoAntigo existente)
-
-perguntas: array de objetos Pergunta (cada item pode ser { "id": <number> } para referenciar)
-
-respostas: array de objetos Resposta (cada item pode ser { "id": <number> } para referenciar)
-Exemplo mínimo viável:
-{
-"consumoAntigo": { "id": 1 },
-"perguntas": [ { "id": 10 }, { "id": 11 } ],
-"respostas": [ { "id": 100 } ]
-}
-
-Response (recebido)
-
-id: number
-
-consumoAntigo: objeto Consumo (como está no banco)
-
-perguntas: array de Pergunta
-
-respostas: array de Resposta
-Exemplo:
-{
-"id": 7,
-"consumoAntigo": { "id": 1, ... },
-"perguntas": [ { "id": 10, ... }, { "id": 11, ... } ],
-"respostas": [ { "id": 100, ... } ]
-}
-
-Endpoints
-
-Criar pesquisaAntiga
-
-Método: POST
-
-URL: /api/v1/pesquisas
-
-Body: PesquisaRequestDTO
-
-Sucesso: 201 Created
-
-Header Location: /api/v1/pesquisas/{id}
-
-Corpo: PesquisaResponseDTO
-
-Erros comuns:
-
-400 Bad Request (regra/validação de serviço)
-
-409 Conflict (ex.: já existente/violação de regra)
-
-Buscar por ID
-
-Método: GET
-
-URL: /api/v1/pesquisas/{id}
-
-Sucesso: 200 OK
-
-Corpo: PesquisaResponseDTO
-
-Erros: 404 Not Found
-
-Listar (paginado + filtros opcionais)
-
-Método: GET
-
-URL: /api/v1/pesquisas
-
-Query params suportados:
-
-consumoId (Long)
-
-perguntaId (Long)
-
-respostaId (Long)
-
-paginação/ordenação Spring: page, size, sort (ex.: sort=id,desc)
-
-Sucesso: 200 OK
-
-Corpo: Page de PesquisaResponseDTO (objeto paginado com content, totalElements, totalPages, etc.)
-
-Observações do filtro:
-
-Se consumoId ≠ null → filtra por consumoAntigo
-
-Senão se perguntaId ≠ null → filtra por pergunta
-
-Senão se respostaId ≠ null → filtra por resposta
-
-Senão → lista todas paginadas
-
-Exemplos:
-GET /api/v1/pesquisas?page=0&size=10&sort=id,desc
-GET /api/v1/pesquisas?consumoId=1
-GET /api/v1/pesquisas?perguntaId=10
-GET /api/v1/pesquisas?respostaId=100
-
-Atualizar por ID (PUT completo)
-
-Método: PUT
-
-URL: /api/v1/pesquisas/{id}
-
-Body: PesquisaRequestDTO (enviar todos os campos desejados no estado final)
-
-Sucesso: 200 OK
-
-Corpo: PesquisaResponseDTO atualizado
-
-Erros:
-
-400 Bad Request (validação)
-
-404 Not Found (quando {id} não existe)
-
-Deletar por ID
-
-Método: DELETE
-
-URL: /api/v1/pesquisas/{id}
-
-Sucesso: 204 No Content
-
-Erros: 404 Not Found (quando {id} não existe), 409 Conflict (fallback se service não realizou)
-
-Padrão de erros (exemplos)
-
-400 Bad Request:
-{ "code": "BAD_REQUEST", "message": "Consumo inexistente" }
-
-404 Not Found:
-{ "code": "NOT_FOUND", "message": "Pesquisa not found" }
-
-409 Conflict:
-{ "code": "CONFLICT", "message": "Unique constraint or FK violation." }
-
-422 Unprocessable Entity (erros @Valid):
-{ "code": "VALIDATION_ERROR", "message": "<detalhes>" }
-
-Dicas de integração (frontend)
-
-Este endpoint aceita objetos “completos” nos arrays; porém, use somente IDs quando possível para referenciar registros já existentes, mantendo o payload enxuto (ex.: { "perguntas": [{ "id": 10 }] }).
-
-Em create/update, valide antes no front:
-
-consumoAntigo.id obrigatório
-
-listas perguntas/respostas não nulas (podem ser vazias, se a regra permitir)
-
-Ordenação/paginação: use os parâmetros padrão do Spring (page, size, sort).
-
-Mensagens de erro: exiba “message” retornado pelo backend (vem do ResultService/exceptions).
-
-Ao deletar, trate 404 (já removido) e após 204 remova da lista local.
-
-Exemplos rápidos (corpos)
-
-Criar:
-POST /api/v1/pesquisas
-{
-"consumoAntigo": { "id": 1 },
-"perguntas": [ { "id": 10 }, { "id": 11 } ],
-"respostas": [ { "id": 100 } ]
-}
-
-Atualizar:
-PUT /api/v1/pesquisas/7
-{
-"consumoAntigo": { "id": 1 },
-"perguntas": [ { "id": 12 }, { "id": 13 } ],
-"respostas": [ { "id": 101 }, { "id": 102 } ]
-}
-
-Fluxo típico no front
-
-Criar uma pesquisaAntiga ao finalizar um consumoAntigo: POST /pesquisas com consumoAntigo.id + perguntas/respostas relacionadas.
-
-Listar pesquisas de um consumoAntigo específico: GET /pesquisas?consumoId={id}.
-
-Editar uma pesquisaAntiga (trocar perguntas/respostas): PUT /pesquisas/{id} com o novo conjunto.
-
-Deletar uma pesquisaAntiga: DELETE /pesquisas/{id} e atualizar a lista local.
-
-Exibir detalhes: GET /pesquisas/{id} para preencher uma tela de leitura/edição.
-
-========================================== PRODUTO =========================================
-
-Base URL
-
-/api/v1/products
-
-Content-Type: application/json
-
-Modelos (contratos)
-
-ProductRequestDTO (enviar em POST/PUT)
-{
-"name": "string (obrigatório)",
-"type": "CURSO | VIDEO_AULA | ARTIGO (obrigatório)",
-"description": "string (opcional)"
-}
-
-ProductResponseDTO (recebido nas respostas)
-{
-"id": number,
-"name": "string",
-"type": "CURSO | VIDEO_AULA | ARTIGO",
-"description": "string | null"
-}
-
-Códigos de status (padrão)
-
-201 Created: criação bem-sucedida
-
-200 OK: leitura/atualização bem-sucedida
-
-204 No Content: remoção bem-sucedida
-
-400 Bad Request: regras de negócio/validações do serviço falharam
-
-404 Not Found: recurso não existe
-
-409 Conflict: conflito de regra (ex.: “Produto já existe”)
-
-Endpoints e exemplos
-
-Criar produto
-
-Método: POST
-
-URL: /api/v1/products
-
-Body (ProductRequestDTO):
-{
-"name": "Python para Iniciantes",
-"type": "CURSO",
-"description": "Curso introdutório."
-}
-
-Sucesso: 201 Created
-
-Location: /api/v1/products/{id}
-
-Body (ProductResponseDTO)
-
-Exemplo (fetch):
-fetch("/api/v1/products", {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({
-name: "Python para Iniciantes",
-type: "CURSO",
-description: "Curso introdutório."
-})
-}).then(r => r.json())
-
-Listar todos
-
-Método: GET
-
-URL: /api/v1/products
-
-Sucesso: 200 OK
-
-Body: Array<ProductResponseDTO>
-
-Exemplo (fetch):
-fetch("/api/v1/products")
-.then(r => r.json())
-
-Buscar por ID
-
-Método: GET
-
-URL: /api/v1/products/{id}
-
-Sucesso: 200 OK
-
-Erro: 404 Not Found
-
-Exemplo (fetch):
-fetch("/api/v1/products/12")
-.then(r => r.json())
-
-Buscar por nome (exato)
-
-Método: GET
-
-URL: /api/v1/products/by-name/{name}
-
-Sucesso: 200 OK
-
-Erro: 404 Not Found
-
-Exemplo (fetch):
-fetch("/api/v1/products/by-name/Python%20para%20Iniciantes")
-.then(r => r.json())
-
-Atualizar por ID (PUT completo)
-
-Método: PUT
-
-URL: /api/v1/products/{id}
-
-Body: ProductRequestDTO (estado final do recurso)
-{
-"name": "Python do Zero",
-"type": "CURSO",
-"description": "Atualizado."
-}
-
-Sucesso: 200 OK (retorna ProductResponseDTO atualizado)
-
-Erros: 404 (quando id não existe) ou 409 (conflito, se houver)
-
-Exemplo (fetch):
-fetch("/api/v1/products/12", {
-method: "PUT",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({
-name: "Python do Zero",
-type: "CURSO",
-description: "Atualizado."
-})
-}).then(r => r.json())
-
-Deletar por ID
-
-Método: DELETE
-
-URL: /api/v1/products/{id}
-
-Sucesso: 204 No Content
-
-Erro: 404 Not Found
-
-Exemplo (fetch):
-fetch("/api/v1/products/12", { method: "DELETE" })
-.then(r => r.status) // 204
-
-Deletar por nome
-
-Método: DELETE
-
-URL: /api/v1/products/by-name/{name}
-
-Sucesso: 204 No Content
-
-Erro: 404 Not Found
-
-Exemplo (fetch):
-fetch("/api/v1/products/by-name/Python%20do%20Zero", { method: "DELETE" })
-.then(r => r.status) // 204
-
-Padrão de erro (corpo)
-
-400 Bad Request:
-{ "status": 400, "error": "Bad Request", "message": "Produto sem nome; Produto sem tipo" }
-
-404 Not Found:
-{ "status": 404, "error": "Not Found", "message": "Produto não encontrado" }
-
-409 Conflict:
-{ "status": 409, "error": "Conflict", "message": "Produto já existe" }
-
-Boas práticas no Front
-
-Validar antes de enviar: name não vazio e type preenchido com um dos valores válidos.
-
-Tratar 409 em POST/PUT para exibir mensagens de “já existe” ou “conflito”.
-
-Após POST, use o Location ou o id retornado para navegar/atualizar estado local.
-
-Em listas, mantenha cache local e sincronize após criar/atualizar/deletar (optimistic update com rollback se falhar).
-
-Em buscas por nome, encode a URL (encodeURIComponent).
-
-Testes rápidos (curl)
-
-Criar:
-curl -X POST http://localhost:8080/api/v1/products
+Uso com React Query (exemplos):
+
+Listagem paginada:
+const { data, isLoading, error } = useQuery({
+queryKey: ["users", page, size, sort],
+queryFn: () => UsersApi.list({ page, size, sort })
+});
+
+Criar usuário:
+const createUser = useMutation({
+mutationFn: UsersApi.create,
+onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] })
+});
+
+Trocar username:
+const updateUsername = useMutation({
+mutationFn: ({ id, username }) =>
+UsersApi.changeUsername(id, { username }),
+onSuccess: (_data, vars) =>
+queryClient.invalidateQueries({ queryKey: ["user", vars.id] })
+});
+
+============================================================
+CURL PARA TESTES RÁPIDOS
+
+LOGIN:
+curl -X POST http://localhost:8080/api/v2/users/login
 
 -H "Content-Type: application/json"
--d '{"name":"Python para Iniciantes","type":"CURSO","description":"Curso introdutório."}'
+-d "{"email":"user@exemplo.com
+","password":"SenhaForte123"}"
 
-Atualizar:
-curl -X PUT http://localhost:8080/api/v1/products/12
+CREATE:
+curl -X POST http://localhost:8080/api/v2/users
 
 -H "Content-Type: application/json"
--d '{"name":"Python do Zero","type":"CURSO","description":"Atualizado."}'
-
-Deletar por ID:
-curl -X DELETE http://localhost:8080/api/v1/products/12
-
-Observações importantes
-
-type é um enum: CURSO, VIDEO_AULA, ARTIGO. Se enviar outro valor, virá 400.
-
-O backend usa validações de serviço: mensagens aparecem no campo “message”. Mostre-as ao usuário.
-
-Não há filtro por type neste controller. Caso precise, faça listagem completa e filtre no front, ou crie novo endpoint no futuro.
-
-============================================== RESPOSTA ========================================
-
-Base URL
-
-/api/v1/respostas
-
-Content-Type: application/json
-
-Modelos (contratos)
-
-RespostaRequestDTO (enviar em POST/PUT)
-{
-"pesquisaAntiga": { "id": number }, // obrigatório
-"pergunta": { "id": number }, // obrigatório
-"resposta": "string" // obrigatório (não vazio)
-}
-
-RespostaResponseDTO (recebido nas respostas)
-{
-"id": number,
-"pesquisaAntiga": { ...objeto Pesquisa... },
-"pergunta": { ...objeto Pergunta... },
-"resposta": "string"
-}
-
-Paginação (GET /api/v1/respostas)
-
-Query params padrão Spring: page (0-based), size, sort
-Ex.: ?page=0&size=10&sort=id,desc
-
-Filtros (combinados ao pageable)
-
-?pesquisaId={id} — respostas de uma pesquisaAntiga
-
-?perguntaId={id} — respostas de uma pergunta
-
-Códigos de status
-
-201 Created: criação bem-sucedida
-
-200 OK: leitura/atualização bem-sucedida
-
-204 No Content: remoção bem-sucedida
-
-400 Bad Request: regras de negócio falharam (service.validate)
-
-404 Not Found: recurso inexistente
-
-409 Conflict: violação de regra/unique
-
-422 Unprocessable Entity: validação @Valid do body
-
-Endpoints e exemplos
-
-Criar resposta
-
-Método: POST
-
-URL: /api/v1/respostas
-
-Body (RespostaRequestDTO):
-{
-"pesquisaAntiga": { "id": 1 },
-"pergunta": { "id": 10 },
-"resposta": "Texto digitado pelo usuário"
-}
-
-Sucesso: 201 Created
-
-Location: /api/v1/respostas/{id}
-
-Body: RespostaResponseDTO
-
-fetch("/api/v1/respostas", {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({
-pesquisaAntiga: { id: 1 },
-pergunta: { id: 10 },
-resposta: "Minha resposta"
-})
-}).then(r => r.json())
-
-Listar (paginado, com filtros opcionais)
-
-Método: GET
-
-URL: /api/v1/respostas?page=0&size=10&sort=id,desc
-
-URL (filtrar por pesquisaAntiga): /api/v1/respostas?pesquisaId=1
-
-URL (filtrar por pergunta): /api/v1/respostas?perguntaId=10
-
-Sucesso: 200 OK
-
-Body: Page<RespostaResponseDTO> (content, totalElements, totalPages, etc.)
-
-fetch("/api/v1/respostas?pesquisaId=1&page=0&size=10&sort=id,desc")
-.then(r => r.json())
-
-Buscar por ID
-
-Método: GET
-
-URL: /api/v1/respostas/{id}
-
-Sucesso: 200 OK
-
-Erro: 404 Not Found
-
-fetch("/api/v1/respostas/123")
-.then(r => r.json())
-
-Atualizar (PUT completo)
-
-Método: PUT
-
-URL: /api/v1/respostas/{id}
-
-Body (RespostaRequestDTO, estado final do recurso):
-{
-"pesquisaAntiga": { "id": 1 },
-"pergunta": { "id": 10 },
-"resposta": "Texto corrigido"
-}
-
-Sucesso: 200 OK (retorna RespostaResponseDTO atualizado)
-
-Erros: 404 (não encontrada) ou 409 (conflito), 400 (regra de negócio), 422 (@Valid)
-
-fetch("/api/v1/respostas/123", {
-method: "PUT",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({
-pesquisaAntiga: { id: 1 },
-pergunta: { id: 10 },
-resposta: "Texto corrigido"
-})
-}).then(r => r.json())
-
-Deletar
-
-Método: DELETE
-
-URL: /api/v1/respostas/{id}
-
-Sucesso: 204 No Content
-
-Erro: 404 Not Found (quando o service sinaliza inválido)
-
-fetch("/api/v1/respostas/123", { method: "DELETE" })
-.then(r => r.status) // 204
-
-Formato de erro (padrão)
-
-400 Bad Request
-{ "code": "BAD_REQUEST", "message": "mensagens do service.validate aqui" }
-
-404 Not Found
-{ "code": "NOT_FOUND", "message": "Resposta Não encontrada" }
-
-409 Conflict
-{ "code": "CONSTRAINT_VIOLATION", "message": "Unique constraint or FK violation." }
-
-422 Validation Error (@Valid)
-{ "code": "VALIDATION_ERROR", "message": "detalhes do erro de validação do body" }
-
-Boas práticas no Front
-
-Sempre enviar IDs dentro de pesquisaAntiga e pergunta no body do POST/PUT (ex.: { "pesquisaAntiga": {"id": 1}, "pergunta": {"id": 10} }).
-
-Validar no cliente que resposta não está vazia antes de enviar.
-
-Tratar 409 para exibir mensagens de conflito (ex.: já existe) e 400 para mensagens de regra de negócio vindas do serviço.
-
-Após criar/atualizar, sincronize a lista local; após deletar, remova o item do estado (optimistic update com rollback se falhar).
-
-Para listagens grandes, use paginação (page/size) e ordenação (sort=id,desc).
-
-Utilize os filtros pesquisaId/perguntaId para carregar respostas contextualizadas na tela de uma pesquisaAntiga/pergunta.
-
-Testes rápidos (curl)
-
-Criar:
-curl -X POST http://localhost:8080/api/v1/respostas
-
--H "Content-Type: application/json"
--d '{"pesquisaAntiga":{"id":1},"pergunta":{"id":10},"resposta":"Texto"}'
-
-Atualizar:
-curl -X PUT http://localhost:8080/api/v1/respostas/123
-
--H "Content-Type: application/json"
--d '{"pesquisaAntiga":{"id":1},"pergunta":{"id":10},"resposta":"Texto corrigido"}'
-
-Listar por pesquisaAntiga:
-curl "http://localhost:8080/api/v1/respostas?pesquisaId=1&page=0&size=10&sort=id,desc
+-d "{"email":"novo@exemplo.com
+","password":"Senha@123","username":"novoUser","cpfCnpj":"12345678910"}"
+
+LIST (página 0, 10 por página):
+curl "http://localhost:8080/api/v2/users?page=0&size=10&sort=username,ASC
 "
 
-Observações importantes
+GET BY ID:
+curl "http://localhost:8080/api/v2/users/42
+"
 
-Os DTOs do backend carregam ENTIDADES; então o front deve ao menos enviar os IDs de pesquisaAntiga e pergunta.
+LIST CONSUMOS:
+curl "http://localhost:8080/api/v2/users/42/consumos
+"
 
-A validação de duplicidade atual do service é por id; se você precisar garantir “uma resposta por (pesquisaAntiga, pergunta)” no futuro, será necessário reforçar a regra no service/repository (e, idealmente, uma constraint única no banco).
+CHANGE PASSWORD:
+curl -X PATCH http://localhost:8080/api/v2/users/42/password
 
-Campos ausentes/IDs inválidos resultarão em 400/404/422 conforme o caso.
+-H "Content-Type: application/json"
+-d "{"oldPassword":"Senha@123","newPassword":"NovaSenha@456"}"
+
+CHANGE USERNAME:
+curl -X PATCH http://localhost:8080/api/v2/users/42/username
+
+-H "Content-Type: application/json"
+-d "{"username":"novoApelido"}"
+
+DELETE BY ID:
+curl -X DELETE "http://localhost:8080/api/v2/users/42
+"
+
+DELETE BY EMAIL:
+curl -X DELETE "http://localhost:8080/api/v2/users/by-email/novo@exemplo.com
+"
+
+============================================================
+BOAS PRÁTICAS NO FRONT
+
+Normalize inputs onde fizer sentido:
+
+E-mail: trim e lowercase antes de enviar.
+
+Trate 422 VALIDATION_ERROR com feedback por campo (ex.: “email inválido”, “username obrigatório”).
+
+Após criar, editar e deletar, invalide a lista (ex.: React Query: invalidateQueries).
+
+Datas (dataConsumo) vêm como yyyy-MM-dd; formate na UI para pt-BR.
+
+Em caso de CONSTRAINT_VIOLATION ou BAD_REQUEST “Username ja existente”, destaque o campo problemático e oriente correção.
+
+
+============================== PRODUTOS ==============================
+BASE
+Base URL: /api/v2/products
+Headers padrão: Content-Type: application/json
+CORS: liberado para qualquer origem
+Observação: Controller não requer autenticação por enquanto. Se o back adicionar, use Authorization: Bearer <token>.
+============================================================
+DTOS (FORMATOS DOS DADOS)
+ProductRequestDTO:
+name: string
+type: string
+description: string
+ProductResponseDTO:
+id: number
+name: string
+type: string
+description: string
+ApiError:
+status: number        (ex.: 400, 404, 409)
+error: string         (ex.: "Bad Request", "Not Found", "Conflict")
+message: string       (detalhe do erro; virá do ResultService quando houver)
+============================================================
+ENDPOINTS E EXEMPLOS
+
+
+CRIAR PRODUTO
+
+
+
+POST /api/v2/products
+Request (JSON):
+{
+"name": "Café Premium",
+"type": "Bebida",
+"description": "Café torrado e moído 500g"
+}
+Response 201 (Created) + Location: /api/v2/products/{id}
+{
+"id": 42,
+"name": "Café Premium",
+"type": "Bebida",
+"description": "Café torrado e moído 500g"
+}
+Erros possíveis:
+
+
+400 Bad Request (validação falhou no ResultService)
+
+
+409 Conflict (já existe produto com mesmo nome, regra de negócio)
+
+
+
+
+LISTAR TODOS
+
+
+
+GET /api/v2/products
+Response 200:
+[
+{ "id": 1, "name": "Café", "type": "Bebida", "description": "250g" },
+{ "id": 2, "name": "Chá",  "type": "Bebida", "description": "Camomila" }
+]
+
+
+BUSCAR POR ID
+
+
+
+GET /api/v2/products/{id}
+Response 200:
+{ "id": 42, "name": "...", "type": "...", "description": "..." }
+Erro 404:
+{ "status": 404, "error": "Not Found", "message": "Produto não encontrado" }
+
+
+BUSCAR POR NOME (EXATO)
+
+
+
+GET /api/v2/products/by-name/{name}
+Response 200:
+{ "id": 7, "name": "Café Premium", "type": "Bebida", "description": "..." }
+Erro 404:
+{ "status": 404, "error": "Not Found", "message": "Produto não encontrado" }
+
+
+ATUALIZAR (PUT COMPLETO)
+
+
+
+PUT /api/v2/products/{id}
+Request (JSON):
+{
+"name": "Café Premium",
+"type": "Bebida",
+"description": "Atualizado: 500g embalagem a vácuo"
+}
+Response 200:
+{ "id": 42, "name": "Café Premium", "type": "Bebida", "description": "Atualizado: 500g embalagem a vácuo" }
+Erros possíveis:
+
+
+404 Not Found (produto inexistente)
+
+
+400 Bad Request (validação falhou)
+
+
+409 Conflict (conflito de negócio)
+
+
+
+
+DELETAR POR ID
+
+
+
+DELETE /api/v2/products/{id}
+Response 204 (sem corpo)
+Erros possíveis:
+
+
+400 Bad Request (quando ResultService considera inválido)
+
+
+404 Not Found (produto não encontrado)
+
+
+
+
+DELETAR POR NOME
+
+
+
+DELETE /api/v2/products/by-name/{name}
+Response 204 (sem corpo)
+Erros possíveis:
+
+
+400 Bad Request (quando ResultService considera inválido)
+
+
+404 Not Found (produto não encontrado)
+
+
+============================================================
+PADRÕES DE ERRO (TRATAMENTO NO FRONT)
+HTTP 400 – Bad Request
+
+
+Quando: validação/regra de negócio falha (ResultService.isValid = false).
+
+
+Ação: mostre ApiError.message próximo aos campos ou em um toast.
+
+
+HTTP 404 – Not Found
+
+
+Quando: produto não existe para GET/PUT/DELETE.
+
+
+Ação: feedback “Produto não encontrado”.
+
+
+HTTP 409 – Conflict
+
+
+Quando: regra de negócio impede operação (ex.: duplicidade).
+
+
+Ação: informe conflito (ex.: “Já existe produto com esse nome”).
+
+
+============================================================
+EXEMPLOS RÁPIDOS (FETCH/AXIOS)
+Criar (fetch):
+const res = await fetch("/api/v2/products", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+name: "Café Premium",
+type: "Bebida",
+description: "Café 500g"
+})
+});
+if (res.status === 201) {
+const body = await res.json(); // ProductResponseDTO
+// usar body.id, body.name...
+} else {
+const err = await res.json();  // ApiError
+// exibir err.message
+}
+Atualizar (axios):
+import axios from "axios";
+await axios.put(/api/v2/products/${id}, {
+name, type, description
+}).then(r => {
+// r.data: ProductResponseDTO atualizado
+}).catch(async (e) => {
+// e.response.data: ApiError
+});
+Deletar por nome (fetch):
+const res = await fetch(/api/v2/products/by-name/${encodeURIComponent(name)}, {
+method: "DELETE"
+});
+if (res.status === 204) {
+// removido
+} else {
+const err = await res.json(); // ApiError
+}
+============================================================
+CLIENT PRONTO (AXIOS) – SUGESTÃO
+import axios from "axios";
+const http = axios.create({
+baseURL: "/api/v2/products",
+headers: { "Content-Type": "application/json" }
+});
+export const ProductsApi = {
+create: (body) =>
+http.post("", body).then(r => r.data),
+listAll: () =>
+http.get("").then(r => r.data),
+getById: (id) =>
+http.get(/${id}).then(r => r.data),
+getByName: (name) =>
+http.get(/by-name/${encodeURIComponent(name)}).then(r => r.data),
+update: (id, body) =>
+http.put(/${id}, body).then(r => r.data),
+deleteById: (id) =>
+http.delete(/${id}).then(() => {}),
+deleteByName: (name) =>
+http.delete(/by-name/${encodeURIComponent(name)}).then(() => {})
+};
+============================================================
+CURL PARA TESTES RÁPIDOS
+CRIAR:
+curl -X POST http://localhost:8080/api/v2/products
+-H "Content-Type: application/json"
+-d "{"name":"Café Premium","type":"Bebida","description":"Café 500g"}"
+LISTAR:
+curl http://localhost:8080/api/v2/products
+BUSCAR POR ID:
+curl http://localhost:8080/api/v2/products/42
+BUSCAR POR NOME:
+curl http://localhost:8080/api/v2/products/by-name/Caf%C3%A9%20Premium
+ATUALIZAR:
+curl -X PUT http://localhost:8080/api/v2/products/42
+-H "Content-Type: application/json"
+-d "{"name":"Café Premium","type":"Bebida","description":"Atualizado: 500g a vácuo"}"
+DELETAR POR ID:
+curl -X DELETE http://localhost:8080/api/v2/products/42
+DELETAR POR NOME:
+curl -X DELETE http://localhost:8080/api/v2/products/by-name/Caf%C3%A9%20Premium
+============================================================
+BOAS PRÁTICAS NO FRONT
+
+
+Validar formulário antes do POST/PUT; mapear mensagens do ApiError.message.
+
+
+Ao criar/atualizar/deletar, recarregar a listagem (ex.: invalidateQueries no React Query).
+
+
+Normalizar strings conforme a regra de negócio (name/type/description com trim).
+
+
+Em 409 (Conflict), destaque o campo que causou a duplicidade e proponha correção.
+
+
+Em 404, redirecione para a lista e mostre aviso “Produto não encontrado”.
+
+
+
+============================= PESQUISAS ===============================
+BASE
+
+Base URL: /api/v2/pesquisas
+Headers padrão: Content-Type: application/json
+CORS: liberado para qualquer origem
+Observação: Controller não requer autenticação por enquanto.
+
+============================================================
+DTOS (FORMATOS DOS DADOS)
+
+PesquisaRequestDTO (REQUEST):
+consumoId: number (ID de Consumo existente)
+nota: number (ex.: 0..10)
+dataPesquisa: string (ISO yyyy-MM-dd)
+tipoPesquisa: string (enum, ex.: "NPS", "CSAT", etc.)
+resposta: string | null (texto livre opcional)
+
+PesquisaResponseDTO (RESPONSE):
+id: number
+consumoId: number
+nota: number
+dataPesquisa: string (ISO yyyy-MM-dd)
+tipoPesquisa: string (enum)
+tipoCliente: string (enum; definido no back com base nas regras de negócio)
+resposta: string | null
+
+KpiResponseDTO (RESPONSE – KPIs):
+media: number | null (média das notas no período)
+distribuicao: array de objetos { tipoCliente: string, count: number }
+(usa a projeção PesquisaRepository.TipoClienteCount)
+
+ApiError / Mensagens de erro (quando houver):
+Pode vir como lista de erros de validação (BindingResult) ou texto simples.
+Para 400/409/404 este controller geralmente devolve strings com a mensagem.
+
+Enums esperados:
+TipoPesquisa: ex.: "NPS", "CSAT", "CES" (confirme com o back os valores)
+TipoCliente: ex.: "PROMOTOR", "NEUTRO", "DETRATOR" (ou equivalente)
+
+============================================================
+ENDPOINTS E EXEMPLOS
+
+CRIAR PESQUISA
+
+POST /api/v2/pesquisas
+
+Request (JSON):
+{
+"consumoId": 123,
+"nota": 9,
+"dataPesquisa": "2025-11-07",
+"tipoPesquisa": "NPS",
+"resposta": "Atendimento excelente."
+}
+
+Responses:
+201 Created:
+(PesquisaResponseDTO do registro criado)
+400 Bad Request:
+
+Lista de erros de validação (BindingResult)
+
+"Consumo não encontrado: id={id}" se consumoId inválido
+409 Conflict:
+
+Lista de mensagens do ResultService quando regra de negócio conflitar
+
+OBTER POR ID
+
+GET /api/v2/pesquisas/{id}
+
+Responses:
+200 OK:
+(PesquisaResponseDTO)
+404 Not Found:
+(sem corpo)
+
+OBTER POR CONSUMO (UM-para-UM)
+
+GET /api/v2/pesquisas/by-consumo/{consumoId}
+
+Responses:
+200 OK:
+(PesquisaResponseDTO)
+400 Bad Request:
+"Consumo não encontrado: id={id}" (quando consumo não existe)
+404 Not Found:
+(quando não há pesquisa associada a esse consumo)
+
+LISTAR / FILTRAR (PAGINADO)
+
+GET /api/v2/pesquisas
+Parâmetros (query):
+tipoPesquisa (obrigatório): string (enum)
+tipoCliente (opcional): string (enum)
+inicio (opcional): yyyy-MM-dd
+fim (opcional): yyyy-MM-dd
+page (opcional, default 0): number
+size (opcional, default 20): number
+sort (opcional): ex.: sort=dataPesquisa,ASC
+
+Regras de filtro:
+
+Se tipoCliente e período (inicio & fim) forem informados:
+filtra por tipoPesquisa + tipoCliente + dataPesquisa BETWEEN [inicio,fim]
+
+Se só tipoCliente for informado:
+filtra por tipoPesquisa + tipoCliente
+
+Se só período (inicio & fim) for informado:
+filtra por tipoPesquisa + período
+
+Caso contrário:
+filtra apenas por tipoPesquisa
+
+Response 200:
+Page<PesquisaResponseDTO> (objeto paginado padrão do Spring)
+Campos úteis: content[], totalElements, totalPages, size, number, first, last, empty
+
+Exemplos de URLs:
+/api/v2/pesquisas?tipoPesquisa=NPS&page=0&size=20
+/api/v2/pesquisas?tipoPesquisa=NPS&tipoCliente=PROMOTOR&page=0&size=10
+/api/v2/pesquisas?tipoPesquisa=NPS&inicio=2025-01-01&fim=2025-12-31
+/api/v2/pesquisas?tipoPesquisa=NPS&tipoCliente=DETRATOR&inicio=2025-01-01&fim=2025-12-31&sort=dataPesquisa,DESC
+
+KPIs (MÉDIA E DISTRIBUIÇÃO)
+
+GET /api/v2/pesquisas/kpis
+Parâmetros (query):
+tipoPesquisa (obrigatório): string (enum)
+inicio (obrigatório): yyyy-MM-dd
+fim (obrigatório): yyyy-MM-dd
+
+Responses:
+200 OK:
+{
+"media": 8.1,
+"distribuicao": [
+{ "tipoCliente": "PROMOTOR", "count": 120 },
+{ "tipoCliente": "NEUTRO", "count": 35 },
+{ "tipoCliente": "DETRATOR", "count": 12 }
+]
+}
+
+ATUALIZAR PESQUISA (PUT)
+
+PUT /api/v2/pesquisas/{id}
+
+Request (JSON) – mesmos campos do create:
+{
+"consumoId": 123,
+"nota": 7,
+"dataPesquisa": "2025-11-07",
+"tipoPesquisa": "NPS",
+"resposta": "Demora no atendimento."
+}
+
+Responses:
+200 OK:
+(PesquisaResponseDTO atualizado)
+400 Bad Request:
+
+Lista de erros de validação (BindingResult)
+
+"Consumo não encontrado: id={id}"
+404 Not Found:
+
+"Pesquisa para atualizar inexistente"
+
+DELETAR PESQUISA
+
+DELETE /api/v2/pesquisas/{id}
+
+Responses:
+204 No Content:
+(exclusão bem-sucedida)
+404 Not Found:
+
+Lista de mensagens do ResultService (quando não encontrado/ inválido)
+
+============================================================
+EXEMPLOS RÁPIDOS (FETCH/AXIOS)
+Criar (fetch):
+
+const res = await fetch("/api/v2/pesquisas", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+consumoId: 123,
+nota: 9,
+dataPesquisa: "2025-11-07",
+tipoPesquisa: "NPS",
+resposta: "Muito bom."
+})
+});
+if (res.status === 201) {
+const body = await res.json(); // PesquisaResponseDTO
+} else {
+const err = await res.json(); // lista de erros ou string
+}
+
+Listar (axios) com filtros e paginação:
+
+import axios from "axios";
+
+const { data } = await axios.get("/api/v2/pesquisas", {
+params: {
+tipoPesquisa: "NPS",
+tipoCliente: "PROMOTOR", // opcional
+inicio: "2025-01-01", // opcional (requer fim se usar período)
+fim: "2025-12-31", // opcional (requer inicio)
+page: 0,
+size: 20,
+sort: "dataPesquisa,DESC"
+}
+});
+// data é um Page<PesquisaResponseDTO>
+
+KPIs (fetch):
+
+const url = "/api/v2/pesquisas/kpis?tipoPesquisa=NPS&inicio=2025-01-01&fim=2025-12-31";
+const res = await fetch(url);
+const kpis = await res.json(); // { media, distribuicao }
+
+Atualizar (axios):
+
+await axios.put(/api/v2/pesquisas/${id}, {
+consumoId, nota, dataPesquisa, tipoPesquisa, resposta
+});
+
+Deletar (fetch):
+
+const res = await fetch(/api/v2/pesquisas/${id}, { method: "DELETE" });
+if (res.status !== 204) {
+const err = await res.json();
+}
+
+============================================================
+CLIENT PRONTO (AXIOS) – SUGESTÃO
+
+import axios from "axios";
+
+const http = axios.create({
+baseURL: "/api/v2/pesquisas",
+headers: { "Content-Type": "application/json" }
+});
+
+export const PesquisasApi = {
+criar: (body) =>
+http.post("", body).then(r => r.status === 201 ? r.data : Promise.reject(r.data)),
+
+obterPorId: (id) =>
+http.get(/${id}).then(r => r.data),
+
+obterPorConsumo: (consumoId) =>
+http.get(/by-consumo/${consumoId}).then(r => r.data),
+
+listar: (params /* { tipoPesquisa, tipoCliente?, inicio?, fim?, page?, size?, sort? } */) =>
+http.get("", { params }).then(r => r.data),
+
+kpis: (params /* { tipoPesquisa, inicio, fim } */) =>
+http.get("/kpis", { params }).then(r => r.data),
+
+atualizar: (id, body) =>
+http.put(/${id}, body).then(r => r.data),
+
+deletar: (id) =>
+http.delete(/${id}).then(() => {})
+};
+
+============================================================
+CURL PARA TESTES RÁPIDOS
+
+CRIAR:
+curl -X POST http://localhost:8080/api/v2/pesquisas
+
+-H "Content-Type: application/json"
+-d "{"consumoId":123,"nota":9,"dataPesquisa":"2025-11-07","tipoPesquisa":"NPS","resposta":"Muito bom."}"
+
+OBTER POR ID:
+curl http://localhost:8080/api/v2/pesquisas/42
+
+OBTER POR CONSUMO:
+curl http://localhost:8080/api/v2/pesquisas/by-consumo/123
+
+LISTAR (apenas tipoPesquisa):
+curl "http://localhost:8080/api/v2/pesquisas?tipoPesquisa=NPS&page=0&size=20
+"
+
+LISTAR (tipoPesquisa + tipoCliente + período):
+curl "http://localhost:8080/api/v2/pesquisas?tipoPesquisa=NPS&tipoCliente=PROMOTOR&inicio=2025-01-01&fim=2025-12-31&page=0&size=20&sort=dataPesquisa,DESC
+"
+
+KPIs:
+curl "http://localhost:8080/api/v2/pesquisas/kpis?tipoPesquisa=NPS&inicio=2025-01-01&fim=2025-12-31
+"
+
+ATUALIZAR:
+curl -X PUT http://localhost:8080/api/v2/pesquisas/42
+
+-H "Content-Type: application/json"
+-d "{"consumoId":123,"nota":7,"dataPesquisa":"2025-11-07","tipoPesquisa":"NPS","resposta":"Demora no atendimento."}"
+
+DELETAR:
+curl -X DELETE http://localhost:8080/api/v2/pesquisas/42
+
+============================================================
+BOAS PRÁTICAS NO FRONT
+
+Sempre enviar dataPesquisa em formato ISO (yyyy-MM-dd).
+
+Validar existência de consumoId no fluxo de UI (buscar/selecionar consumo antes).
+
+Tratar 400/409/404 exibindo mensagem clara; para listas de erros (BindingResult), mapear para os campos do formulário.
+
+Ao usar filtros de período, sempre enviar inicio e fim juntos.
+
+Após criar/atualizar/deletar, recarregar as listas (invalidateQueries, refetch, etc.).
