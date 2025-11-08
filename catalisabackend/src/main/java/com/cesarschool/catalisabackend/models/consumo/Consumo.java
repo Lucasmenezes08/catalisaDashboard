@@ -3,60 +3,53 @@ package com.cesarschool.catalisabackend.models.consumo;
 import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 import com.cesarschool.catalisabackend.models.product.Product;
 import com.cesarschool.catalisabackend.models.user.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "consumos")
 @Getter @Setter
-public class Consumo implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Consumo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private long id;
 
+    // Muitos consumos para um usuário
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+    @NotNull
     private User user;
 
-    @NotNull
+    // Muitos consumos para um produto
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
     @NotNull
+    private Product produto;
+
+    @Column(nullable = false)
+    private boolean consumiuPesquisa;
+
     @Column(name = "data_consumo", nullable = false)
     private LocalDate dataConsumo;
 
-    @Min(1) @Max(5)
-    @Column(nullable = false)
-    private int avaliacao; // nota de 1 a 5
-
-    @Column(nullable = false)
-    private boolean pesquisaRespondida;
-
-    @OneToOne(mappedBy = "consumo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // Lado inverso da relação 1-1 com Pesquisa (dono está em Pesquisa.consumo)
+    @OneToOne(mappedBy = "consumo", fetch = FetchType.LAZY)
     private Pesquisa pesquisa;
 
-    public Consumo() {}
-    public Consumo(User user, Product product, LocalDate dataConsumo, int avaliacao, boolean pesquisaRespondida, Pesquisa pesquisa) {
+    // Construtor de conveniência (sem id/pesquisa)
+    public Consumo(User user, Product produto, boolean consumiuPesquisa, LocalDate dataConsumo) {
         this.user = user;
-        this.product = product;
+        this.produto = produto;
+        this.consumiuPesquisa = consumiuPesquisa;
         this.dataConsumo = dataConsumo;
-        this.avaliacao = avaliacao;
-        this.pesquisaRespondida = pesquisaRespondida;
-        this.pesquisa = pesquisa;
     }
 }

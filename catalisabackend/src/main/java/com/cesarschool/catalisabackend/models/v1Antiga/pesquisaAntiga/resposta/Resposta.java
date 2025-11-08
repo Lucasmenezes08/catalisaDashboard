@@ -1,13 +1,12 @@
-package com.cesarschool.catalisabackend.models.resposta;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.resposta;
 
-import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
+import com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.PesquisaAntiga;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import com.cesarschool.catalisabackend.models.pergunta.Pergunta;
-import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
+import com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.pergunta.Pergunta;
 
 import java.io.Serializable;
 
@@ -25,7 +24,7 @@ public class Resposta implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pesquisa_id", nullable = false)
-    private Pesquisa pesquisa;
+    private PesquisaAntiga pesquisaAntiga;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pergunta_id", nullable = false)
@@ -35,8 +34,8 @@ public class Resposta implements Serializable {
     private String resposta;
 
     public Resposta() {}
-    public Resposta(Pesquisa pesquisa, Pergunta pergunta, String resposta){
-        this.pesquisa = pesquisa;
+    public Resposta(PesquisaAntiga pesquisaAntiga, Pergunta pergunta, String resposta){
+        this.pesquisaAntiga = pesquisaAntiga;
         this.pergunta = pergunta;
         this.resposta = resposta;
     }

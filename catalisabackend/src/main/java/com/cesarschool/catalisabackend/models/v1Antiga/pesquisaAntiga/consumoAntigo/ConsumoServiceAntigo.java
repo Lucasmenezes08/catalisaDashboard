@@ -1,4 +1,4 @@
-package com.cesarschool.catalisabackend.models.consumo;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.consumoAntigo;
 
 import com.cesarschool.catalisabackend.models.utils.ListaString;
 import com.cesarschool.catalisabackend.models.utils.ResultService;
@@ -8,17 +8,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class ConsumoService {
-    private final ConsumoRepository consumoRepository;
-    public ConsumoService(ConsumoRepository consumoRepository) {
-        this.consumoRepository = consumoRepository;
+public class ConsumoServiceAntigo {
+    private final ConsumoRepositoryAntigo consumoRepositoryAntigo;
+    public ConsumoServiceAntigo(ConsumoRepositoryAntigo consumoRepositoryAntigo) {
+        this.consumoRepositoryAntigo = consumoRepositoryAntigo;
     }
-    public ResultService include(Consumo consumo) {
-        ResultService result = validate(consumo);
+    public ResultService include(ConsumoAntigo consumoAntigo) {
+        ResultService result = validate(consumoAntigo);
         if(result.isValid()){
-            if(search(consumo.getId()) == null){
+            if(search(consumoAntigo.getId()) == null){
                 result.setRealized(true);
-                consumoRepository.save(consumo);
+                consumoRepositoryAntigo.save(consumoAntigo);
             }
             else{
                 result.addError("Já consumido");
@@ -27,18 +27,18 @@ public class ConsumoService {
         return result;
     }
 
-    public ResultService update(long id, Consumo consumo){
-        Consumo objeto = search(id);
-        ResultService result = validate(consumo);
+    public ResultService update(long id, ConsumoAntigo consumoAntigo){
+        ConsumoAntigo objeto = search(id);
+        ResultService result = validate(consumoAntigo);
         if(objeto != null){
             if(result.isValid()){
-                objeto.setUser(consumo.getUser());
-                objeto.setProduct(consumo.getProduct());
-                objeto.setDataConsumo(consumo.getDataConsumo());
-                objeto.setAvaliacao(consumo.getAvaliacao());
-                objeto.setPesquisaRespondida(consumo.isPesquisaRespondida());
-                objeto.setPesquisa(consumo.getPesquisa());
-                consumoRepository.save(objeto);
+                objeto.setUser(consumoAntigo.getUser());
+                objeto.setProduct(consumoAntigo.getProduct());
+                objeto.setDataConsumo(consumoAntigo.getDataConsumo());
+                objeto.setAvaliacao(consumoAntigo.getAvaliacao());
+                objeto.setPesquisaRespondida(consumoAntigo.isPesquisaRespondida());
+                objeto.setPesquisaAntiga(consumoAntigo.getPesquisaAntiga());
+                consumoRepositoryAntigo.save(objeto);
                 result.setRealized(true);
             }
         }
@@ -51,9 +51,9 @@ public class ConsumoService {
     }
 
     public ResultService delete(long id){
-        Consumo consumo = search(id);
-        if(consumo != null){
-            consumoRepository.delete(consumo);
+        ConsumoAntigo consumoAntigo = search(id);
+        if(consumoAntigo != null){
+            consumoRepositoryAntigo.delete(consumoAntigo);
             return new ResultService(true, true, null);
         }
         ListaString listaString = new ListaString();
@@ -61,46 +61,46 @@ public class ConsumoService {
         return new ResultService(false, false, listaString);
     }
 
-    public Consumo search(long id){
-        return consumoRepository.findById(id).orElse(null);
+    public ConsumoAntigo search(long id){
+        return consumoRepositoryAntigo.findById(id).orElse(null);
     }
 
-    public List<Consumo> findAll() {
-        return consumoRepository.findAll();
+    public List<ConsumoAntigo> findAll() {
+        return consumoRepositoryAntigo.findAll();
     }
 
-    public ResultService validate(Consumo consumo){
+    public ResultService validate(ConsumoAntigo consumoAntigo){
         ListaString erros = new ListaString();
-        if(consumo == null){
+        if(consumoAntigo == null){
             erros.adicionar("Consumo inexistente");
             return new ResultService(false,false,erros);
         }
         boolean valido = true;
         boolean realizado = false;
-        if(consumo.getUser() == null){
+        if(consumoAntigo.getUser() == null){
             valido = false;
             erros.adicionar("Usuario indefinido Inexistente");
         }
-        if(consumo.getProduct() == null){
+        if(consumoAntigo.getProduct() == null){
             valido = false;
             erros.adicionar("Produto Consumido Inexistente");
         }
 
-        if (consumo.getDataConsumo() == null) {
+        if (consumoAntigo.getDataConsumo() == null) {
             valido = false;
             erros.adicionar("Data de consumo obrigatória");
         }
-        else if (consumo.getDataConsumo().isAfter(LocalDate.now())) {
+        else if (consumoAntigo.getDataConsumo().isAfter(LocalDate.now())) {
             valido = false;
             erros.adicionar("Data de consumo no futuro não é permitida");
         }
 
-        if (consumo.isPesquisaRespondida()) {
-            if (consumo.getPesquisa() == null) {
+        if (consumoAntigo.isPesquisaRespondida()) {
+            if (consumoAntigo.getPesquisaAntiga() == null) {
                 valido = false;
                 erros.adicionar("Informe a pesquisa ao marcar 'pesquisaRespondida=true'");
             }
-            if (consumo.getAvaliacao() < 1 || consumo.getAvaliacao() > 5) {
+            if (consumoAntigo.getAvaliacao() < 1 || consumoAntigo.getAvaliacao() > 5) {
                 valido = false;
                 erros.adicionar("Avaliacao deve estar entre 1 e 5 quando a pesquisa é respondida");
             }

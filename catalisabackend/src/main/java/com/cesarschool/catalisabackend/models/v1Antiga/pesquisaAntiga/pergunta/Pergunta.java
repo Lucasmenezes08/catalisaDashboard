@@ -1,4 +1,4 @@
-package com.cesarschool.catalisabackend.models.pergunta;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.pergunta;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

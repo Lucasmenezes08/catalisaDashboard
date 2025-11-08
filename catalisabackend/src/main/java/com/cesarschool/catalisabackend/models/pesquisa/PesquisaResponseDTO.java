@@ -1,23 +1,27 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
 import com.cesarschool.catalisabackend.models.consumo.Consumo;
-import com.cesarschool.catalisabackend.models.pergunta.Pergunta;
-import com.cesarschool.catalisabackend.models.resposta.Resposta;
 
-import java.util.List;
+import java.time.LocalDate;
 
-public record PesquisaResponseDTO(
+public record PesquisaResponseDTO (
         long id,
         Consumo consumo,
-        List<Pergunta> perguntas,
-        List<Resposta> respostas
-) {
-    public static PesquisaResponseDTO fromEntity(Pesquisa pesquisa) {
+        int nota,
+        String resposta,
+        LocalDate dataPesquisa,
+        TipoPesquisa tipoPesquisa,
+        TipoCliente tipoCliente
+){
+    public static  PesquisaResponseDTO fromEntity(Pesquisa pesquisa){
         return new PesquisaResponseDTO(
                 pesquisa.getId(),
                 pesquisa.getConsumo(),
-                pesquisa.getPerguntas(),
-                pesquisa.getRespostas()
+                pesquisa.getNota(),
+                pesquisa.getResposta(),
+                pesquisa.getDataPesquisa(),
+                pesquisa.getTipoPesquisa(),
+                pesquisa.getTipoCliente()
         );
     }
 }

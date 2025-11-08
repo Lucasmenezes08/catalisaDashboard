@@ -1,4 +1,4 @@
-package com.cesarschool.catalisabackend.models.pergunta;
+package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.pergunta;
 
 import lombok.Getter;
 import lombok.ToString;
