@@ -11,9 +11,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "consumos")
-@Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Consumo {
 
@@ -45,11 +44,15 @@ public class Consumo {
     @OneToOne(mappedBy = "consumo", fetch = FetchType.LAZY)
     private Pesquisa pesquisa;
 
-    // Construtor de conveniência (sem id/pesquisa)
+    public Consumo(){}
     public Consumo(User user, Product produto, boolean consumiuPesquisa, LocalDate dataConsumo) {
         this.user = user;
         this.produto = produto;
         this.consumiuPesquisa = consumiuPesquisa;
         this.dataConsumo = dataConsumo;
+    }
+    public Consumo(User user, Product produto, boolean consumiuPesquisa, Pesquisa pesquisa, LocalDate dataConsumo) {
+        this(user, produto,consumiuPesquisa,dataConsumo);
+        this.pesquisa = pesquisa;
     }
 }

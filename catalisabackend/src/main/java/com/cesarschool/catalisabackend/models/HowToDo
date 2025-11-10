@@ -1007,3 +1007,312 @@ Tratar 400/409/404 exibindo mensagem clara; para listas de erros (BindingResult)
 Ao usar filtros de período, sempre enviar inicio e fim juntos.
 
 Após criar/atualizar/deletar, recarregar as listas (invalidateQueries, refetch, etc.).
+
+
+=============================== CONSUMO =============================
+BASE
+Base URL: /api/v2/consumos
+Headers padrão: Content-Type: application/json
+CORS: liberado para qualquer origem
+Observação: Controller não requer autenticação por enquanto.
+============================================================
+DTOS (FORMATOS DOS DADOS)
+ConsumoRequestDTO (REQUEST):
+user:        objeto/identificador de usuário (ver contrato do back)
+product:     objeto/identificador de produto (ver contrato do back)
+consumiuPesquisa: boolean
+pesquisa:    objeto/identificador de pesquisa OU null
+dataConsumo: string (ISO yyyy-MM-dd)
+ConsumoResponseDTO (RESPONSE):
+id: number
+userId: number | null
+productId: number | null
+dataConsumo: string (ISO yyyy-MM-dd)
+pesquisaRespondida: boolean
+pesquisaId: number | null
+ApiError:
+status: number        (ex.: 400, 404, 409)
+error: string         (ex.: "Bad Request", "Not Found", "Conflict")
+message: string       (detalhe do erro originado do ResultService)
+============================================================
+ENDPOINTS E REGRAS
+
+
+CRIAR CONSUMO
+
+
+
+POST /api/v2/consumos
+Request (JSON):
+{
+"user": { ... },            // ou apenas o ID, conforme seu DTO real
+"product": { ... },         // ou apenas o ID
+"consumiuPesquisa": true,
+"pesquisa": { ... } ,       // ou null
+"dataConsumo": "2025-11-07"
+}
+Responses:
+201 Created:
+ConsumoResponseDTO
+400 Bad Request:
+ResultService inválido (mensagens no ApiError.message)
+409 Conflict:
+Regra de negócio conflitou (ex.: "Consumo ja existente")
+Observação: após salvar, o controller retorna o consumo mais recente do usuário (findTopByUser_IdOrderByDataConsumoDesc).
+
+
+LISTAR (PAGINADO + FILTROS)
+
+
+
+GET /api/v2/consumos
+Query params (todos opcionais):
+page, size, sort              // paginação padrão Spring
+userId: number
+productId: number
+inicio: yyyy-MM-dd
+fim: yyyy-MM-dd
+somenteComPesquisa: boolean   // true = só com pesquisa, false = só sem pesquisa
+Regras de prioridade do filtro:
+
+
+Se somenteComPesquisa != null:
+
+
+true  -> findByPesquisaIsNotNull
+
+
+false -> findByPesquisaIsNull
+
+
+
+
+Se userId + (inicio & fim) informados:
+
+
+findByUser_IdAndDataConsumoBetween
+
+
+
+
+Se apenas userId:
+
+
+findByUser_Id
+
+
+
+
+Se apenas productId:
+
+
+findByProduto_Id
+
+
+
+
+Se apenas período (inicio & fim):
+
+
+findByDataConsumoBetween
+
+
+
+
+Sem filtros:
+
+
+findAll
+
+
+
+
+Response 200:
+Page<ConsumoResponseDTO>
+Exemplos de URLs:
+/api/v2/consumos?page=0&size=10&sort=dataConsumo,DESC
+/api/v2/consumos?somenteComPesquisa=true&page=0&size=20
+/api/v2/consumos?userId=42&inicio=2025-01-01&fim=2025-12-31
+/api/v2/consumos?productId=7
+/api/v2/consumos?inicio=2025-10-01&fim=2025-10-31
+
+
+BUSCAR POR ID
+
+
+
+GET /api/v2/consumos/{id}
+Responses:
+200 OK:
+ConsumoResponseDTO
+404 Not Found:
+{ "status": 404, "error": "Not Found", "message": "Consumo não encontrado" }
+
+
+LISTAR POR USUÁRIO (SEM PAGINAÇÃO)
+
+
+
+GET /api/v2/consumos/by-user/{userId}
+Response 200:
+ConsumoResponseDTO[]
+
+
+ATUALIZAR (PUT)
+
+
+
+PUT /api/v2/consumos/{id}
+Request (JSON) – mesmos campos do create:
+{
+"user": { ... },
+"product": { ... },
+"consumiuPesquisa": false,
+"pesquisa": null,
+"dataConsumo": "2025-11-08"
+}
+Responses:
+200 OK:
+ConsumoResponseDTO (do consumo mais recente do usuário após a atualização)
+400 Bad Request:
+ResultService inválido
+404 Not Found:
+ResultService não realizou a operação (ex.: consumo não encontrado)
+Observação importante:
+
+
+O serviço de update, no estado atual, atualiza “pelo user” (regra específica do seu service) e não estritamente pelo ID.
+
+
+O controller, por isso, retorna o “mais recente” do usuário após atualizar.
+
+
+Recomenda-se alinhar a regra no back para atualizar “por ID” no futuro.
+
+
+
+
+DELETAR
+
+
+
+DELETE /api/v2/consumos/{id}
+Responses:
+204 No Content:
+Exclusão bem-sucedida
+400 Bad Request:
+ResultService inválido
+404 Not Found:
+ResultService não realizou (não encontrado)
+============================================================
+EXEMPLOS RÁPIDOS (FETCH/AXIOS)
+Criar (fetch):
+const res = await fetch("/api/v2/consumos", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+user: { id: 42 },               // adeque ao seu DTO real
+product: { id: 7 },
+consumiuPesquisa: true,
+pesquisa: { id: 99 },           // ou null
+dataConsumo: "2025-11-07"
+})
+});
+if (res.status === 201) {
+const body = await res.json(); // ConsumoResponseDTO
+} else {
+const err = await res.json();  // ApiError
+}
+Listar (axios) com filtros e paginação:
+import axios from "axios";
+const { data } = await axios.get("/api/v2/consumos", {
+params: {
+page: 0,
+size: 10,
+sort: "dataConsumo,DESC",
+userId: 42,            // opcional
+productId: 7,          // opcional
+inicio: "2025-01-01",  // opcional (usar com fim)
+fim: "2025-12-31",     // opcional (usar com inicio)
+somenteComPesquisa: true // opcional
+}
+});
+// data é Page<ConsumoResponseDTO>
+Atualizar (axios):
+await axios.put(/api/v2/consumos/${id}, {
+user: { id: 42 },
+product: { id: 7 },
+consumiuPesquisa: false,
+pesquisa: null,
+dataConsumo: "2025-11-08"
+}).then(r => {
+// r.data: ConsumoResponseDTO (mais recente do usuário)
+}).catch(e => {
+// e.response.data: ApiError
+});
+Deletar (fetch):
+const res = await fetch(/api/v2/consumos/${id}, { method: "DELETE" });
+if (res.status !== 204) {
+const err = await res.json(); // ApiError
+}
+============================================================
+CLIENT PRONTO (AXIOS) – SUGESTÃO
+import axios from "axios";
+const http = axios.create({
+baseURL: "/api/v2/consumos",
+headers: { "Content-Type": "application/json" }
+});
+export const ConsumosApi = {
+create: (body) =>
+http.post("", body).then(r => r.data),
+list: (params /* { page?, size?, sort?, userId?, productId?, inicio?, fim?, somenteComPesquisa? } */) =>
+http.get("", { params }).then(r => r.data),
+getById: (id) =>
+http.get(/${id}).then(r => r.data),
+listByUser: (userId) =>
+http.get(/by-user/${userId}).then(r => r.data),
+update: (id, body) =>
+http.put(/${id}, body).then(r => r.data),
+delete: (id) =>
+http.delete(/${id}).then(() => {})
+};
+============================================================
+CURL PARA TESTES RÁPIDOS
+CRIAR:
+curl -X POST http://localhost:8080/api/v2/consumos
+-H "Content-Type: application/json"
+-d "{"user":{"id":42},"product":{"id":7},"consumiuPesquisa":true,"pesquisa":{"id":99},"dataConsumo":"2025-11-07"}"
+LISTAR (paginado, sem filtros):
+curl "http://localhost:8080/api/v2/consumos?page=0&size=10&sort=dataConsumo,DESC"
+LISTAR (somente com pesquisa):
+curl "http://localhost:8080/api/v2/consumos?somenteComPesquisa=true&page=0&size=20"
+LISTAR (por usuário + período):
+curl "http://localhost:8080/api/v2/consumos?userId=42&inicio=2025-01-01&fim=2025-12-31"
+BUSCAR POR ID:
+curl "http://localhost:8080/api/v2/consumos/123"
+LISTAR POR USUÁRIO (sem paginação):
+curl "http://localhost:8080/api/v2/consumos/by-user/42"
+ATUALIZAR:
+curl -X PUT http://localhost:8080/api/v2/consumos/123
+-H "Content-Type: application/json"
+-d "{"user":{"id":42},"product":{"id":7},"consumiuPesquisa":false,"pesquisa":null,"dataConsumo":"2025-11-08"}"
+DELETAR:
+curl -X DELETE "http://localhost:8080/api/v2/consumos/123"
+============================================================
+BOAS PRÁTICAS NO FRONT
+
+
+Sempre enviar dataConsumo em formato ISO (yyyy-MM-dd).
+
+
+Definir claramente no front se os campos user/product/pesquisa serão enviados como objetos mínimos {id} ou como IDs simples; alinhar com o DTO real do back.
+
+
+Em filtros de período, envie inicio e fim juntos.
+
+
+Para somenteComPesquisa, lembre que tem prioridade sobre os outros filtros.
+
+
+Após create/update/delete, refaça o fetch da listagem (invalidateQueries/refetch).
+
