@@ -10,7 +10,7 @@ export default function Test (){
     async function handleSubmit (e:React.FormEvent){
         e.preventDefault();
 
-        const url = "http://localhost:8080/api/v1/users";
+        const url = "http://localhost:8080/api/v2/users";
 
         try {
             const response = await fetch(url , {

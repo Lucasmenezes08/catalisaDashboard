@@ -27,7 +27,7 @@ export default function Login (){
         e.preventDefault();
 
         try {
-            const loginResponse = await fetch ("http://localhost:8080/api/v1/users/login" , {
+            const loginResponse = await fetch ("http://localhost:8080/api/v2/users/login" , {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -43,7 +43,7 @@ export default function Login (){
 
           
             if (loginData.authenticated) {
-                const userResponse = await fetch(`http://localhost:8080/api/v1/users?email=${encodeURIComponent(email)}`);
+                const userResponse = await fetch(`http://localhost:8080/api/v2/users?email=${encodeURIComponent(email)}`);
 
                 if (!userResponse.ok) {
                     throw new Error("Erro ao buscar dados do usuário após o login.");
