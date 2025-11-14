@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import personagem from "../../assets/personagem.png";
 import {useAuth} from "@/store/useAuth.tsx";
+import { overlayVariants , modalVariants , newMessageVariants } from "@/utils/motionFunctions.ts";
 
 type MessageType = 'system' | 'user';
 
@@ -132,16 +133,6 @@ export default function PesquisaBox() {
         if (e.key === 'Enter') handleSendText();
     };
 
-    const overlayVariants = { hidden: { opacity: 0 }, visible: { opacity: 1 }, exit: { opacity: 0 } };
-    const modalVariants = {
-        hidden: { y: "100vh" },
-        visible: { y: "0", transition: { type: "spring", stiffness: 70, damping: 15 } },
-        exit: { y: "100vh", opacity: 0, transition: { duration: 0.4 } }
-    };
-    const newMessageVariants = {
-        hidden: { opacity: 0, y: 10, scale: 0.95 },
-        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3 } }
-    };
 
     return (
         <AnimatePresence>
