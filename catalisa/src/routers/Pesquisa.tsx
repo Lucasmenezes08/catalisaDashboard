@@ -8,7 +8,6 @@ export default function Pesquisa() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Reduzi um pouco o tempo para teste, ajuste conforme necessário
         const timer = setTimeout(() => {
             setIsLoading(false);
         }, 3000);
@@ -18,14 +17,14 @@ export default function Pesquisa() {
 
     return (
         <section
-            className="relative w-full h-screen bg-cover bg-center overflow-hidden" // overflow-hidden evita scrollbar indesejada
+            className="relative w-full h-screen bg-cover bg-center overflow-hidden"
             style={{ backgroundImage: `url(${backgroundSebrae})` }}
         >
             <AnimatePresence mode="wait">
                 {isLoading ? (
                     <Spinner key="loading" />
                 ) : (
-                    // O PesquisaBox agora cuida do overlay escuro sozinho
+
                     <PesquisaBox key="modal" />
                 )}
             </AnimatePresence>

@@ -21,7 +21,6 @@ export default function PesquisaBox() {
     const [messages, setMessages] = useState<Message[]>([]);
     const {user} = useAuth();
 
-    // 1. ADICIONADO: Ref para controlar se já carregou
     const isLoaded = useRef(false);
 
     const scrollToBottom = () => {
@@ -35,7 +34,6 @@ export default function PesquisaBox() {
     }, [messages, step]);
 
     useEffect(() => {
-        // 2. ADICIONADO: Verificação para impedir execução dupla
         if (isLoaded.current) return;
         isLoaded.current = true;
 
@@ -236,8 +234,8 @@ export default function PesquisaBox() {
                                     >
                                         {ratingOptions.map((rating, index) => (
                                             <React.Fragment key={rating}>
-                                                <button onClick={() => handleRating(rating)} className="text-white font-bold text-lg hover:text-blue-300 transition-colors focus:outline-none">{rating}</button>
-                                                {index < ratingOptions.length - 1 && <div className="w-[1px] h-4 bg-gray-600/40"></div>}
+                                                <button onClick={() => handleRating(rating)} className="text-white font-bold text-md hover:text-blue-300 transition-colors focus:outline-none">{rating}</button>
+                                                {index < ratingOptions.length - 1 && <div className="w-[1px] h-4 bg-white/70"></div>}
                                             </React.Fragment>
                                         ))}
                                     </motion.div>
