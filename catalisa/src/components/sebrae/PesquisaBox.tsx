@@ -186,7 +186,7 @@ export default function PesquisaBox() {
                                             py-3 px-5 shadow-md max-w-[85%] w-fit text-sm
                                             ${msg.type === 'system'
                                             ? 'bg-white text-black rounded-2xl rounded-tl-sm self-start'
-                                            : 'bg-[#0099ff] text-white rounded-2xl rounded-tr-sm self-end break-words'} 
+                                            : 'bg-[#08005E] text-white rounded-2xl rounded-tr-sm self-end break-words'} 
                                         `}
                                     >
                                         {msg.content}
