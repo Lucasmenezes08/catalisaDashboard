@@ -16,8 +16,10 @@ public class ConsumoService {
         this.consumoRepository = consumoRepository;
     }
 
-    public Consumo findByUser(Consumo consumo){
-        return consumoRepository.findByUser_Id(consumo);
+    public Consumo findByUser(long userId) {
+        return consumoRepository
+                .findTopByUser_IdOrderByDataConsumoDesc(userId)
+                .orElse(null);
     }
     public Consumo findById(Long id){
         return consumoRepository.findById(id).orElse(null);
@@ -25,7 +27,7 @@ public class ConsumoService {
     public ResultService create(Consumo consumo){
         ResultService result = validate(consumo);
         if(result.isValid()){
-            if(findByUser(consumo) == null){
+            if(findByUser(consumo.getUser().getId()) == null){
                 result.setRealized(true);
                 consumoRepository.save(consumo);
             }
@@ -37,7 +39,7 @@ public class ConsumoService {
     }
     public ResultService update(long id, Consumo consumo){
         ResultService result = validate(consumo);
-        Consumo consumoUpdate = findByUser(consumo);
+        Consumo consumoUpdate = findByUser(consumo.getUser().getId());
         if (consumoUpdate == null) {
             result.addError("Consumo nao encontrado ou não existente");
             return result;
@@ -88,7 +90,7 @@ public class ConsumoService {
             erros.adicionar("DataConsumo inexistente ou não atribuida");
             valido = false;
         }
-        if(consumo.getDataConsumo().isAfter(LocalDate.now())){
+        else if(consumo.getDataConsumo().isAfter(LocalDate.now())){
             erros.adicionar("Data do consumo está maior que a data atual");
             valido = false;
         }

@@ -11,47 +11,33 @@ import java.util.Optional;
 
 
 public interface ConsumoRepository extends JpaRepository<Consumo, Long> {
-    // --- Básico por usuário/produto ---
-    Consumo findByUser_Id(Consumo consumo);
+
     List<Consumo> findByUser_Id(Long userId);
-    Page<Consumo> findByUser_Id(Long userId, Pageable pageable);
+    Page<Consumo> findByUser_Id(Long userId, org.springframework.data.domain.Pageable pageable);
 
     List<Consumo> findByProduto_Id(Long productId);
-    Page<Consumo> findByProduto_Id(Long productId, Pageable pageable);
+    Page<Consumo> findByProduto_Id(Long productId, org.springframework.data.domain.Pageable pageable);
 
-    // --- Intervalo de datas ---
-    List<Consumo> findByDataConsumoBetween(LocalDate inicio, LocalDate fim);
-    Page<Consumo> findByDataConsumoBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
-
-    // --- Combinações úteis ---
-    List<Consumo> findByUser_IdAndDataConsumoBetween(Long userId, LocalDate inicio, LocalDate fim);
-
-    // --- Últimos/mais recentes ---
     Optional<Consumo> findTopByUser_IdOrderByDataConsumoDesc(Long userId);
 
-    // --- Flags/estado da pesquisa ---
-    Page<Consumo> findByConsumiuPesquisaTrue(Pageable pageable);
-    Page<Consumo> findByConsumiuPesquisaFalse(Pageable pageable);
+    Page<Consumo> findByDataConsumoBetween(LocalDate inicio, LocalDate fim, org.springframework.data.domain.Pageable pageable);
+    List<Consumo> findByDataConsumoBetween(LocalDate inicio, LocalDate fim);
 
-    // Consumos que já possuem Pesquisa associada (1:1)
-    Page<Consumo> findByPesquisaIsNotNull(Pageable pageable);
-    Page<Consumo> findByPesquisaIsNull(Pageable pageable);
+    Page<Consumo> findByPesquisaIsNotNull(org.springframework.data.domain.Pageable pageable);
+    Page<Consumo> findByPesquisaIsNull(org.springframework.data.domain.Pageable pageable);
 
-    // --- Existência (ex.: evitar duplicidade no mesmo dia) ---
     boolean existsByUser_IdAndProduto_IdAndDataConsumo(Long userId, Long productId, LocalDate data);
 
-    // --- Contagens ---
     long countByUser_Id(Long userId);
     long countByUser_IdAndDataConsumoBetween(Long userId, LocalDate inicio, LocalDate fim);
 
-    // --- Deletes direcionados (use com cuidado) ---
     long deleteByUser_Id(Long userId);
     long deleteByProduto_Id(Long productId);
 
-    // --- (Opcional) Trazer relações em um único SELECT para evitar N+1 ---
-    @EntityGraph(attributePaths = {"user", "produto"})
-    Page<Consumo> findAll(Pageable pageable);
-
-    @EntityGraph(attributePaths = {"user", "produto"})
     Page<Consumo> findByUser_IdAndDataConsumoBetween(Long userId, LocalDate inicio, LocalDate fim, Pageable pageable);
+
+    // (opcional) com EntityGraph:
+    // @EntityGraph(attributePaths = {"user","produto"})
+    // Page<Consumo> findAll(org.springframework.data.domain.Pageable pageable);
 }
+
