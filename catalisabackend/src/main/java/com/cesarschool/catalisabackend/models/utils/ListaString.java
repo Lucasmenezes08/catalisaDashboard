@@ -1,5 +1,7 @@
 package com.cesarschool.catalisabackend.models.utils;
 
+import java.util.List;
+
 public class ListaString {
     private ElementoListaString primeiro;
     private int tamanho;
@@ -11,6 +13,11 @@ public class ListaString {
     public int tamanho() {
         return tamanho;
     }
+
+    @Override
+    public String toString() { return String.join("; ", this.listar()); }
+
+
     public void adicionar(String str) {
         ElementoListaString novo = new ElementoListaString(str, null);
         if (primeiro == null) {

@@ -80,10 +80,10 @@ public class ConsumoService {
             erros.adicionar("Produto inexistente ou não atribuido");
             valido = false;
         }
-        if(consumo.getPesquisa() == null){
-            erros.adicionar("Pesquisa inexistente");
-            valido = false;
-        }
+//        if(consumo.getPesquisa() == null){
+//            erros.adicionar("Pesquisa inexistente");
+//            valido = false;
+//        }
         if(consumo.getDataConsumo() == null){
             erros.adicionar("DataConsumo inexistente ou não atribuida");
             valido = false;
