@@ -1,9 +1,13 @@
 package com.cesarschool.catalisabackend.models.consumo;
 
+import com.cesarschool.catalisabackend.models.product.Product;
+import com.cesarschool.catalisabackend.models.product.ProductRepository;
+import com.cesarschool.catalisabackend.models.user.User;
+import com.cesarschool.catalisabackend.models.user.UserRepository;
 import com.cesarschool.catalisabackend.models.utils.ResultService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable; // <- pageable correto
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -19,20 +24,33 @@ public class ConsumoController {
 
     private final ConsumoService consumoService;
     private final ConsumoRepository consumoRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
-    public ConsumoController(ConsumoService consumoService, ConsumoRepository consumoRepository) {
+    public ConsumoController(ConsumoService consumoService,
+                             ConsumoRepository consumoRepository,
+                             UserRepository userRepository,
+                             ProductRepository productRepository) {
         this.consumoService = consumoService;
         this.consumoRepository = consumoRepository;
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
     }
 
     // ===================== CREATE =====================
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody ConsumoRequestDTO req) {
+        // Carrega User e Product pelos IDs recebidos
+        User user = userRepository.findById(req.userId())
+                .orElseThrow(() -> new NoSuchElementException("Usuario não encontrado"));
+        Product product = productRepository.findById(req.productId())
+                .orElseThrow(() -> new NoSuchElementException("Produto não encontrado"));
+
         Consumo toSave = new Consumo(
-                req.user(),
-                req.product(),
+                user,
+                product,
                 req.consumiuPesquisa(),
-                req.pesquisa(),
+                req.pesquisa(),      // se quiser mudar para pesquisaId depois, ajusta aqui também
                 req.dataConsumo()
         );
 
@@ -41,13 +59,11 @@ public class ConsumoController {
             return badRequest(result);
         }
         if (!result.isRealized()) {
-            // Ex.: "Consumo ja existente"
             return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError(409, "Conflict", result));
         }
 
-        // Após salvar, pegamos o "último por usuário" (já que o service cria baseado em user)
         Consumo saved = consumoRepository
-                .findTopByUser_IdOrderByDataConsumoDesc(toSave.getUser().getId())
+                .findTopByUser_IdOrderByDataConsumoDesc(user.getId())
                 .orElse(toSave);
 
         ConsumoResponseDTO body = ConsumoResponseDTO.fromEntity(saved);
@@ -55,7 +71,6 @@ public class ConsumoController {
     }
 
     // ===================== READ (LIST) =====================
-    // Lista paginada com filtros opcionais: userId, productId, inicio, fim, somenteComPesquisa (true/false)
     @GetMapping
     public ResponseEntity<?> list(
             Pageable pageable,
@@ -67,37 +82,23 @@ public class ConsumoController {
     ) {
         Page<Consumo> page;
 
-        // Filtro por "somente com/sem pesquisa" tem prioridade se vier sozinho
         if (somenteComPesquisa != null) {
-            if (somenteComPesquisa) {
-                page = consumoRepository.findByPesquisaIsNotNull(pageable);
-            } else {
-                page = consumoRepository.findByPesquisaIsNull(pageable);
-            }
-        }
-        // Filtro por user + intervalo (quando vierem ambos)
-        else if (userId != null && inicio != null && fim != null) {
+            page = somenteComPesquisa
+                    ? consumoRepository.findByPesquisaIsNotNull(pageable)
+                    : consumoRepository.findByPesquisaIsNull(pageable);
+        } else if (userId != null && inicio != null && fim != null) {
             page = consumoRepository.findByUser_IdAndDataConsumoBetween(userId, inicio, fim, pageable);
-        }
-        // Filtro somente por user
-        else if (userId != null) {
+        } else if (userId != null) {
             page = consumoRepository.findByUser_Id(userId, pageable);
-        }
-        // Filtro somente por product
-        else if (productId != null) {
+        } else if (productId != null) {
             page = consumoRepository.findByProduto_Id(productId, pageable);
-        }
-        // Filtro somente por intervalo
-        else if (inicio != null && fim != null) {
+        } else if (inicio != null && fim != null) {
             page = consumoRepository.findByDataConsumoBetween(inicio, fim, pageable);
-        }
-        // Sem filtros -> todos
-        else {
+        } else {
             page = consumoRepository.findAll(pageable);
         }
 
-        Page<ConsumoResponseDTO> dtoPage = page.map(ConsumoResponseDTO::fromEntity);
-        return ResponseEntity.ok(dtoPage);
+        return ResponseEntity.ok(page.map(ConsumoResponseDTO::fromEntity));
     }
 
     // ===================== READ (BY ID) =====================
@@ -109,43 +110,40 @@ public class ConsumoController {
                 .orElseGet(() -> notFound("Consumo não encontrado"));
     }
 
-    // ===================== READ (LIST BY USER - sem paginação, lista completa) =====================
+    // ===================== READ (LIST BY USER - sem paginação) =====================
     @GetMapping("/by-user/{userId}")
     public ResponseEntity<?> listByUser(@PathVariable Long userId) {
         List<Consumo> list = consumoRepository.findByUser_Id(userId);
-        List<ConsumoResponseDTO> body = list.stream().map(ConsumoResponseDTO::fromEntity).toList();
-        return ResponseEntity.ok(body);
+        return ResponseEntity.ok(list.stream().map(ConsumoResponseDTO::fromEntity).toList());
     }
 
     // ===================== UPDATE =====================
-    // Observação: seu service.update(id, consumo) ignora o id e atualiza pelo "user" (via findByUser(consumo)).
-    // Mantive a chamada conforme seu service atual, mas recomendo alinhar a regra para atualizar por ID.
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody ConsumoRequestDTO req) {
+        User user = userRepository.findById(req.userId())
+                .orElseThrow(() -> new NoSuchElementException("Usuario não encontrado"));
+        Product product = productRepository.findById(req.productId())
+                .orElseThrow(() -> new NoSuchElementException("Produto não encontrado"));
+
         Consumo toUpdate = new Consumo(
-                req.user(),
-                req.product(),
+                user,
+                product,
                 req.consumiuPesquisa(),
                 req.pesquisa(),
                 req.dataConsumo()
         );
 
+        // OBS: seu service.update(id, consumo) ainda atualiza "pelo user".
+        // Recomendo evoluir para atualizar por ID dentro do service.
         ResultService result = consumoService.update(id, toUpdate);
-        if (!result.isValid()) {
-            return badRequest(result);
-        }
-        if (!result.isRealized()) {
-            return notFound(result); // Ex.: "Consumo nao encontrado ou não existente"
-        }
+        if (!result.isValid()) return badRequest(result);
+        if (!result.isRealized()) return notFound(result);
 
-        // Como o service atualiza "pelo user", pegamos o mais recente do user
         Consumo refreshed = consumoRepository
-                .findTopByUser_IdOrderByDataConsumoDesc(toUpdate.getUser().getId())
+                .findTopByUser_IdOrderByDataConsumoDesc(user.getId())
                 .orElse(null);
 
-        if (refreshed == null) {
-            return notFound("Consumo não encontrado após atualização");
-        }
+        if (refreshed == null) return notFound("Consumo não encontrado após atualização");
         return ResponseEntity.ok(ConsumoResponseDTO.fromEntity(refreshed));
     }
 
@@ -153,16 +151,12 @@ public class ConsumoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable long id) {
         ResultService result = consumoService.delete(id);
-        if (!result.isValid()) {
-            return badRequest(result);
-        }
-        if (!result.isRealized()) {
-            return notFound(result);
-        }
+        if (!result.isValid()) return badRequest(result);
+        if (!result.isRealized()) return notFound(result);
         return ResponseEntity.noContent().build();
     }
 
-    // ----------------- Helpers de resposta padronizada -----------------
+    // ----------------- Helpers -----------------
     private ResponseEntity<?> badRequest(ResultService result) {
         return ResponseEntity.badRequest().body(apiError(400, "Bad Request", result));
     }

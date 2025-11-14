@@ -8,9 +8,9 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public record ConsumoRequestDTO(
-        @NotNull User user,
-        @NotNull Product product,
+        @NotNull Long userId,
+        @NotNull Long productId,
         @NotNull LocalDate dataConsumo,
         @NotNull boolean consumiuPesquisa,
-        @NotNull Pesquisa pesquisa
+        Pesquisa pesquisa
         ) {}
