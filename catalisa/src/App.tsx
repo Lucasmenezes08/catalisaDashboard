@@ -12,7 +12,8 @@ import Test from "@/routers/Test.tsx";
 import NotFound from '../src/components/common/NotFound.tsx';
 import Pesquisa from "@/routers/Pesquisa.tsx";
 import TestConsumo from "@/routers/TestConsumo.tsx";
-import TestProduct from "@/routers/TestProduct.tsx";
+import CadastroProduto from "@/routers/TestProduct.tsx";
+
 
 
 
@@ -39,7 +40,7 @@ function App() {
         <Route path='*' element={<NotFound/>}/>
         <Route path={"/pesquisa"} element={<Pesquisa/>}/>
         <Route path={"/testeconsumo"} element={<TestConsumo/>}/>
-        <Route path={'/testeproduto'} element={<TestProduct/>}/>
+        <Route path={"/testeproduto"} element={<CadastroProduto/>}/>
 
       
 
