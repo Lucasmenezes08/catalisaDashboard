@@ -1,4 +1,3 @@
-// src/components/admin/RegistroConsumo.tsx (Exemplo)
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/store/useAuth';
 import type { ProductResponseDTO } from '@/types/types.ts'; // Importe seus tipos
@@ -10,7 +9,6 @@ export default function RegistroConsumo() {
     const [message, setMessage] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
 
-    // 1. Carrega todos os produtos disponíveis
     useEffect(() => {
         const fetchProducts = async () => {
             try {

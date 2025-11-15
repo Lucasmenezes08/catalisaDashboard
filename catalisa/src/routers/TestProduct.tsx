@@ -1,4 +1,3 @@
-// src/components/admin/CadastroProduto.tsx (Exemplo)
 import React, { useState } from 'react';
 
 export default function CadastroProduto() {
@@ -12,8 +11,6 @@ export default function CadastroProduto() {
         e.preventDefault();
         setIsLoading(true);
         setMessage('');
-
-        // 1. Monta o payload para POST /api/v2/products
         const payload = {
             name,
             type: type.toUpperCase(),
@@ -29,12 +26,10 @@ export default function CadastroProduto() {
             if (res.status === 201) {
                 const newProduct = await res.json();
                 setMessage(`Produto '${newProduct.name}' (ID: ${newProduct.id}) criado com sucesso!`);
-                // Limpa o formulário
                 setName('');
                 setType('');
                 setDescription('');
             } else {
-                // Trata erros comuns, como duplicidade (409)
                 const err = await res.json();
                 if (res.status === 409) {
                     setMessage(`Erro: ${err.message || 'Já existe um produto com esse nome.'}`);

@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import personagem from "../../assets/personagem.png"; // Verifique se este caminho está correto
+import personagem from "../../assets/personagem.png";
 import { useAuth } from "@/store/useAuth.tsx";
 import { overlayVariants, modalVariants, newMessageVariants } from "@/utils/motionFunctions.ts";
-// Importando os tipos necessários
 import type { ConsumoResponseDTO, PesquisaBoxProps } from "@/types/types.ts";
 
 type MessageType = 'system' | 'user';
@@ -33,7 +32,6 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
         }
     };
 
-    // 1. Busca o nome do produto assim que o componente recebe o 'consumo'
     useEffect(() => {
         if (!consumo.productId) {
             setNomeProduto("o serviço consumido");
@@ -42,7 +40,7 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
 
         const fetchProductName = async () => {
             try {
-                // Usando caminho relativo para a API
+
                 const res = await fetch(` http://localhost:8080/api/v2/products/${consumo.productId}`);
                 if (!res.ok) throw new Error('Produto não encontrado');
 
@@ -57,16 +55,14 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
         };
 
         fetchProductName();
-    }, [consumo.productId]); // Dependência correta
+    }, [consumo.productId]);
 
 
     useEffect(() => {
         scrollToBottom();
     }, [messages, step]);
 
-    // 2. Carrega as mensagens iniciais APÓS o nome do produto ser definido
     useEffect(() => {
-        // Proteção para não rodar antes do fetch ou se já tiver carregado
         if (isLoaded.current || nomeProduto === "este serviço") return;
 
         isLoaded.current = true;
@@ -97,9 +93,8 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
         };
 
         loadInitialMessages();
-    }, [nomeProduto]); // Depende do 'nomeProduto'
+    }, [nomeProduto]);
 
-    // 3. Resposta inicial do usuário (Sim/Não)
     const handleInteraction = (responseType: 'negative' | 'positive') => {
         if (step !== 1) return;
 
@@ -118,19 +113,19 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                     type: 'system',
                     content: <p className="text-sm font-bold">De 0 a 5, como você avaliaria esse serviço?</p>
                 }]);
-                setStep(3); // Mostra as opções de nota
+                setStep(3);
             }, 1000);
         }, 1000);
     };
 
-    // 4. Usuário seleciona a nota
+
     const handleRating = (rating: number) => {
         if (step !== 3) return;
 
-        setNota(rating); // Salva a nota no estado
+        setNota(rating);
 
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', content: <p className="text-sm font-bold">{rating}</p> }]);
-        setStep(2); // "Digitando..."
+        setStep(2);
 
         setTimeout(() => {
             setMessages(prev => [...prev, { id: Date.now(), type: 'system', content: <p className="text-sm">Obrigado pela avaliação!</p> }]);
@@ -141,32 +136,29 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                     type: 'system',
                     content: <p className="text-sm">Gostaria de deixar algum comentário por escrito?</p>
                 }]);
-                setStep(4); // Mostra o input de texto
+                setStep(4);
             }, 800);
         }, 1000);
     };
 
-    // 5. Usuário envia o comentário e finaliza
     const handleSendText = async () => {
-        // Proteção para não enviar sem comentário ou sem nota
         if (!inputValue.trim() || nota === null) return;
 
         const comentarioFinal = inputValue.trim();
 
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', content: <p className="text-sm">{comentarioFinal}</p> }]);
         setInputValue("");
-        setStep(2); // "Digitando..."
+        setStep(2);
 
         const payload = {
-            consumoId: consumo.id, // O ID vindo das props!
-            nota: nota,            // A nota salva no estado
-            dataPesquisa: new Date().toISOString().split('T')[0], // Data de hoje (yyyy-MM-dd)
-            tipoPesquisa: "NPS",   // (Ajuste se for outro tipo, ex: CSAT)
-            resposta: comentarioFinal, // O comentário escrito
+            consumoId: consumo.id,
+            nota: nota,
+            dataPesquisa: new Date().toLocaleDateString("en-CA"),
+            tipoPesquisa: "NPS",
+            resposta: comentarioFinal || null,
         };
 
         try {
-            // Envia para a API de Pesquisas
             const res = await fetch(' http://localhost:8080/api/v2/pesquisas', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -174,39 +166,35 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
             });
 
             if (!res.ok) {
-                // Tratar erro de envio
+
                 throw new Error("Falha ao enviar pesquisa");
             }
 
-            // Sucesso!
             setMessages(prev => [...prev, {
                 id: Date.now(),
                 type: 'system',
                 content: <p className="text-sm">Perfeito! Recebemos tudo. 🚀</p>
             }]);
-            setStep(5); // "Enviado!"
+            setStep(5);
 
             setTimeout(() => {
-                setIsVisible(false); // Fecha o modal
+                setIsVisible(false);
             }, 2500);
 
         } catch (error) {
             console.error("Erro no envio:", error);
-            // Mostrar mensagem de erro ao usuário se falhar
             setMessages(prev => [...prev, {
                 id: Date.now(),
                 type: 'system',
                 content: <p className="text-sm text-red-300">Ops! Tivemos um problema. Tente mais tarde.</p>
             }]);
-            setStep(4); // Volta para a caixa de texto
+            setStep(4);
         }
     };
-    // (O bloco setTimeout solto foi removido daqui)
 
-    // 6. Função para lidar com o "Enter" no input
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // Evita quebra de linha em textareas (se usar)
+            e.preventDefault();
             handleSendText();
         }
     };
@@ -222,7 +210,7 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                     animate="visible"
                     exit="exit"
                 >
-                    {/* Estilos do Scrollbar */}
+
                     <style>{`
                         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
                         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -230,13 +218,12 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
                     `}</style>
 
-                    {/* Corpo do Modal */}
                     <motion.section
                         className="bg-[#3730a3] w-full max-w-sm h-[600px] max-h-[90vh] rounded-[30px] p-6 shadow-2xl relative flex flex-col"
                         variants={modalVariants}
                     >
 
-                        {/* Header */}
+
                         <section className="flex justify-center mb-4 mt-4 shrink-0">
                             <section className="p-4 rounded-lg flex items-center gap-4 bg-[#3730a3] w-full max-w-[90%] relative z-10">
                                 <img src={personagem} alt="Personagem" className="w-16 h-16 object-cover rounded-full border-transparent" />
@@ -254,7 +241,7 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                             </section>
                         </section>
 
-                        {/* Área de Mensagens */}
+
                         <section className="flex-1 overflow-y-auto px-2 py-2 flex flex-col gap-3 custom-scrollbar scroll-smooth">
                             <AnimatePresence mode='popLayout'>
                                 {messages.map((msg) => (
@@ -278,18 +265,16 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                             <div ref={messagesEndRef} className="h-1" />
                         </section>
 
-                        {/* Barra de Ações (Input/Botões) */}
+
                         <section className="mt-4 bg-[#1a1a40] rounded-full p-1 flex items-center justify-between h-16 border border-blue-900/30 shadow-lg shrink-0 overflow-hidden relative">
                             <AnimatePresence mode="wait">
 
-                                {/* Step 0 e 2: "Digitando..." */}
                                 {(step === 0 || step === 2) && (
                                     <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full h-full flex items-center justify-center">
                                         <span className="text-white/50 text-sm animate-pulse">...</span>
                                     </motion.div>
                                 )}
 
-                                {/* Step 1: Botões "Sim/Não" */}
                                 {step === 1 && (
                                     <motion.div
                                         key="step1"
@@ -302,7 +287,6 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                                     </motion.div>
                                 )}
 
-                                {/* Step 3: Botões de Nota */}
                                 {step === 3 && (
                                     <motion.div
                                         key="step3"
@@ -318,7 +302,6 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                                     </motion.div>
                                 )}
 
-                                {/* Step 4: Input de Texto */}
                                 {step === 4 && (
                                     <motion.div
                                         key="step4"
@@ -345,7 +328,6 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                                     </motion.div>
                                 )}
 
-                                {/* Step 5: Enviado! */}
                                 {step === 5 && (
                                     <motion.div key="step5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full h-full flex items-center justify-center">
                                         <span className="text-green-400 text-sm font-bold animate-pulse">Enviado!</span>
