@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Service
 @Transactional
@@ -90,8 +91,9 @@ public class ConsumoService {
             erros.adicionar("DataConsumo inexistente ou não atribuida");
             valido = false;
         }
-        else if(consumo.getDataConsumo().isAfter(LocalDate.now())){
-            erros.adicionar("Data do consumo está maior que a data atual");
+        LocalDate hoje = LocalDate.now(ZoneId.systemDefault());
+        if (consumo.getDataConsumo().isAfter(hoje)) {
+            erros.adicionar("Data do consumo no futuro");
             valido = false;
         }
         return new ResultService(valido, realizado, erros);
