@@ -17,8 +17,11 @@ public class PesquisaService {
         ResultService result = validate(pesquisa);
         if(result.isValid()){
             if(getPesquisa(pesquisa.getConsumo()) == null){
-                result.setRealized(true);
                 pesquisaRepository.save(pesquisa);
+                Consumo consumo = pesquisa.getConsumo();
+                consumo.setPesquisa(pesquisa);
+                consumo.setConsumiuPesquisa(true);
+                result.setRealized(true);
             }
             else{
                 result.addError("Pesquisa ´ja existente");
@@ -84,7 +87,7 @@ public class PesquisaService {
             erros.adicionar("Usuario do consumo inexistente");
         }
         if(!consumo.isConsumiuPesquisa()){
-            valido = false;
+//            valido = false;
             erros.adicionar("Usuario não respondeu a pesquisa");
         }
         if(consumo.getProduto() == null){
