@@ -1,6 +1,8 @@
-import { IoPersonCircleOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-import catalisaLogo from '../../assets/catalizaLogo.png'
+import icon from "../../assets/icon.svg"
+import catalisa from "../../assets/catalisa.svg"
+import person from "../../assets/person.svg"
+
 import { useNavigate } from "react-router-dom";
 
 
@@ -12,13 +14,11 @@ export default function NavBar (){
     }
 
     return (
-        <section className="bg-gray-200 w-full py-2 px-6 mb-5">
-            <section className="flex flex-row justify-between items-center">
-                <img onClick={navegarInicio} className='w-20 h-5 cursor-pointer' src={catalisaLogo}/>
-                <section className="flex flex-row justify-center items-center gap-2 ">
-                    <NavLink to={"/Login"} className="text-[#0F0FA6]">Login</NavLink>
-                    <IoPersonCircleOutline size={35}/>
-                </section>
+        <section className="bg-[#2020AF] w-full py-2.5 px-8 mb-5">
+            <section className={"w-full flex justify-between items-center px-10"}>
+                <img src={icon} />
+                <img src={catalisa}/>
+                <img src={person}/>
             </section>
         </section>
     )
