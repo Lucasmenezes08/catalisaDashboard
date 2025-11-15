@@ -3,12 +3,14 @@ package com.cesarschool.catalisabackend.models.consumo;
 import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 import com.cesarschool.catalisabackend.models.product.Product;
 import com.cesarschool.catalisabackend.models.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @Entity
 @Table(name = "consumos")
 @Getter
