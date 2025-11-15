@@ -43,7 +43,7 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
         const fetchProductName = async () => {
             try {
                 // Usando caminho relativo para a API
-                const res = await fetch(`/api/v2/products/${consumo.productId}`);
+                const res = await fetch(` http://localhost:8080/api/v2/products/${consumo.productId}`);
                 if (!res.ok) throw new Error('Produto não encontrado');
 
                 const produto = await res.json();
@@ -167,7 +167,7 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
 
         try {
             // Envia para a API de Pesquisas
-            const res = await fetch('/api/v2/pesquisas', {
+            const res = await fetch(' http://localhost:8080/api/v2/pesquisas', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

@@ -24,7 +24,7 @@ export default function Pesquisa() {
         const checkPendingSurveys = async () => {
             try {
                 // 1. Busca todos os consumos do usuário logado
-                const res = await fetch(`/api/v2/users/${user.id}/consumos`);
+                const res = await fetch(`http://localhost:8080/api/v2/users/${user.id}/consumos`);
                 if (!res.ok) throw new Error("Falha ao buscar consumos");
 
                 const consumos: ConsumoResponseDTO[] = await res.json();

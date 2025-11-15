@@ -37,7 +37,7 @@ export default function RegistroConsumo() {
         const payload = {
             userId: user.id,
             productId: parseInt(selectedProductId),
-            dataConsumo: new Date().toISOString().split('T')[0],
+            dataConsumo: new Date().toLocaleDateString('en-CA'),
             consumiuPesquisa: false,
             pesquisa: null
         }
