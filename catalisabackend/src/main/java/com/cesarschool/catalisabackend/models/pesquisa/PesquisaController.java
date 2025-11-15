@@ -34,6 +34,7 @@ public class PesquisaController {
     }
 
     // ========= CREATE =========
+    // ========= CREATE =========
     @PostMapping
     @Transactional
     public ResponseEntity<?> criar(@Valid @RequestBody PesquisaRequestDTO dto, BindingResult br) {
@@ -45,10 +46,16 @@ public class PesquisaController {
                     .body("Consumo não encontrado: id=" + dto.consumoId());
         }
 
-        Pesquisa nova = new Pesquisa(consumo, dto.nota(), dto.dataPesquisa(), dto.tipoPesquisa(), dto.resposta());
-        ResultService result = pesquisaService.createPesquisa(nova);
+        final Pesquisa nova;
+        try {
+            // ⚠️ Pode lançar IllegalArgumentException se nota não estiver no range do tipo
+            nova = new Pesquisa(consumo, dto.nota(), dto.dataPesquisa(), dto.tipoPesquisa(), dto.resposta());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage()); // 400 em vez de 500
+        }
 
-        if (!result.isValid()) return ResponseEntity.badRequest().body(result.getError().listar());
+        ResultService result = pesquisaService.createPesquisa(nova);
+        if (!result.isValid())    return ResponseEntity.badRequest().body(result.getError().listar());
         if (!result.isRealized()) return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getError().listar());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(PesquisaResponseDTO.fromEntity(nova));
@@ -125,7 +132,6 @@ public class PesquisaController {
         return ResponseEntity.ok(dto);
     }
 
-    // ========= UPDATE =========
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<?> atualizar(@PathVariable long id,
@@ -139,10 +145,16 @@ public class PesquisaController {
                     .body("Consumo não encontrado: id=" + dto.consumoId());
         }
 
-        Pesquisa nova = new Pesquisa(consumo, dto.nota(), dto.dataPesquisa(), dto.tipoPesquisa(), dto.resposta());
-        ResultService result = pesquisaService.updatePesquisa(id, nova);
+        final Pesquisa nova;
+        try {
+            // ⬇️ protege contra nota/tipo inválidos
+            nova = new Pesquisa(consumo, dto.nota(), dto.dataPesquisa(), dto.tipoPesquisa(), dto.resposta());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
-        if (!result.isValid()) return ResponseEntity.badRequest().body(result.getError().listar());
+        ResultService result = pesquisaService.updatePesquisa(id, nova);
+        if (!result.isValid())    return ResponseEntity.badRequest().body(result.getError().listar());
         if (!result.isRealized()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pesquisa para atualizar inexistente");
 
         Pesquisa atualizada = pesquisaService.getPesquisa(id);
@@ -163,4 +175,8 @@ public class PesquisaController {
             Double media,
             List<PesquisaRepository.TipoClienteCount> distribuicao
     ) {}
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 }

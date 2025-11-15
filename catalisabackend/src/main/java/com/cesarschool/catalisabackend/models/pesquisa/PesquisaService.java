@@ -86,10 +86,10 @@ public class PesquisaService {
             valido = false;
             erros.adicionar("Usuario do consumo inexistente");
         }
-        if(!consumo.isConsumiuPesquisa()){
+//        if(!consumo.isConsumiuPesquisa()){
 //            valido = false;
-            erros.adicionar("Usuario não respondeu a pesquisa");
-        }
+//            erros.adicionar("Usuario não respondeu a pesquisa");
+//        }
         if(consumo.getProduto() == null){
             valido = false;
             erros.adicionar("Produto relacionado a pesquisa é inexistente ou não relacionado");
