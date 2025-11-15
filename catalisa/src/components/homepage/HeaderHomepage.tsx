@@ -14,7 +14,7 @@ export default function HeaderHomepage (){
     }
 
     return (
-        <header className={"relative flex-1 w-full flex justify-start pl-55 items-center"}>
+        <header className={"h-screen relative w-full flex justify-start pl-55 items-center"}>
             <section className={"flex flex-col gap-3"}>
                 <p className={"text-5xl font-extralight text-black"}><span className={"font-bold"}>Dê luz</span> aos seus dados <br/></p>
                 <p className={"text-5xl font-extralight text-black"}><span className={"font-bold"}>Catalise</span> a melhor estratégia <br/></p>
@@ -44,14 +44,14 @@ export default function HeaderHomepage (){
 
                 <section className={"flex flex-row gap-7 mt-5"}>
                     <section className={"flex flex-row w-42 justify-center items-center border border-black rounded-lg gap-1 cursor-pointer"}>
-                        <p className={"pl-5"}>Cadastre-se</p>
+                        <Link to={"/teste"} className={"pl-5"}>Cadastre-se</Link>
                         <img className={"w-12"} src={setaDiagonal}/>
                     </section>
 
-                    <section className={"flex flex-row w-42 justify-center items-center border border-black rounded-lg gap-3 cursor-pointer"}>
+                    <a href={"#content"} className={"flex flex-row w-42 justify-center items-center border border-black rounded-lg gap-3 cursor-pointer"}>
                         <p>Quem somos</p>
                         <img className={"w-4"} src={setCima} />
-                    </section>
+                    </a>
                 </section>
             </section>
 

@@ -14,7 +14,7 @@ export default function NavBar (){
     }
 
     return (
-        <section className="bg-[#2020AF] w-full py-2.5 px-8 mb-5">
+        <section className="fixed bg-[#2020AF] w-full py-2.5 px-8 mb-5 z-50">
             <section className={"w-full flex justify-between items-center px-10"}>
                 <img src={icon} />
                 <img src={catalisa}/>
