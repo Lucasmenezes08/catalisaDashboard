@@ -179,4 +179,30 @@ public class PesquisaController {
     public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+    // === Mais handlers para transformar 500 em respostas claras ===
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleConstraint(org.springframework.dao.DataIntegrityViolationException ex) {
+        // Mostra a causa real (ex.: NOT NULL, FK, UNIQUE) em 409
+        String msg = ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() : ex.getMessage();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Violação de integridade: " + msg);
+    }
+
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleJson(org.springframework.http.converter.HttpMessageNotReadableException ex) {
+        // Ex.: enum inválido, data malformada (yyyy-MM-dd)
+        String msg = ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() : ex.getMessage();
+        return ResponseEntity.badRequest().body("JSON inválido: " + msg);
+    }
+
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleTypeMismatch(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException ex) {
+        return ResponseEntity.badRequest().body("Parâmetro inválido: " + ex.getName() + " = " + String.valueOf(ex.getValue()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleAny(Exception ex) {
+        ex.printStackTrace(); // log no backend p/ você ver a stack
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erro interno: " + ex.getClass().getSimpleName() + " - " + ex.getMessage());
+    }
 }
