@@ -16,7 +16,7 @@ export default function Comentario(){
                 <h2 className="text-md font-medium text-black uppercase">Comentários</h2>
                 <CiCircleInfo className="absolute right-4 text-blue-700 cursor-pointer" size={30}  onClick={handleCLick}/>
                 {isClicked &&
-                    <section className="absolute top-10">
+                    <section className="absolute top-10 z-100">
                         <ExplicacaoModal mensagem={"dados quantitativos sobre a realização dos comentários facultativos da pesquisa"}/>
                     </section>
                 }

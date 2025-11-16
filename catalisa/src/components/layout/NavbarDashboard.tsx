@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import {useState} from "react";
 import ModalPerfil from "@/components/common/modalPerfil.tsx";
 import {useAuth} from "@/store/useAuth.tsx";
+import icon from "@/assets/icon.svg";
+import catalisa from "@/assets/catalisa.svg";
+import person from "@/assets/person.svg";
 
 export default function NavbarDashboard (){
 
@@ -21,18 +24,12 @@ export default function NavbarDashboard (){
     }
 
     return (
-        <nav className="flex items-center justify-between bg-gray-200 w-full py-2 px-6">
-            <img onClick={navegarInicio} className='w-20 h-5 cursor-pointer' src={catalizaLogo}/>
-            <section className='flex flex-row items-center gap-5'>
-                <Link to={'/dashboard'}>Meu quadro</Link>
-                <section className="relative">
-                    <button className="cursor-pointer" onClick={handleModal}>
-                        <IoPersonCircleOutline size={35}/>
-                    </button>
-                    {openModal && <ModalPerfil nome={user?.username} onclick={handleModal} /> }
-                </section>
-
+        <section className="bg-[#2020AF] w-full py-2.5 px-8 mb-5 z-50">
+            <section className={"w-full flex justify-between items-center px-10"}>
+                <img src={icon} />
+                <img src={catalisa}/>
+                <img src={person}/>
             </section>
-        </nav>
+        </section>
     )
 }

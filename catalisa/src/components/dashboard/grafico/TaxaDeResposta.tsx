@@ -17,7 +17,7 @@ export default function TaxaDeResposta(){
                 <h2 className="text-md font-medium text-black uppercase">Taxa de Resposta</h2>
                <CiCircleInfo className="absolute right-4 text-blue-700 cursor-pointer" size={30} onClick={handleCLick}/>
                 {isCLicked &&
-                    <section className="absolute top-10">
+                    <section className="absolute top-10 z-100">
                         <ExplicacaoModal mensagem={"cálculo feito com base na <strong>quantidade de respostas </strong> pela <strong>quantidade pesquisas realizadas </strong>"}/>
                     </section>
                 }

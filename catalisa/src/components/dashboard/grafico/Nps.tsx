@@ -17,7 +17,7 @@ export default function Nps(){
                 <h2 className="text-md font-medium text-black uppercase">NPS</h2>
                 <CiCircleInfo className="absolute right-4 text-blue-700 cursor-pointer" size={30} onClick={handleCLick} />
                 {isCLicked &&
-                    <section className="absolute top-10">
+                    <section className="absolute top-10 z-100">
                         <ExplicacaoModal mensagem={"o cálculo do NPS é feito a partir da porcentagem (%) dos promotores menos(-) a porcentagem (%) dos detratores"}/>
                     </section>
                 }
