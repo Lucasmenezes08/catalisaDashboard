@@ -157,38 +157,49 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
 
     const handleSendText = async () => {
         if (!inputValue.trim() || nota === null) return;
-
         const comentarioFinal = inputValue.trim();
 
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', content: <p className="text-sm">{comentarioFinal}</p> }]);
         setInputValue("");
-        setStep(2);
+        setStep(2); //
 
         const payload = {
             consumoId: consumo.id,
             nota: nota,
             dataPesquisa: new Date().toLocaleDateString("en-CA"),
-            tipoPesquisa: "NPS",
+            tipoPesquisa: "CSAT",
             resposta: comentarioFinal || null,
         };
 
         try {
-            const res = await fetch(' http://localhost:8080/api/v2/pesquisas', {
+            const res = await fetch('http://localhost:8080/api/v2/pesquisas', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
             if (!res.ok) {
-
                 throw new Error("Falha ao enviar pesquisa");
             }
 
+            const nomeUsuario = user?.username || "!";
+            const primeiroNome = nomeUsuario.split(' ')[0];
+            const nomeCapitalizado = primeiroNome.charAt(0).toUpperCase() + primeiroNome.slice(1);
+
+            await new Promise(r => setTimeout(r, 1000));
             setMessages(prev => [...prev, {
                 id: Date.now(),
                 type: 'system',
-                content: <p className="text-sm">Perfeito! Recebemos tudo. 🚀</p>
+                content: <p className="text-sm font-bold">Obrigado pelo feedback, {nomeCapitalizado}!</p>
             }]);
+
+            await new Promise(r => setTimeout(r, 1200)); // Atraso
+            setMessages(prev => [...prev, {
+                id: Date.now() + 1,
+                type: 'system',
+                content: <p className="text-sm">Sua opinião é essencial para continuarmos melhorando! 🧩</p>
+            }]);
+
             setStep(5);
 
             setTimeout(() => {
