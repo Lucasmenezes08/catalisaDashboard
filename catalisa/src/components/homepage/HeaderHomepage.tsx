@@ -36,9 +36,6 @@ export default function HeaderHomepage (){
                                 <GoArrowUpRight size={30} className={"font-bold"} />
                             </section>
                         }
-
-
-
                     </section>
                 </section>
 
