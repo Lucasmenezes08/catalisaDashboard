@@ -123,22 +123,36 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
         if (step !== 3) return;
 
         setNota(rating);
-
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', content: <p className="text-sm font-bold">{rating}</p> }]);
         setStep(2);
 
+        let followUpMessage = "";
+        switch (rating) {
+            case 0:
+            case 1:
+            case 2:
+                followUpMessage = "que pena! 😟 o que aconteceu?";
+                break;
+            case 3:
+                followUpMessage = "hurrm... 😬 o que poderia ser diferente?";
+                break;
+            case 4:
+                followUpMessage = "que bom! 😊 e o que dá pra melhorar?";
+                break;
+            case 5:
+                followUpMessage = "que massa! 🥳 do que você mais gostou?";
+                break;
+            default:
+                followUpMessage = "Obrigado pela nota! Gostaria de deixar um comentário?";
+        }
         setTimeout(() => {
-            setMessages(prev => [...prev, { id: Date.now(), type: 'system', content: <p className="text-sm">Obrigado pela avaliação!</p> }]);
-
-            setTimeout(() => {
-                setMessages(prev => [...prev, {
-                    id: Date.now(),
-                    type: 'system',
-                    content: <p className="text-sm">Gostaria de deixar algum comentário por escrito?</p>
-                }]);
-                setStep(4);
-            }, 800);
-        }, 1000);
+            setMessages(prev => [...prev, {
+                id: Date.now(),
+                type: 'system',
+                content: <p className="text-sm">{followUpMessage}</p>
+            }]);
+            setStep(4);
+        }, 1200);
     };
 
     const handleSendText = async () => {
