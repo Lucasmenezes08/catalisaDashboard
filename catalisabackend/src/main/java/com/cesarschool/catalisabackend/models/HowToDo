@@ -1316,3 +1316,134 @@ Para somenteComPesquisa, lembre que tem prioridade sobre os outros filtros.
 
 Após create/update/delete, refaça o fetch da listagem (invalidateQueries/refetch).
 
+/**
+ * API REST de Dashboard (v2)
+ *
+ * Esses endpoints fornecem dados agregados para os gráficos de NPS e CSAT
+ * usados no front-end (dashboard de experiência do cliente).
+ *
+ * Base URL: /api/v2/dashboard
+ *
+ * ============================================================
+ * 1) NPS
+ * ============================================================
+ *
+ * 1.1) GET /api/v2/dashboard/nps
+ * --------------------------------
+ * Descrição:
+ *   Retorna apenas o valor do NPS calculado no período/geral.
+ *
+ * Exemplo de resposta (HTTP 200):
+ *   59
+ *
+ * Observações:
+ *   - O valor já é o NPS final: %promotores - %detratores.
+ *
+ * --------------------------------
+ * 1.2) GET /api/v2/dashboard/nps/distribuicao
+ * --------------------------------
+ * Descrição:
+ *   Retorna a distribuição ABSOLUTA de respostas NPS por tipo de cliente.
+ *
+ * Exemplo de resposta (HTTP 200):
+ * {
+ *   "promotores": 710,
+ *   "neutros": 174,
+ *   "detratores": 116
+ * }
+ *
+ * Uso típico:
+ *   - Gráfico de barras/colunas com contagem de cada grupo.
+ *
+ * --------------------------------
+ * 1.3) GET /api/v2/dashboard/nps/proporcao
+ * --------------------------------
+ * Descrição:
+ *   Retorna a proporção em PORCENTAGEM de cada tipo de cliente no NPS.
+ *
+ * Exemplo de resposta (HTTP 200):
+ * {
+ *   "promotores": 71,
+ *   "neutros": 17,
+ *   "detratores": 12
+ * }
+ *
+ * Uso típico:
+ *   - Gráfico de pizza/donut mostrando % de cada grupo.
+ *
+ * --------------------------------
+ * 1.4) GET /api/v2/dashboard/nps/respostas
+ * --------------------------------
+ * Descrição:
+ *   Retorna a taxa de respostas NPS em porcentagem, considerando quantos
+ *   clientes de NPS deixaram alguma resposta/comentário.
+ *
+ * Exemplo de resposta (HTTP 200):
+ * {
+ *   "porcentagemRespostas": 20
+ * }
+ *
+ * Uso típico:
+ *   - Gráfico de donut + texto "20% dos clientes responderam à pesquisa".
+ *
+ * ============================================================
+ * 2) CSAT
+ * ============================================================
+ *
+ * 2.1) GET /api/v2/dashboard/csat/distribuicao
+ * --------------------------------
+ * Descrição:
+ *   Retorna a distribuição de notas de CSAT (1 a 5).
+ *
+ * Exemplo de resposta (HTTP 200):
+ * {
+ *   "nota1": 10,
+ *   "nota2": 5,
+ *   "nota3": 20,
+ *   "nota4": 40,
+ *   "nota5": 25
+ * }
+ *
+ * Uso típico:
+ *   - Gráfico de barras/colunas com a quantidade de respostas em cada nota.
+ *
+ * --------------------------------
+ * 2.2) GET /api/v2/dashboard/csat/media
+ * --------------------------------
+ * Descrição:
+ *   Retorna a média das notas de CSAT.
+ *
+ * Exemplo de resposta (HTTP 200):
+ * {
+ *   "media": 3.44
+ * }
+ *
+ * Uso típico:
+ *   - Mostrar a média em um velocímetro/medidor ou em destaque numérico.
+ *   - O front pode formatar com 1 ou 2 casas decimais.
+ *
+ * --------------------------------
+ * 2.3) GET /api/v2/dashboard/csat/respostas
+ * --------------------------------
+ * Descrição:
+ *   Retorna a taxa de respostas CSAT em porcentagem, considerando quantos
+ *   clientes CSAT deixaram algum comentário/resposta.
+ *
+ * Exemplo de resposta (HTTP 200):
+ * {
+ *   "porcentagemRespostas": 35
+ * }
+ *
+ * Uso típico:
+ *   - Gráfico de donut + texto "35% dos respondentes deixaram comentário".
+ *
+ * ============================================================
+ * Considerações gerais
+ * ============================================================
+ * - Todos os endpoints acima são somente leitura (GET).
+ * - Status mais comuns:
+ *      200 OK  -> cálculo realizado com sucesso (mesmo que o valor seja 0).
+ *      500     -> erro interno caso haja problema na lógica ou acesso a dados.
+ * - Em caso de ausência total de respostas para um tipo (ex.: nenhum CSAT),
+ *   os endpoints retornam 0 para evitar erro de divisão por zero.
+ */
