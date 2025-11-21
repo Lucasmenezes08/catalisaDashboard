@@ -1,5 +1,7 @@
 package com.cesarschool.catalisabackend.models.dashboard;
 
+import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
+import com.cesarschool.catalisabackend.models.pesquisa.TipoPesquisa;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +14,11 @@ import java.util.Map;
 public class DashboardController {
 
     private final DashboardService dashboardService;
+    private final AnaliseSentimentoService analiseSentimentoService;
 
-    public DashboardController(DashboardService dashboardService) {
+    public DashboardController(DashboardService dashboardService,  AnaliseSentimentoService analiseSentimentoService) {
         this.dashboardService = dashboardService;
+        this.analiseSentimentoService = analiseSentimentoService;
     }
 
     // ===================== NPS =====================
@@ -62,6 +66,35 @@ public class DashboardController {
         Map<String, Object> resultado = dashboardService.calcularSentimentoNps();
         return ResponseEntity.ok(resultado);
     }
+    @GetMapping("/nps/sentimento/{id}")
+    public ResponseEntity<?> getSentimentoIdNPS(@PathVariable("id") Long id) {
+        Pesquisa pesquisa = dashboardService.getPesquisaRepository()
+                .findById(id)
+                .orElse(null);
+
+        if (pesquisa == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (pesquisa.getTipoPesquisa() != TipoPesquisa.NPS) {
+            return ResponseEntity.badRequest().body("A pesquisa informada não é do tipo NPS.");
+        }
+
+        if (pesquisa.getResposta() == null || pesquisa.getResposta().isBlank()) {
+            Map<String, Object> body = new HashMap<>();
+            body.put("id", pesquisa.getId());
+            body.put("sentimento", null);
+            return ResponseEntity.ok(body);
+        }
+        Sentimento sentimento = analiseSentimentoService.classificar(pesquisa.getResposta());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("id", pesquisa.getId());
+        body.put("sentimento", sentimento.getDescricao());
+
+        return ResponseEntity.ok(body);
+    }
+
     // ===================== CSAT =====================
 
     // Distribuição das notas de CSAT
@@ -105,4 +138,34 @@ public class DashboardController {
         Map<String, Object> resultado = dashboardService.calcularSentimentoCsat();
         return ResponseEntity.ok(resultado);
     }
+    @GetMapping("/csat/sentimento/{id}")
+    public ResponseEntity<?> getSentimentoIdCSAT(@PathVariable("id") Long id) {
+        Pesquisa pesquisa = dashboardService.getPesquisaRepository()
+                .findById(id)
+                .orElse(null);
+
+        if (pesquisa == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (pesquisa.getTipoPesquisa() != TipoPesquisa.CSAT) {
+            return ResponseEntity.badRequest().body("A pesquisa informada não é do tipo CSAT.");
+        }
+
+        if (pesquisa.getResposta() == null || pesquisa.getResposta().isBlank()) {
+            Map<String, Object> body = new HashMap<>();
+            body.put("id", pesquisa.getId());
+            body.put("sentimento", null);
+            return ResponseEntity.ok(body);
+        }
+
+        Sentimento sentimento = analiseSentimentoService.classificar(pesquisa.getResposta());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("id", pesquisa.getId());
+        body.put("sentimento", sentimento.getDescricao());
+
+        return ResponseEntity.ok(body);
+    }
+
 }
