@@ -1447,3 +1447,19 @@ Após create/update/delete, refaça o fetch da listagem (invalidateQueries/refet
  * - Em caso de ausência total de respostas para um tipo (ex.: nenhum CSAT),
  *   os endpoints retornam 0 para evitar erro de divisão por zero.
  */
+No dashboard, também existem dois endpoints responsáveis por retornar o resumo de sentimento das respostas abertas das pesquisas de NPS e CSAT. O primeiro é o GET /api/v2/dashboard/nps/sentimento, mapeado no controller pelo método:
+@GetMapping("/nps/sentimento")
+public ResponseEntity<?> getSentimentoNPS() {
+    Map<String, Object> resultado = dashboardService.calcularSentimentoNps();
+    return ResponseEntity.ok(resultado);
+}
+
+Quando esse endpoint é chamado, o controller delega para o método calcularSentimentoNps() do DashboardService. Esse método busca no banco todas as pesquisas do tipo NPS, filtra apenas as que possuem resposta preenchida e, para cada comentário, chama o serviço de análise de sentimento. Cada resposta é classificada em um dos cinco níveis do enum Sentimento (MUITO_POSITIVO, POSITIVO, NEUTRO, NEGATIVO, MUITO_NEGATIVO). Para fins de dashboard, consideramos “positivos” os sentimentos MUITO_POSITIVO e POSITIVO, e “negativos” os sentimentos NEUTRO, NEGATIVO e MUITO_NEGATIVO. Ao final, o serviço contabiliza o total de comentários analisados, a quantidade de positivos e negativos e calcula as porcentagens de positivos e negativos em relação ao total. O controller devolve tudo isso em um Map<String, Object> convertido automaticamente em JSON, contendo chaves como tipoPesquisa, totalComentarios, positivos, negativos, percPositivos e percNegativos.
+De forma análoga, o endpoint GET /api/v2/dashboard/csat/sentimento faz a mesma coisa, mas focado nas pesquisas de CSAT. No controller, o método é:
+@GetMapping("/csat/sentimento")
+public ResponseEntity<?> getSentimentoCSAT() {
+    Map<String, Object> resultado = dashboardService.calcularSentimentoCsat();
+    return ResponseEntity.ok(resultado);
+}
+
+Internamente, o DashboardService chama calcularSentimentoPorPesquisa(TipoPesquisa.CSAT), que repete o mesmo processo: busca todas as pesquisas de CSAT, ignora registros sem comentário, classifica o texto de cada resposta usando o serviço de sentimento, separa em positivos e negativos conforme o enum e calcula as porcentagens. Na prática, esses dois endpoints permitem que o front-end consuma, de forma simples, um resumo de sentimento agregado das respostas abertas de NPS e CSAT, sem precisar conhecer os detalhes de como o texto é analisado ou como os dados são agrupados internamente.

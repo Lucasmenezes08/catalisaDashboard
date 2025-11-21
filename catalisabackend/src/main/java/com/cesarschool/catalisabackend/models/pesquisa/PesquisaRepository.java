@@ -16,6 +16,8 @@ public interface PesquisaRepository
         extends JpaRepository<Pesquisa, Long>, JpaSpecificationExecutor<Pesquisa> {
 
     Optional<Pesquisa> findByConsumo(Consumo consumo);
+
+    List<Pesquisa> findByTipoPesquisa(TipoPesquisa tipoPesquisa);
     Page<Pesquisa> findByTipoPesquisa(TipoPesquisa tipoPesquisa, Pageable pageable);
 
     List<Pesquisa> findByTipoPesquisaAndTipoCliente(TipoPesquisa tipoPesquisa, TipoCliente tipoCliente);

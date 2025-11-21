@@ -1,10 +1,7 @@
 package com.cesarschool.catalisabackend.models.dashboard;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +9,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v2/dashboard")
 @CrossOrigin(origins = "*")
-public class DashBoardController {
+public class DashboardController {
 
     private final DashboardService dashboardService;
 
-    public DashBoardController(DashboardService dashboardService) {
+    public DashboardController(DashboardService dashboardService) {
         this.dashboardService = dashboardService;
     }
 
@@ -60,6 +57,11 @@ public class DashBoardController {
         return ResponseEntity.ok(body);
     }
 
+    @GetMapping("/nps/sentimento")
+    public ResponseEntity<?> getSentimentoNPS() {
+        Map<String, Object> resultado = dashboardService.calcularSentimentoNps();
+        return ResponseEntity.ok(resultado);
+    }
     // ===================== CSAT =====================
 
     // Distribuição das notas de CSAT
@@ -97,5 +99,10 @@ public class DashBoardController {
         Map<String, Integer> body = new HashMap<>();
         body.put("porcentagemRespostas", dashboardService.getPorcentagemRespostasCSAT());
         return ResponseEntity.ok(body);
+    }
+    @GetMapping("/csat/sentimento")
+    public ResponseEntity<?> getSentimentoCSAT() {
+        Map<String, Object> resultado = dashboardService.calcularSentimentoCsat();
+        return ResponseEntity.ok(resultado);
     }
 }

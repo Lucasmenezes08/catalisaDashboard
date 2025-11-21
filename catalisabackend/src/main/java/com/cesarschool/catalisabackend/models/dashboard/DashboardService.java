@@ -7,14 +7,19 @@ import com.cesarschool.catalisabackend.models.pesquisa.TipoPesquisa;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Getter
 @Service
 public class DashboardService {
     private final PesquisaRepository pesquisaRepository;
+    private final AnaliseSentimentoService analiseSentimentoService;
 
-    public DashboardService(PesquisaRepository pesquisaRepository) {
+    public DashboardService(PesquisaRepository pesquisaRepository, AnaliseSentimentoService analiseSentimentoService) {
         this.pesquisaRepository = pesquisaRepository;
+        this.analiseSentimentoService = analiseSentimentoService;
     }
 
     private List<Pesquisa> getTodasPesquisas() {
@@ -167,5 +172,53 @@ public class DashboardService {
         }
         if (total == 0) return 0;
         return contador * 100 / total;
+    }
+    public Map<String, Object> calcularSentimentoPorPesquisa(TipoPesquisa tipoPesquisa) {
+        List<Pesquisa> pesquisas = pesquisaRepository.findByTipoPesquisa(tipoPesquisa);
+
+        long total = 0;
+        long positivos = 0;
+        long negativos = 0;
+
+        for (Pesquisa p : pesquisas) {
+            String resposta = p.getResposta();
+
+            if (resposta == null || resposta.isBlank()) {
+                continue;
+            }
+
+            Sentimento s = analiseSentimentoService.classificar(resposta);
+
+            if (s == Sentimento.MUITO_POSITIVO || s == Sentimento.POSITIVO) {
+                positivos++;
+            } else {
+                negativos++;
+            }
+            total++;
+        }
+        double percPositivos = 0.0;
+        double percNegativos = 0.0;
+
+        if (total > 0) {
+            percPositivos = (positivos * 100.0) / total;
+            percNegativos = (negativos * 100.0) / total;
+        }
+        Map<String, Object> resultado = new HashMap<>();
+        resultado.put("tipoPesquisa", tipoPesquisa.name());
+        resultado.put("totalComentarios", total);
+        resultado.put("positivos", positivos);
+        resultado.put("negativos", negativos);
+        resultado.put("percPositivos", percPositivos);
+        resultado.put("percNegativos", percNegativos);
+
+        return resultado;
+    }
+
+    public Map<String, Object> calcularSentimentoNps() {
+        return calcularSentimentoPorPesquisa(TipoPesquisa.NPS);
+    }
+
+    public Map<String, Object> calcularSentimentoCsat() {
+        return calcularSentimentoPorPesquisa(TipoPesquisa.CSAT);
     }
 }
