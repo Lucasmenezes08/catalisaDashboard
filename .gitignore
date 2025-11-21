@@ -1,3 +1,5 @@
+# Local Username and Password
+catalisabackend\src\main\resources\application-local.properties
 # Logs
 logs
 *.log
