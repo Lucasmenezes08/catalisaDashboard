@@ -83,7 +83,7 @@ public class Pesquisa {
             if(nota >= 9){
                 resultado = TipoCliente.PROMOTOR;
             }
-            else if(nota >= 7){
+            else if(nota >= 6){
                 resultado = TipoCliente.NEUTRO;
             }
             else{

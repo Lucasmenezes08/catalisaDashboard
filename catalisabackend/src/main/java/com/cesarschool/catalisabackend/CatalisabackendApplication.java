@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
                 "com.cesarschool.catalisabackend.models.product",
                 "com.cesarschool.catalisabackend.models.pesquisa",
                 "com.cesarschool.catalisabackend.models.consumo",
+                "com.cesarschool.catalisabackend.models.dashboard",
                 "com.cesarschool.catalisabackend.config"
                 // + "com.cesarschool.catalisabackend.security" etc.
         },

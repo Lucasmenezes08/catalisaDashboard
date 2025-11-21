@@ -25,37 +25,38 @@ public class ConsumoService {
     public Consumo findById(Long id){
         return consumoRepository.findById(id).orElse(null);
     }
+
     public ResultService create(Consumo consumo){
         ResultService result = validate(consumo);
-        if(result.isValid()){
-            if(findByUser(consumo.getUser().getId()) == null){
-                result.setRealized(true);
-                consumoRepository.save(consumo);
-            }
-            else {
-                result.addError("Consumo ja existente");
-            }
+        if (result.isValid()) {
+            consumoRepository.save(consumo);
+            result.setRealized(true);
         }
         return result;
     }
     public ResultService update(long id, Consumo consumo){
         ResultService result = validate(consumo);
-        Consumo consumoUpdate = findByUser(consumo.getUser().getId());
+        if (!result.isValid()) {
+            return result;
+        }
+
+        Consumo consumoUpdate = findById(id);
         if (consumoUpdate == null) {
             result.addError("Consumo nao encontrado ou não existente");
             return result;
         }
-        if(result.isValid()){
-            consumoUpdate.setUser(consumo.getUser());
-            consumoUpdate.setDataConsumo(consumo.getDataConsumo());
-            consumoUpdate.setPesquisa(consumo.getPesquisa());
-            consumoUpdate.setConsumiuPesquisa(consumo.isConsumiuPesquisa());
-            consumoUpdate.setProduto(consumo.getProduto());
-            result.setRealized(true);
-            consumoRepository.save(consumoUpdate);
-        }
+
+        consumoUpdate.setUser(consumo.getUser());
+        consumoUpdate.setDataConsumo(consumo.getDataConsumo());
+        consumoUpdate.setPesquisa(consumo.getPesquisa());
+        consumoUpdate.setConsumiuPesquisa(consumo.isConsumiuPesquisa());
+        consumoUpdate.setProduto(consumo.getProduto());
+
+        consumoRepository.save(consumoUpdate);
+        result.setRealized(true);
         return result;
     }
+
     public ResultService delete(long id){
         Consumo consumo = consumoRepository.findById(id).orElse(null);
         ListaString listaString = new ListaString();
