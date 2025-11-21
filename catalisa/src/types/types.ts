@@ -44,3 +44,20 @@ export interface PesquisaRequestDTO {
 export interface PesquisaBoxProps {
     consumo: ConsumoResponseDTO;
 }
+
+export interface Pesquisa {
+    id: number;
+    consumoId: number;
+    nota: number;
+    dataPesquisa: string;
+    tipoPesquisa: string;
+    resposta: string | null;
+}
+
+export interface Page<T> {
+    content: T[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+}
