@@ -1,6 +1,8 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
 import com.cesarschool.catalisabackend.models.consumo.Consumo;
+import com.cesarschool.catalisabackend.models.user.User;
+import com.cesarschool.catalisabackend.models.user.UserResponseDTO;
 import com.cesarschool.catalisabackend.models.utils.ResultService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -82,6 +84,29 @@ public class PesquisaController {
         Pesquisa p = pesquisaService.getPesquisa(consumo);
         if (p == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(PesquisaResponseDTO.fromEntity(p));
+    }
+    // ============= READ USER ===============
+    @GetMapping("/{id}/user")
+    public ResponseEntity<?> obterUserDaPesquisa(@PathVariable long id) {
+        Pesquisa pesquisa = pesquisaService.getPesquisa(id);
+        if (pesquisa == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            User user = pesquisaService.getUser(pesquisa);
+
+            UserResponseDTO dto = new UserResponseDTO(
+                    user.getId(),
+                    user.getEmail(),
+                    user.getUsername()
+            );
+
+            return ResponseEntity.ok(dto);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     // ========= LIST / FILTRO (v2) =========

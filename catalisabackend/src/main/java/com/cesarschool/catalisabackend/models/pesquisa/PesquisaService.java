@@ -1,6 +1,7 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
 import com.cesarschool.catalisabackend.models.consumo.Consumo;
+import com.cesarschool.catalisabackend.models.user.User;
 import com.cesarschool.catalisabackend.models.utils.ListaString;
 import com.cesarschool.catalisabackend.models.utils.ResultService;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,12 @@ public class PesquisaService {
             }
         }
         return pesquisaValida;
+    }
+    public User getUser(Pesquisa pesquisa){
+        if(pesquisa == null) throw new RuntimeException("Pesquisa inexistente");
+        User user = pesquisa.getConsumo().getUser();
+        if(user == null) throw new RuntimeException("Não existe usuario associado a pesquisa");
+        return user;
     }
     public Pesquisa getPesquisa(Consumo consumo){
         return pesquisaRepository.findByConsumo(consumo).orElse(null);

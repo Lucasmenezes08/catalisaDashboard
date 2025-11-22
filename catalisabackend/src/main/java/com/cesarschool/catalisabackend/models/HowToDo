@@ -1007,7 +1007,46 @@ Tratar 400/409/404 exibindo mensagem clara; para listas de erros (BindingResult)
 Ao usar filtros de período, sempre enviar inicio e fim juntos.
 
 Após criar/atualizar/deletar, recarregar as listas (invalidateQueries, refetch, etc.).
-
+    /**
+     * GET /api/v2/pesquisas/{id}/user
+     * ---------------------------------------
+     * Descrição:
+     *   Retorna os dados básicos do usuário associado à pesquisa informada.
+     *
+     *   Fluxo:
+     *   1) Busca a Pesquisa pelo id recebido na URL.
+     *   2) Se não existir, retorna 404 (Not Found).
+     *   3) Usa o service (getUser(pesquisa)) para obter o User ligado ao Consumo da pesquisa.
+     *   4) Constrói um UserResponseDTO com { id, email, username }.
+     *   5) Retorna 200 OK com o DTO em JSON.
+     *
+     * URL:
+     *   GET /api/v2/pesquisas/{id}/user
+     *
+     * Parâmetros de caminho:
+     *   - id: identificador da pesquisa (long)
+     *
+     * Exemplos de resposta:
+     *
+     *   200 OK
+     *   {
+     *     "id": 1,
+     *     "email": "alice.santos@example.com",
+     *     "username": "alice.santos"
+     *   }
+     *
+     *   404 Not Found
+     *   (quando a pesquisa com o id informado não existe)
+     *
+     *   400 Bad Request
+     *   "Não existe usuario associado a pesquisa"
+     *   (quando o service lança RuntimeException por falta de usuário/consumo)
+     *
+     * Uso típico:
+     *   - Front-end chamar esse endpoint depois de obter uma pesquisa,
+     *     para exibir quem foi o usuário que respondeu (nome/email) ou
+     *     abrir um modal com detalhes do cliente.
+     */
 
 =============================== CONSUMO =============================
 BASE
