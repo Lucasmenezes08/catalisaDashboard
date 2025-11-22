@@ -26,5 +26,25 @@ export async function fetchPesquisas(
         throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
     }
 
-    return await response.json();
+    const data: Page<Pesquisa> = await response.json();
+    const pesquisasComNomes = await Promise.all(
+        data.content.map(async (pesquisa) => {
+            try {
+                const userResponse = await fetch(`${URL}/${pesquisa.id}/user`);
+
+                if (userResponse.ok) {
+                    const userData = await userResponse.json();
+                    return { ...pesquisa, nomeUsuario: userData.username };
+                }
+            } catch (error) {
+                console.warn(`Erro ao buscar user para pesquisa ${pesquisa.id}`, error);
+            }
+            return { ...pesquisa, nomeUsuario: "Usuário Desconhecido" };
+        })
+    );
+
+    return {
+        ...data,
+        content: pesquisasComNomes
+    };
 }
