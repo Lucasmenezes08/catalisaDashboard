@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function Cadastro (){
 
@@ -7,6 +8,7 @@ export default function Cadastro (){
     const [username , setUsername] = useState('');
     const [cpfCnpj , setCpfCnpj] = useState("");
     const [errorMessage , setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     async function handleSubmit (e:React.FormEvent){
         e.preventDefault();
@@ -33,6 +35,7 @@ export default function Cadastro (){
             setPassword('');
             setUsername('');
             setCpfCnpj('');
+            navigate('/login');
         }
 
         catch (error){
