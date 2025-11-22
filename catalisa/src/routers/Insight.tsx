@@ -3,11 +3,11 @@ import { usePesquisas } from "@/hooks/usePesquisas";
 import {useSelector} from "@/store/useStore.tsx";
 
 const StarRating = ({ nota }: { nota: number }) => (
-    <div className="flex gap-1 bg-yellow-100/50 px-2 py-1 rounded-md border border-yellow-100">
+    <div className="flex gap-1 bg-[#E3C152CC]/80 px-2 py-1 rounded-md border border-yellow-100">
         {Array.from({ length: 5 }).map((_, i) => {
             const active = i < (nota > 5 ? nota / 2 : nota);
             return (
-                <span key={i} className={`text-lg ${active ? "text-yellow-400" : "text-gray-300"}`}>
+                <span key={i} className={`text-lg ${active ? "text-white" : "text-[#A89863]"}`}>
                     ★
                 </span>
             );
@@ -58,10 +58,10 @@ export default function Insight() {
                     </div>
                 ) : (
 
-                    <div className="flex-1 overflow-y-auto p-4 bg-white">
+                    <div className="flex-1 overflow-y-auto p-4 bg-[#F7F7F7] rounded-xl">
                         <div className="space-y-4">
                             {data.content.map((pesquisa) => (
-                                <div key={pesquisa.id} className="p-4 rounded-xl border border-gray-100 bg-gray-50/30 hover:bg-gray-50 transition-colors flex flex-col gap-3">
+                                <div key={pesquisa.id} className="p-4 rounded-xl bg-gray-50/30 hover:bg-gray-50  transition-colors flex flex-col gap-3">
                                     <div className="flex flex-wrap items-center justify-between gap-2">
                                         <div className="flex items-center gap-3 flex-wrap">
                                             <h3 className="font-bold text-gray-800 text-sm uppercase tracking-wide">
@@ -82,13 +82,14 @@ export default function Insight() {
                                         <StarRating nota={pesquisa.nota} />
                                     </div>
 
-                                    <div className={`p-3 rounded-lg text-sm leading-relaxed border ${
+                                    <div className={`p-8 rounded-md text-md leading-relaxed border ${
                                         pesquisa.resposta
-                                            ? "bg-white border-gray-200 text-gray-700 shadow-sm" 
+                                            ? "bg-white border-gray-200 text-gray-700" 
                                             : "bg-transparent border-transparent text-gray-400 italic"
                                     }`}>
                                         {pesquisa.resposta || "Sem comentário."}
                                     </div>
+                                    <section className={"w-full border-1 border-gray-300"}></section>
                                 </div>
                             ))}
                         </div>
