@@ -1,16 +1,17 @@
-import { create } from 'zustand'
-
-
+import { create } from 'zustand';
 
 type SelectorState = {
-    selector : 'dashboard' | 'insight';
-    setSelector : (newSelector:  'dashboard' | 'insight') => void;
+    selector: 'dashboard' | 'insight';
+    setSelector: (newSelector: 'dashboard' | 'insight') => void;
+
+    tipoPesquisa: string;
+    setTipoPesquisa: (newTipo: string) => void;
 }
 
-
-export const useSelector = create<SelectorState>()(set => ({
+export const useSelector = create<SelectorState>()((set) => ({
     selector: 'dashboard',
-    setSelector: (newSelector : 'dashboard' | 'insight') => set({selector : newSelector}),
-}))
+    setSelector: (newSelector) => set({ selector: newSelector }),
 
-
+    tipoPesquisa: 'CSAT',
+    setTipoPesquisa: (newTipo) => set({ tipoPesquisa: newTipo }),
+}));

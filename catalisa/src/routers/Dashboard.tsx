@@ -1,6 +1,6 @@
 import Filtro from "@/components/dashboard/filtro/Filtro";
 import Grafico from "@/components/dashboard/grafico/Grafico";
-import Insight from "@/components/dashboard/insight/Insight";
+import Insight from "@/routers/Insight.tsx";
 import { useSelector } from "@/store/useStore";
 import { Outlet } from "react-router-dom";
 

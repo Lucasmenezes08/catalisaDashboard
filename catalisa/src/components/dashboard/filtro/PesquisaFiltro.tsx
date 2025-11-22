@@ -7,10 +7,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {useSelector} from "@/store/useStore.tsx";
+
 
 export default function PesquisaFiltro() {
-  return (
-    <Select defaultValue="fidelidade">
+
+    const { tipoPesquisa, setTipoPesquisa } = useSelector();
+
+    return (
+    <Select defaultValue="CSAT"  value={tipoPesquisa} onValueChange={setTipoPesquisa}>
 
       <SelectTrigger className="w-55 py-7 text-left border border-black cursor-pointer">
 
@@ -27,10 +32,8 @@ export default function PesquisaFiltro() {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Pesquisar por</SelectLabel>
-          <SelectItem value="fidelidade">Fidelidade</SelectItem>
-          <SelectItem value="preco">Preço</SelectItem>
-          <SelectItem value="popularidade">Popularidade</SelectItem>
-          <SelectItem value="data">Data</SelectItem>
+          <SelectItem value="CSAT">Satisfação</SelectItem>
+          <SelectItem value={'NPS'}>Fidelidade</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
