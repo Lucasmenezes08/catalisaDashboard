@@ -8,11 +8,11 @@ import LayoutConfig from './routers/LayoutConfig';
 import PerfilConfig from './components/configuracoes/PerfilConfig';
 import EmpresaConfig from './components/configuracoes/EmpresaConfig';
 import ProtectedRoute from "@/routers/ProtectedRoute.tsx";
-import Test from "@/routers/Test.tsx";
 import NotFound from '../src/components/common/NotFound.tsx';
 import Pesquisa from "@/routers/Pesquisa.tsx";
 import TestConsumo from "@/routers/TestConsumo.tsx";
 import CadastroProduto from "@/routers/TestProduct.tsx";
+import Cadastro from "@/components/telaCadastro/Cadastro.tsx";
 
 
 
@@ -22,8 +22,9 @@ function App() {
     <Routes>
 
       <Route path='/' element={<NavbarRoot/>}>
-        <Route index element={<Homepage/>} />
-        <Route path='/Login' element={<Login/>}/>
+          <Route index element={<Homepage/>} />
+          <Route path='/Login' element={<Login/>}/>
+          <Route path={'/cadastro'} element={<Cadastro/>}/>
       </Route>
 
         <Route element={<ProtectedRoute/>}>
@@ -36,7 +37,6 @@ function App() {
             </Route>
         </Route>
 
-        <Route path={'/teste'} element={<Test/>}/>
         <Route path='*' element={<NotFound/>}/>
         <Route path={"/pesquisa"} element={<Pesquisa/>}/>
         <Route path={"/testeconsumo"} element={<TestConsumo/>}/>

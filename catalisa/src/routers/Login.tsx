@@ -70,7 +70,7 @@ export default function Login (){
     }
 
     return (
-        <section className="w-full h-[79vh] flex justify-center items-center">
+        <section className="w-full h-[95vh] flex justify-center items-center">
             <form className="w-full max-w-md flex flex-col gap-5 px-5" onSubmit={handleSubmit}>
                 <section className="flex flex-col justify-start gap-3 ">
                     <label className="text-sm" htmlFor="user">Email</label>
