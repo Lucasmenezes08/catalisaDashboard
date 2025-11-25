@@ -41,7 +41,7 @@ export default function HeaderHomepage (){
 
                 <section className={"flex flex-row gap-7 mt-5"}>
                     <section className={"flex flex-row w-42 justify-center items-center border border-black rounded-lg gap-1 cursor-pointer"}>
-                        <Link to={"/teste"} className={"pl-5"}>Cadastre-se</Link>
+                        <Link to={"/cadastro"} className={"pl-5"}>Cadastre-se</Link>
                         <img className={"w-12"} src={setaDiagonal}/>
                     </section>
 

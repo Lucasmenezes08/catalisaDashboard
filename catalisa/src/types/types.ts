@@ -53,6 +53,7 @@ export interface Pesquisa {
     tipoPesquisa: string;
     resposta: string | null;
     nomeUsuario?: string;
+    nomeProduto?: string;
 }
 
 export interface Page<T> {
