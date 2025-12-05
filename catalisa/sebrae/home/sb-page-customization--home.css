@@ -1,0 +1,349 @@
+@import url('https://base-estatico.sebrae.com.br/fonts/campuni/web-font.css');
+
+element.style{
+    background-color:#ffffff!important;
+    
+}
+
+/*Explore por categoria*/
+
+#explore{
+    margin-top: 32px;
+    background-color: #ffffff!important;
+    padding: 60px 0 0 0;
+}
+
+#explore .sb-components__card__destaque .sb-components__card__destaque__img {
+
+    background-color: #ffffff;
+
+}
+
+@media (min-width: 992px){
+    #explore .title__h1 {
+    margin-top: 32px;
+    margin-bottom: 48px;
+    font-size: 33px;
+    color: #394D60;
+    line-height: normal;
+    font-weight: 600;
+}
+}
+
+/*Fique por dentro das novidades para o seu negócio*/
+#destaque12[style]{
+    margin-top: 32px;
+    margin-bottom:32px;
+    background-color:#ffffff!important;
+}
+
+#destaque12 .sb-components__display__destaque__img {
+
+    background-color: #ffffff!important;
+    
+}
+
+@media (min-width: 992px){
+.sb-hotsite-carousel-display__title p, .sb-hotsite-carousel__title p {
+    font-size: 33px;
+    margin-top: 32px;
+    color: #394D60;
+    font-weight:600;
+}
+}
+
+/*Precisa de ajuda?*/
+
+#atendimento {
+    margin-top: 32px;
+     background-color: #ffffff!important; 
+}
+
+#atendimento .sb-hotsite-template-1__banner__wrapper__text__title {
+    font-size: 36px;
+    color: #0024A9;
+    font-family: Campuni;
+    font-weight: 700;
+}
+
+#atendimento .sb-hotsite-template-1__banner__wrapper__text__sub-title {
+    
+    font-size: 19px;
+    color: #0024A9;
+    font-family: campuni;
+}
+
+
+
+
+
+/* Mais recentes e mais acessados*/
+
+#vext-gen1063[style]{
+    margin-top: 32px;
+    background-color: #ffffff!important;
+}
+
+#vext-gen1063{
+    margin-top: 32px;
+    background-color: #ffffff!important;
+}
+
+#vext-gen1063 .title__h1 {
+    margin-top: 32px;
+    font-size: 33px!important;
+    color: #394D60!important;
+    font-weight: 600!important;
+}
+
+#vext-gen1057 .sb-typography__h1 {
+    margin-top: 32px;
+    font-size: 33px!important;
+    color: #394D60!important;
+    font-weight: 600!important;
+}
+    
+    
+/*Cursos gratuitos para você se capacitar*/
+
+
+@media (min-width: 992px){
+#vext-gen1066 .title__h1 {
+    margin-top: 32px;
+    font-size: 33px;
+
+}
+}
+
+#vext-gen1066 .title__h1 {
+    
+    font-size: 33px;
+    font-weight: 600;
+    color: #394D60;
+    
+}
+
+/* Sebrae nas Redes*/
+
+
+@media (min-width: 992px){
+#vext-gen1069 .title__h1 {
+    margin-top: 32px;
+    font-size: 33px;
+    font-weight: 600;
+
+ }
+}
+
+#vext-gen1069.title__h1 {
+
+    font-size: 33px;
+    font-weight: 600;
+    color: #394D60;
+}
+
+#sobre[style]{
+    margin-top: 32px;
+    background-color:#ffffff!important;
+}
+
+.sb-home__who-is-sebrae{
+    
+ background-color:#ffffff!important;   
+}
+
+#vext-gen1057{
+ 
+ background-color:#ffffff!important;   
+}
+
+#vext-gen1057[style]{
+ 
+ background-color:#ffffff!important;   
+}
+
+.sb-grid__home section:not(.sb-home__carousel):not(.sb-chat-online):not(.sb-common-content__chat-online):not(.sb-area-logada):not(.sc-evcjhq) {
+    padding: 60px 0;
+    background-color: #ffffff!important;
+}
+
+#explore .sb-components__card__destaque.sb-dd-text-out .sb-destaque-text p{
+   background-image: linear-gradient(180deg,transparent 65%,hsl(204deg 99% 59% / 30%) 0); 
+}
+
+/* BEGIN - BANNER CANAIS DE ATENDIMENTO */
+#banner-canais-atendimento {
+    background-color: #0124aa!important;
+    padding: 30px 0;
+}
+#banner-canais-atendimento .sb-grid__home {
+    
+}
+#banner-canais-atendimento .sb-hotsite-template-1__banner__wrapper {
+    margin-top: 20px;
+    margin-right: -20px;
+}
+#banner-canais-atendimento .sb-hotsite-template-1__banner__wrapper__text__title {
+    font-family: "Campuni";
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+}
+#banner-canais-atendimento .sb-hotsite-template-1__banner__wrapper__text__sub-title {
+    font-family: "Campuni";
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+}
+/* END - BANNER CANAIS DE ATENDIMENTO */
+#banner1semanamei {
+    padding: 0 0 30px 0;
+    background-image: url("/Sebrae/Portal%20Sebrae/Semana%20MEI/Imagens/banner%20semana%20do%20mei%20home1.1-webp.webp");
+}
+#banner1semanamei .sb-hotsite-template-1__banner__wrapper__text__title {
+    font-family: 'Campuni';
+    font-weight: 700;
+    font-size: 33px;
+    line-height: 42px;
+    color: #FFFFFF;
+    margin-top: 40px;
+}
+#banner1semanamei .sb-hotsite-template-1__banner__wrapper__buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+#banner1semanamei .sb-hotsite-template-1__banner__img-mobile {
+    background-image: url("/Sebrae/Portal%20Sebrae/Semana%20MEI/Imagens/Eventos%20onlinemobile-webp.webp");
+}
+#banner1semanamei .sb-components__button.inline {
+    background-color: #FF723D;
+    padding: 8px 10px;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+}
+#banner1semanamei .sb-components__button.inline-alt {
+    color: #E77136;
+    background: #EEF9FB;
+    border: 1px solid #E77136;
+    padding: 8px 10px;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+}
+#banner2semanamei {
+    padding: 60px 0 0 0;
+}
+#banner2semanamei .sb-hotsite-template-1__banner__wrapper__text__title {
+    font-family: 'Campuni';
+    font-weight: 700;
+    font-size: 33px;
+    line-height: 126%;
+    color: #088CA5;
+    margin-top: -50px;
+}
+#banner2semanamei .sb-hotsite-template-1__banner__wrapper__buttons {
+    display: flex;
+    justify-content: center;
+}
+#banner2semanamei .sb-components__button.inline {
+    background-color: #FF723D;
+    padding: 8px 48px;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+}
+
+
+@media (max-width: 991.98px) {
+    #banner1semanamei {
+        background-color: #019cb9!important;
+    }
+    
+    #banner1semanamei .sb-hotsite-template-1__banner__wrapper {
+        max-width: 100%;
+        padding: 0;
+    }
+    
+    #banner1semanamei .sb-hotsite-template-1__banner__img-mobile {
+       background-color: #019cb9;
+    }
+    #banner1semanamei .sb-hotsite-template-1__banner__wrapper__text__title {
+        margin-top: 0;
+    }
+    
+    #banner2semanamei {
+        background-color: #9cd6e2!important
+    }
+    #banner2semanamei .sb-hotsite-template-1__banner__wrapper {
+        max-width: 100%;
+        padding: 0 0 30px 0;
+    }
+    #banner2semanamei .sb-hotsite-template-1__banner__wrapper__text__title {
+        margin-top: 0;
+    }
+}
+
+#vext-gen1060 .sb-typography__h1{
+    
+    margin-top: 32px!important;
+}
+
+#golpes .sb-components__button.inline {
+    background: #FFFF00;
+    color: #394D60;
+}
+
+#golpes .sb-hotsite-template-1__banner__wrapper__text__title {
+    font-size: 36px;
+
+}
+
+
+@media (max-width: 991.98px){
+#cartilha .sb-hotsite-template-1__banner__wrapper__text__title {
+
+    color: #394D60;
+
+}
+#cartilha .sb-hotsite-template-1__banner__wrapper__text__sub-title {
+
+    color: #394D60;
+
+}
+}
+
+
+
+#cartilha {
+    margin-top: 32px;
+     background-color: #ffffff!important; 
+}
+
+#cartilha .sb-hotsite-template-1__banner__wrapper__text__title {
+    font-size: 36px;
+    color: #792771;
+    font-family: Campuni;
+    font-weight: 700;
+}
+
+#cartilha .sb-hotsite-template-1__banner__wrapper__text__sub-title {
+    
+    font-size: 19px;
+    color: #394D60;
+    font-family: campuni;
+}
+
+#cartilha .sb-components__button.inline {
+    background: #792771;
+    color: #fff;
+}
+
+@media (max-width: 768px){
+    #decolamei .sb-common-content__banner-horizontal__text{ margin-left: -7% !important; }
+    #decolamei .sb-common-content__banner-horizontal__text a{ width:160px !important; }
+}
+
+#decolamei .sb-common-content__banner-horizontal__text{ margin-bottom: -40px; position: relative; margin-left: 28%; }
+#decolamei .sb-common-content__banner-horizontal__text a{ background: #84F4BC; color: #0041D9; font-weight: 700; width: 200px; }

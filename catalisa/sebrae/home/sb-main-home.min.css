@@ -1,0 +1,148 @@
+@media (min-width:992px){.sb-structure__accessibility__focus:focus{outline:0!important}.sb-structure__accessibility__focus:focus-visible{outline:0!important;position:relative}.sb-structure__accessibility__focus:focus-visible:before{content:""!important;position:absolute!important;display:block!important;width:calc(100% + 4px)!important;height:calc(100% + 4px)!important;top:-2px!important;left:-2px!important;border:2px solid #fff!important;border-radius:3px!important;background:0 0!important;z-index:9!important}.sb-structure__accessibility__focus:focus-visible:after{content:""!important;position:absolute!important;display:block!important;width:calc(100% + 4px)!important;height:calc(100% + 4px)!important;top:-2px!important;left:-2px!important;border:2px dashed #005eb8!important;border-radius:3px!important;background:0 0!important;z-index:9!important}}.sb-utilities__reset-button{cursor:pointer;display:inline-block;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-moz-appearance:none;-webkit-appearance:none;appearance:none;border:0}.sb-utilities__reset-button:focus{outline:0!important}.sb-home__carousel{position:relative;width:100%;max-width:100%}.sb-home__carousel #sbCarouselHome{padding-bottom:0;margin-bottom:0}.sb-home__carousel #sbCarouselHome .owl-item .item{background-color:#005eb8;background-position:center center;background-repeat:no-repeat;background-size:cover;width:100%;max-width:100%;min-width:100%}.sb-home__carousel #sbCarouselHome .owl-item .item img.mobile{display:none}@media (max-width:767px){.sb-home__carousel #sbCarouselHome .owl-item .item img.mobile{display:block}}.sb-home__carousel #sbCarouselHome .owl-item .item img.desktop{display:block}@media (max-width:767px){.sb-home__carousel #sbCarouselHome .owl-item .item img.desktop{display:none}}.sb-home__carousel #sbCarouselHome .owl-item .item .sb-components-carousel__caption .sb-container{padding:0 46px}@media (min-width:992px){.sb-home__carousel #sbCarouselHome .owl-item .item .sb-components-carousel__caption .sb-container{padding:0 142px}}.sb-home__carousel #sbCarouselHome .owl-item .item .sb-home__carousel__banner-mobile{background-color:#005eb8;background-position:center center;background-repeat:no-repeat;background-size:cover;width:100%;max-width:100%;min-width:100%;height:400px}@media (min-width:992px){.sb-home__carousel #sbCarouselHome .owl-item .item .sb-home__carousel__banner-mobile{display:none}}.sb-home__carousel #sbCarouselHome .owl-dots{margin:0!important;position:absolute;width:100%;bottom:16px}@media (max-width:991.98px){.sb-home__carousel #sbCarouselHome .owl-dots{bottom:8px}}.sb-home__carousel #sbCarouselHome .owl-dots .owl-dot{background-size:14px 14px}@media (max-width:991.98px){.sb-home__carousel #sbCarouselHome .owl-dots .owl-dot{margin-bottom:0}}.sb-home__carousel #sbCarouselHome .owl-dots .owl-dot span{width:14px;height:14px;-webkit-box-shadow:0 0 2px rgba(0,0,0,.25);-moz-box-shadow:0 0 2px rgba(0,0,0,.25);box-shadow:0 0 2px rgba(0,0,0,.25)}.sb-home__carousel #sbCarouselHome .owl-nav{max-width:1280px;margin:0 auto;display:none}.sb-home__carousel #sbCarouselHome .owl-nav button{top:calc(50% - 20px);background:0 0!important;box-shadow:none;margin:0!important;line-height:0!important;font-size:33px!important;z-index:5;opacity:1}.sb-home__carousel #sbCarouselHome .owl-nav button.owl-prev{left:13px}.sb-home__carousel #sbCarouselHome .owl-nav button.owl-next{right:13px}.sb-home__carousel #sbCarouselHome .owl-nav button.owl-next span,.sb-home__carousel #sbCarouselHome .owl-nav button.owl-prev span{margin:0}@media (min-width:992px){.sb-home__carousel #sbCarouselHome .owl-nav button{bottom:16px;font-size:40px!important;top:auto}.sb-home__carousel #sbCarouselHome .owl-nav button.owl-prev{left:93px}.sb-home__carousel #sbCarouselHome .owl-nav button.owl-next{right:93px}}.sb-home__carousel #sbCarouselHome .owl-nav .disabled{opacity:.5!important}@media (min-width:992px){.sb-home__carousel #sbCarouselHome .owl-nav{position:relative;display:block}}.sb-home__management-issues{padding:37px 0}.sb-home__management-issues .title__h1{margin-bottom:14px}@media (min-width:992px){.sb-home__management-issues{padding:66px 0}.sb-home__management-issues .title__h1{margin-bottom:16px}}.sb-home__management-issues .sb-home-tab .sb-components-tab{border-bottom:1px solid #eee}.sb-home__management-issues .sb-home-tab .sb-components-tab__item{padding:24px 12px 24px 60px;border-bottom:3px solid #fff}.sb-home__management-issues .sb-home-tab .sb-components-tab__item span{color:#979797;display:inline-block;width:48px;height:48px;border:1px solid #979797;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;left:0;top:calc(50% - 24px)}.sb-home__management-issues .sb-home-tab .sb-components-tab__item:nth-child(4){margin-right:0}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active{border-color:#283548}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active span{border-color:#283548}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.empreendedorismo{border-color:#ff8040}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.empreendedorismo span{border-color:#ff8040;color:#ff8040}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.planejamento{border-color:#ffbf40}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.planejamento span{border-color:#ffbf40;color:#ffbf40}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.financas{border-color:#83bf30}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.financas span{border-color:#83bf30;color:#83bf30}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.mercado{border-color:#00cc92}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.mercado span{border-color:#00cc92;color:#00cc92}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.inovacao{border-color:#a1adb3}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.inovacao span{border-color:#a1adb3;color:#a1adb3}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.cooperacao{border-color:#b07f4f}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.cooperacao span{border-color:#b07f4f;color:#b07f4f}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.pessoas{border-color:#bf303c}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.pessoas span{border-color:#bf303c;color:#bf303c}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.organizacao{border-color:#14adcc}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.organizacao span{border-color:#14adcc;color:#14adcc}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.leis{border-color:#994599}.sb-home__management-issues .sb-home-tab .sb-components-tab__item.active.leis span{border-color:#994599;color:#994599}@media (min-width:1200px){.sb-home__management-issues .sb-home-tab .sb-components-tab__item{padding:32px 12px 32px 60px;margin-right:54px}.sb-home__management-issues .sb-home-tab .sb-components-tab__item span{width:42px;height:42px;top:calc(50% - 21px)}}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem{display:inline-block}@media (min-width:992px){.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem{float:right}}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown{padding:26px 20px 26px 20px;border-bottom:3px solid #fff;color:#2c3e50;position:relative}@media (min-width:1200px){.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown{padding:34px 20px 37px 20px}}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header:before{content:'';width:100%;height:3px;background:0 0;position:absolute;bottom:0;left:0}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header i{color:#979797;display:inline-block;width:38px;height:38px;border:1px solid #979797;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;left:10px;top:calc(50% - 19px)}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.empreendedorismo:before{background:#ff8040}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.empreendedorismo i{border-color:#ff8040;color:#ff8040}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.planejamento:before{background:#ffbf40}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.planejamento i{border-color:#ffbf40;color:#ffbf40}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.financas:before{background:#83bf30}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.financas i{border-color:#83bf30;color:#83bf30}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.mercado:before{background:#00cc92}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.mercado i{border-color:#00cc92;color:#00cc92}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.inovacao:before{background:#a1adb3}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.inovacao i{border-color:#a1adb3;color:#a1adb3}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.cooperacao:before{background:#b07f4f}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.cooperacao i{border-color:#b07f4f;color:#b07f4f}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.pessoas:before{background:#bf303c}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.pessoas i{border-color:#bf303c;color:#bf303c}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.organizacao:before{background:#14adcc}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.organizacao i{border-color:#14adcc;color:#14adcc}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.leis:before{background:#994599}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__header.leis i{border-color:#994599;color:#994599}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__content ul li{text-align:left;padding:0 0 0 5px}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__content ul li a{font-size:16px;font-weight:500;font-style:normal;font-stretch:normal;line-height:normal;letter-spacing:.2px;cursor:pointer;color:#2c3e50;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;position:relative;padding:16px 20px 16px 60px}@media (min-width:1200px){.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__content ul li a{font-size:18px}}.sb-home__management-issues .sb-home-tab .sb-components-tab__subitem .sb-components-dropdown__content ul li a i{color:#979797;display:inline-block;width:38px;height:38px;border:1px solid #979797;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;left:10px;top:calc(50% - 19px)}@media (max-width:991.98px){.sb-home__management-issues .sb-home-tab .sb-components-tab{position:absolute;width:calc(100% - 20px);padding-right:20px;border-bottom:0;height:-webkit-fill-available}}.sb-home__management-issues__content{padding:37px 0 0;margin-top:87px;min-height:585px}@media (min-width:992px){.sb-home__management-issues__content{margin-top:0}}@media (max-width:1279.98px){.sb-home__management-issues__content .text-gray-light{padding:0 20px}}.sb-home__management-issues__content .sb-components-tab-content .sb-components-tab-content .sb-components-carousel .owl-carousel{min-height:453px}@media (min-width:992px){.sb-home__management-issues__content .sb-components-tab-content .sb-components-tab-content .sb-components-carousel .owl-carousel{min-height:513px}}.sb-home__information{background:#fff!important}.sb-home__video-content__card{display:block;border-radius:5px;color:inherit;text-decoration:none;position:relative;font-style:normal;font-stretch:normal;letter-spacing:normal}.sb-home__video-content__card *{border-radius:5px}.sb-home__video-content__card__bg-img{display:block;width:100%;background-color:rgba(0,0,0,.2);background-position:center center;background-repeat:no-repeat;background-size:cover}.sb-home__video-content__card .backdrop{position:absolute;width:100%;height:100%;top:0;left:0;background:-moz-linear-gradient(bottom,rgba(0,0,0,.65) 26%,rgba(0,0,0,.4) 55%,rgba(0,0,0,0) 100%);background:-webkit-linear-gradient(bottom,rgba(0,0,0,.65) 26%,rgba(0,0,0,.4) 55%,rgba(0,0,0,0) 100%);background:linear-gradient(to top,rgba(0,0,0,.65) 26%,rgba(0,0,0,.4) 55%,rgba(0,0,0,0) 100%);color:#fff}.sb-home__video-content__card .backdrop .time{position:absolute;top:12px;right:12px;font-size:12px;font-weight:900;line-height:normal}.sb-home__video-content__card .caption{padding:24px 20px;position:absolute;width:100%;bottom:0}.sb-home__video-content__card b{font-size:24px;font-weight:900;line-height:normal;color:#fff}.sb-home__video-content__card p{font-size:16px;line-height:1.5;color:#fff;margin:0}.sb-home__video-content__card.big .sb-home__video-content__card__bg-img{height:340px}.sb-home__video-content__card.big .backdrop{display:flex;justify-content:center;align-items:center}.sb-home__video-content__card.big .backdrop .play{width:72px;height:72px}.sb-home__video-content__card.small .sb-home__video-content__card__bg-img{height:186px}@media (min-width:992px){.sb-home__video-content__card.small .sb-home__video-content__card__bg-img{height:163px}}.sb-home__video-content__card.small .backdrop .play{display:inline-block;width:40px;height:40px;margin:12px 0 0 12px}.sb-home__video-content__card.small .caption{padding:20px 16px}.sb-home__video-content__card.small b{font-size:18px}.sb-home__video-content__card.small p{display:none}@media (min-width:992px){.sb-home__video-content__card.small:hover .backdrop .play,.sb-home__video-content__card.small:hover .backdrop .time{display:none}.sb-home__video-content__card.small:hover .caption{background:rgba(0,0,0,.6);height:100%;display:flex;justify-content:center;align-items:center;border-radius:0}.sb-home__video-content__card.small:hover b{display:none}.sb-home__video-content__card.small:hover p{display:block}}.sb-home__video-content__card.mg-b{margin-bottom:14px}@media (min-width:992px){.sb-home__video-content{padding:57px 0}}@media (max-width:991.98px){.sb-home__video-content .text-right{text-align:center}}.sb-home__who-is-sebrae .sb-container{padding-left:0;padding-right:0}.sb-home__who-is-sebrae__text{padding:62px 31px 31px 31px}.sb-home__who-is-sebrae__text .title__h1{margin-bottom:12px}.sb-home__who-is-sebrae__text p{margin-bottom:9px;font-size:16px;font-weight:400;line-height:1.75;letter-spacing:normal;color:#4a4a4a}@media (max-width:991.98px){.sb-home__who-is-sebrae__text{padding:62px 20px 31px 20px}.sb-home__who-is-sebrae__text .title__h1{padding:0}}@media (min-width:992px){.sb-home__who-is-sebrae__text{padding:115px 115px}.sb-home__who-is-sebrae__text .title__h1{margin-bottom:43px}.sb-home__who-is-sebrae__text p{margin-bottom:30px;font-size:18px;line-height:1.78}}.sb-home__who-is-sebrae__img{position:relative;width:100%}.sb-home__who-is-sebrae__img picture img{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover;object-position:center}.sb-home__who-is-sebrae__img span{display:block;position:absolute;width:100%;height:100%;top:0;background-position:center center;background-repeat:no-repeat;background-size:cover;background-color:#f1f1f1}@media (min-width:992px){.sb-home__who-is-sebrae__img{height:460px}}@media (min-width:992px){.sb-home__who-is-sebrae__img{height:100%}}@media (max-width:991.98px){.sb-home__who-is-sebrae__img{height:230px}}.sb-home__who-is-sebrae .grafismo-home{position:absolute;bottom:-40px;font-size:51px;color:#006ec7;right:35px;width:115px;height:51px}@media (min-width:992px){.sb-home__who-is-sebrae .grafismo-home{width:179px;height:79px;right:auto;bottom:36px;left:-90px;font-size:79px}}.sb-home__information,.sb-home__new-courses,.sb-home__video-content{padding:37px 0}.sb-home__information .title__h1,.sb-home__new-courses .title__h1,.sb-home__video-content .title__h1{margin-bottom:14px}@media (min-width:992px){.sb-home__information,.sb-home__new-courses,.sb-home__video-content{padding:66px 0}.sb-home__information .title__h1,.sb-home__new-courses .title__h1,.sb-home__video-content .title__h1{margin-bottom:48px}}.sb-home #sbCarouselHome.owl-carousel,.sb-home .sbCarouselInformacoes.owl-carousel{padding-bottom:0}.sb-grid__home section:not(.sb-home__carousel):not(.sb-chat-online):not(.sb-common-content__chat-online):not(.sb-area-logada):not(.sc-evcjhq){padding:0!important}@media (min-width:992px){.sb-grid__home section:not(.sb-home__carousel):not(.sb-chat-online):not(.sb-common-content__chat-online):not(.sb-area-logada):not(.sc-evcjhq){padding:0!important}}
+
+
+
+
+#cartilha .sb-common-content__banner-horizontal__text{ position: relative; margin-left: 57%; top: 0px; }
+#cartilha .sb-common-content__banner-horizontal__text a{ position: relative; margin-left: 0%; border-radius: 100px; font-weight: 700; background: #0041D9; padding: 8px 35px 8px 35px; }
+
+
+section[data-sb-categoria="ps-dv-destaque-horizontal - cartilha2"] .sb-common-content__banner-horizontal__text{ margin-left:55%; }
+section[data-sb-categoria="ps-dv-destaque-horizontal - cartilha2"] .sb-common-content__banner-horizontal__text strong{ display:none; }
+section[data-sb-categoria="ps-dv-destaque-horizontal - cartilha2"] .sb-common-content__banner-horizontal__text a{ position: relative; margin-left: 0%; border-radius: 100px; font-weight: 700; background: #0041D9; padding: 8px 35px 8px 35px; }
+
+
+
+@media screen and (max-width:780px){
+    #cartilha .sb-common-content__banner-horizontal__text {
+        position: relative;
+        margin-left: 12% !important; 
+        top: 25px !important;
+        margin-top: 44px !important;
+    }
+    section[data-sb-categoria="ps-dv-destaque-horizontal - cartilha2"] .sb-common-content__banner-horizontal__text {
+        margin-left: 20% !important;
+    }
+}
+
+
+#titulo-sm .sb-container{
+    background: url("/Sebrae/Portal Sebrae/MEI/semana do mei 2024/bg-podcast-home.png") top center no-repeat;
+    background-size: cover;
+    padding-bottom: 0px !important;
+    max-width: none;
+    padding: 40px 0px 40px 0px;
+}
+#titulo-sm .sb-container .col-12:first-child{ display:none; }
+#titulo-sm .sb-container .col-12{ position: relative; top: -20px; }
+
+
+
+
+#manha{
+    background: #0041D9 url("/Sebrae/Portal Sebrae/MEI/semana do mei 2024/bg-manha-home.png") top center no-repeat;
+    background-size: cover;
+    padding-bottom: 0px !important;
+}
+
+
+#manha .sb-hotsite-carousel-display__title p{ font-size: 30px; line-height: normal; font-weight: 700; color: #3B4AFF; }
+#manha .owl-carousel{ margin:0px; }
+#manha .sb-grid .sb-components-carousel .owl-carousel:not(.ct-tab) .owl-nav button{ background-color: linear-gradient(185deg, #CD5BE8, #9285F9) !important; }
+
+#manha .sb-destaque-text { position: relative; top: -148px; }
+#manha .sb-destaque-text strong { font-size: 15px; line-height:18px; }
+#manha .sb-destaque-text p {color: #40CC86; margin-top:15px; }
+#manha .owl-carousel.owl-drag .owl-item .sb-components-button{ position: relative; top: -85px; }
+
+#manha .owl-dots { position:relative !important; top:-60px !important; }
+
+#manha .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-destaque-text { top: -142px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-destaque-text strong{ font-size: 16px; line-height: 18px; margin-bottom: 13px; margin-top: -7px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-destaque-text p{ color: #CD5BE8 !important; position: relative; top: 1px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-components-button{ position: relative; top: -75px; }
+
+#manha .owl-carousel.owl-drag .owl-item:nth-child(3) .sb-destaque-text { top: -134px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(3) .sb-destaque-text strong{ font-size: 16px; line-height: 14px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(3) .sb-destaque-text p{ color: #CD5BE8 !important; margin-top:22px }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(3) .sb-components-button{ position: relative; top: -70px; }
+
+#manha .owl-carousel.owl-drag .owl-item:nth-child(4) .sb-destaque-text { top: -155px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(4) .sb-destaque-text strong{ font-size: 16px; line-height: 17px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(4) .sb-destaque-text p{ color: #F4455A !important; margin-top: 0px; position: relative; top: -3px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(4) .sb-components-button{ position: relative; top: -94px; }
+
+#manha .owl-carousel.owl-drag .owl-item:nth-child(5) .sb-destaque-text { top: -149px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(5) .sb-destaque-text strong{ font-size: 16px; line-height: 19px; margin-bottom: 0px; }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(5) .sb-destaque-text p{ color: #F4455A !important; margin-top:13px }
+#manha .owl-carousel.owl-drag .owl-item:nth-child(5) .sb-components-button{ position: relative; top: -85px; }
+
+
+#manha .owl-carousel.owl-drag .owl-item:hover img { transition : none !important; transform : none !important; }
+
+
+
+
+
+
+
+
+#tarde{
+    background:#0041D9 url("/Sebrae/Portal Sebrae/MEI/semana do mei 2024/bg-tarde-home.png") top center no-repeat;
+    background-size: cover;
+    padding-bottom: 0px !important;
+}
+
+
+#tarde .sb-hotsite-carousel-display__title p{ font-size: 30px; line-height: normal; font-weight: 700; color: #3B4AFF; }
+#tarde .sb-grid .sb-components-carousel .owl-carousel{ margin:0px; }
+#tarde .sb-grid .sb-components-carousel .owl-carousel:not(.ct-tab) .owl-nav button{ background-color: linear-gradient(185deg, #CD5BE8, #9285F9) !important; }
+#tarde .sb-destaque-text { position: relative; top: -148px; }
+#tarde .sb-destaque-text strong { font-size: 19px; line-height:18px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-destaque-text p{ color: #40CC86 !important; }
+#tarde .owl-carousel.owl-drag .owl-item:hover img { transition : none !important; transform : none !important; }
+
+
+#tarde .sb-destaque-text { position: relative; top: -148px; }
+#tarde .sb-destaque-text strong { font-size: 19px; margin-top:0px; margin-bottom: 18px; }
+#tarde .sb-destaque-text p { color: #EA804B; position: relative; top: -6px; line-height: 14px; }
+#tarde .owl-carousel.owl-drag .owl-item .sb-components-button{ position: relative; top: -90px; }
+
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-destaque-text { top: -131px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-destaque-text strong{ font-size: 19px; line-height: 23px; margin-bottom: -1px; margin-top:-12px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-destaque-text p { color: #1A9557 !important; margin-top: 0px; position: relative; top: 20px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(2) .sb-components-button{ position: relative; top: -44px; }
+
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(3) .sb-destaque-text { top: -147px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(3) .sb-destaque-text strong{ font-size: 19px; margin-top: 6px; line-height: 19px; margin-bottom: 11px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(3) .sb-destaque-text p { color: #EA804B; position: relative; top: 0px; line-height: 14px; margin-top:21px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(3) .sb-components-button{ position: relative; top: -84px; }
+
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(4) .sb-destaque-text { top: -149px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(4) .sb-destaque-text strong{ font-size: 19px; margin-top: 0px; line-height: 20px; margin-bottom: 8px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(4) .sb-destaque-text p { color: #EA804B; position: relative; top: -1px; line-height: 14px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(4) .sb-components-button{ position: relative; top: -84px; }
+
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(5) .sb-destaque-text { top: -160px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(5) .sb-destaque-text strong{ font-size: 19px; margin-top: 10px; line-height: 20px; margin-bottom: 25px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(5) .sb-destaque-text p { color: #EA804B; position: relative; top: -15px; line-height: 14px; }
+#tarde .owl-carousel.owl-drag .owl-item:nth-child(5) .sb-components-button{ position: relative; top: -109px; }
+
+
+
+
+
+
+
+
+
+#tarde .owl-carousel{ margin:0px; }
+#tarde .owl-dots { position:relative !important; top:-60px !important; }
+
+
+
+
+
+
+
+

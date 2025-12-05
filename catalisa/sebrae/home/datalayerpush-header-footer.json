@@ -1,0 +1,6 @@
+    {
+        "componentDataLayerPushHeaderEnable": true,
+        "componentDataLayerPushFooterEnable": true,
+        "debugMode": false,
+        "isLinksAboutUsEnable" : true
+    }
