@@ -39,7 +39,6 @@ function App() {
             </Route>
 
           <Route path={"/sebrae"} element={<SebraeHome/>}/>
-
           <Route path={"/sebrae/cursos"} element={<SebraeCursos/>}/>
           <Route path={"/sebrae/cursos/marketing"} element={<SebraeCursoMarketing/>}/>
           <Route path={"/sebrae/cursos/financas"} element={<SebraeCursoFinancas/>}/>
