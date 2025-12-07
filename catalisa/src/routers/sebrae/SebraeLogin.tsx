@@ -4,7 +4,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-export default function Sebraelogin (){
+export default function SebraeLogin (){
     const navigate = useNavigate();
     const { login } = useAuth();
 

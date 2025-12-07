@@ -14,11 +14,11 @@ import TestConsumo from "@/routers/TestConsumo.tsx";
 import CadastroProduto from "@/routers/TestProduct.tsx";
 import Cadastro from "@/components/telaCadastro/Cadastro.tsx";
 import SebraeHome from './routers/sebrae/SebraeHome.tsx';
-import Sebraelogin from './routers/sebrae/SebraeLogin.tsx';
+import SebraeCadastro from './routers/sebrae/SebraeCadastro.tsx';
+import SebraeLogin from './routers/sebrae/SebraeLogin.tsx';
 import SebraeCursos from './routers/sebrae/SebraeCursos.tsx';
 import SebraeCursoMarketing from './routers/sebrae/SebraeCursoMarketing.tsx';
 import SebraeCursoFinancas from './routers/sebrae/SebraeCursoFinancas.tsx';
-
 
 function App() {
   return (
@@ -47,7 +47,8 @@ function App() {
         </Route>
 
         <Route path={"/sebrae"} element={<SebraeHome/>}/>
-        <Route path={"/sebrae/login"} element={<Sebraelogin/>}/>
+        <Route path={"/sebrae/login"} element={<SebraeLogin/>}/>
+        <Route path={"/sebrae/cadastro"} element={<SebraeCadastro/>}/>
 
         <Route path='*' element={<NotFound/>}/>
         <Route path={"/pesquisa"} element={<Pesquisa/>}/>
