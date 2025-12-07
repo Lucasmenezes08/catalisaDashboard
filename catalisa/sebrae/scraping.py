@@ -5,8 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-URL = "https://sebrae.com.br/sites/PortalSebrae/cursosonline/gestao-financeira,e059d743ad3a8910VgnVCM1000001b00320aRCRD"
-OUTPUT_DIR = "cursoFinancas"
+URL = "https://amei.sebrae.com.br/auth/realms/externo/login-actions/registration?client_id=meu-mural-frontend&tab_id=oXkl0xQ2Bes"
+OUTPUT_DIR = "cadastro"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 downloaded = set()
