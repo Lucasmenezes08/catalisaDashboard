@@ -106,7 +106,13 @@ public class DashboardService {
         return promotores - detratores;
     }
 
-
+    public int getNota0CSAT() {
+        int contador = 0;
+        for (Pesquisa pesquisa : getTodasPesquisas()) {
+            if (pesquisa.getTipoPesquisa() == TipoPesquisa.CSAT && pesquisa.getNota() == 0) contador++;
+        }
+        return contador;
+    }
     public int getNota1CSAT() {
         int contador = 0;
         for (Pesquisa pesquisa : getTodasPesquisas()) {

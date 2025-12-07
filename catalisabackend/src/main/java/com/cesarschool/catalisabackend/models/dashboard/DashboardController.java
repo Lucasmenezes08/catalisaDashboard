@@ -108,6 +108,7 @@ public class DashboardController {
     @GetMapping("/csat/distribuicao")
     public ResponseEntity<?> getDistribuicaoCSAT() {
         Map<String, Integer> body = new HashMap<>();
+        body.put("nota0", dashboardService.getNota0CSAT());
         body.put("nota1", dashboardService.getNota1CSAT());
         body.put("nota2", dashboardService.getNota2CSAT());
         body.put("nota3", dashboardService.getNota3CSAT());
