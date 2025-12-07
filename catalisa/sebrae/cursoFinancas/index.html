@@ -9080,13 +9080,45 @@
   </div>
 
   <script>
-    const payload = {
-      name: "Gestão Financeira",
-      type: "CURSO",
-      description: "Este curso apresenta os fundamentos da gestão financeira para quem está começando ou quer estruturar melhor seu negócio."
-    }
+    document.getElementById("btnSubscription").addEventListener("click", async function (event) {
+      event.preventDefault(); // Impede o redirecionamento imediato
 
-    localStorage.setItem("payload", JSON.stringify(payload));
+      const userId = localStorage.getItem("userId");  // exemplo — ajuste conforme seu app
+
+      const dataConsumo = new Date().toISOString().split('T')[0];
+
+      const consumoRequest = {
+        userId: userId,
+        productId: 2,
+        dataConsumo: dataConsumo,
+        avaliacao: 1,
+        pesquisaRespondida: false,
+        pesquisaId: null
+      };
+
+      try {
+        const response = await fetch("http://localhost:8080/api/v2/consumos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(consumoRequest)
+        });
+
+        if (!response.ok) {
+          throw new Error("Erro ao enviar consumo");
+        }
+
+        console.log("Consumo enviado com sucesso!");
+
+        // Agora redireciona...
+        window.location.href = "/pesquisa";
+
+      } catch (error) {
+        console.error("Erro no envio:", error);
+        alert("Erro ao registrar consumo.");
+      }
+    });
   </script>
 </body>
 
