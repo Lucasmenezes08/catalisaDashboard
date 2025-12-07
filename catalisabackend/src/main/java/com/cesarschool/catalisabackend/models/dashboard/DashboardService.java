@@ -195,7 +195,7 @@ public class DashboardService {
 
             Sentimento s = analiseSentimentoService.classificar(resposta);
 
-            if (s == Sentimento.MUITO_POSITIVO || s == Sentimento.POSITIVO) {
+            if (s == Sentimento.MUITO_POSITIVO || s == Sentimento.POSITIVO || s == Sentimento.NEUTRO) {
                 positivos++;
             } else {
                 negativos++;
