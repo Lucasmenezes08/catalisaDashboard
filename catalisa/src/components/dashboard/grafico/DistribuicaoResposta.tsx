@@ -90,7 +90,6 @@ export default function DistribuicaoResposta() {
         };
     }, [csatData]);
 
-    console.log(csatData?.nota0);
 
     const options = {
         responsive: true,
