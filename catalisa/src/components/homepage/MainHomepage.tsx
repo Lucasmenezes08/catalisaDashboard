@@ -18,8 +18,6 @@ export default function MainHomepage(){
                     <img className={"w-12"} src={setaDiagonal}/>
 
                 </section>
-
-
             </section>
         </section>
     )
