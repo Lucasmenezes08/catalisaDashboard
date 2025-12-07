@@ -9063,8 +9063,8 @@
     document.getElementById("btnSubscription").addEventListener("click", async function (event) {
       event.preventDefault(); // Impede o redirecionamento imediato
 
-      const userId = localStorage.getItem("userId");  // exemplo — ajuste conforme seu app
-
+      const dataStorage = localStorage.getItem("auth-storage");  // exemplo — ajuste conforme seu app
+       const userId = JSON.parse(dataStorage).state.user.id;
       const dataConsumo = new Date().toISOString().split('T')[0];
 
       const consumoRequest = {
