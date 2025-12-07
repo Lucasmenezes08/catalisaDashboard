@@ -5,7 +5,7 @@ import setaDiagonal from "@/assets/seta_diagonal.svg";
 
 export default function MainHomepage(){
     return (
-        <section className={"min-h-screen w-full flex items-center justify-center bg-white"}>
+        <section className={"min-h-screen w-full flex items-center justify-center bg-white"} id="main">
             <section className={"relative flex items-center justify-center flex-row w-full px-8 gap-15"}>
                 <img src={iconHomepage}/>
                 <section className={"flex flex-col items-end gap-1"}>

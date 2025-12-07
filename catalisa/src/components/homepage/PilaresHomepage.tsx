@@ -5,7 +5,7 @@ import comeia from "../../assets/comeia.svg"
 
 export default function PilaresHomepage() {
     return (
-        <section className="min-h-screen w-full flex flex-col items-center justify-center gap-y-16 bg-[#EAEAEC]/56">
+        <section className="min-h-screen w-full flex flex-col items-center justify-center gap-y-16 bg-[#EAEAEC]/56" id="pilares">
             <img src={nossosPilares} alt="nossos pilares" />
             <section className="flex flex-row justify-center gap-x-6">
                 <section className="flex flex-col border-2 border-black px-6 py-8 items-start gap-y-6">

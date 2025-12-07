@@ -10,9 +10,9 @@ export default function FooterHomepage() {
                 <section className="flex flex-row items-start justify-center gap-x-32">
                     <section className="flex flex-col items-start gap-y-4">
                         <p className="text-gray-400 text-sm mb-2">Navegação</p>
-                        <p className="text-white">Início</p>
-                        <p className="text-white">Sobre nós</p>
-                        <p className="text-white">Pilares</p>
+                        <a href="#inicio">Inicio</a>
+                        <a href="#content">Sobre nós</a>
+                        <a href="#pilares">Pilares</a>
                     </section>
                     
                     <section className="flex flex-col items-start gap-y-4">
