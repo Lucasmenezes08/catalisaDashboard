@@ -1,6 +1,7 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
 import com.cesarschool.catalisabackend.models.consumo.Consumo;
+import com.cesarschool.catalisabackend.models.product.Product;
 import com.cesarschool.catalisabackend.models.user.User;
 import com.cesarschool.catalisabackend.models.user.UserResponseDTO;
 import com.cesarschool.catalisabackend.models.utils.ResultService;
@@ -18,7 +19,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v2/pesquisas")
@@ -64,6 +67,17 @@ public class PesquisaController {
     }
 
     // ========= READ BY ID =========
+    @GetMapping("/{id}/produto")
+    public ResponseEntity<?> getProduto(@PathVariable("id") long id) {
+        Product produto = pesquisaService.getPesquisa(id).getConsumo().getProduto();
+        if(produto == null){
+            throw new RuntimeException("Pesquisa inexistente");
+        }
+        Map<String, String> body = new HashMap<>();
+        body.put("NomeProduto", produto.getName());
+        body.put("descricao", produto.getDescription());
+        return ResponseEntity.ok(body);
+    }
     @GetMapping("/{id}")
     @Transactional(readOnly = true)
     public ResponseEntity<?> obterPorId(@PathVariable long id) {
