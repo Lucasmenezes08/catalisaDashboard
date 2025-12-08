@@ -42,7 +42,23 @@ public class AnaliseSentimentoService {
                 "funciona perfeitamente",
                 "funciona perfeitamente bem",
                 "atendimento incrível", "atendimento incrivel",
-                "experiência incrível", "experiencia incrivel"
+                "experiência incrível", "experiencia incrivel",
+                "excepcional", "excepcionais",
+                "magnífico", "magnifico", "magnífica", "magnifica",
+                "surpreendente", "surpreendentes",
+                "soberbo",
+                "fora de série", "fora da curva",
+                "monstruoso",
+                "impressionante",
+                "épico", "epico",
+                "divino", "divina",
+                "obra-prima", "obra prima",
+                "sensacional de verdade",
+                "excelente custo benefício", "excelente custo beneficio",
+                "perfeito do começo ao fim",
+                "maravilhoso demais",
+                "brabo demais"
+
         );
 
         // POSITIVO (+1)
@@ -76,7 +92,21 @@ public class AnaliseSentimentoService {
                 "produto bom",
                 "boa qualidade",
                 "serviço bom", "servico bom",
-                "atendimento bom"
+                "atendimento bom",
+                "satisfatório", "satisfatorio",
+                "bacaninha",
+                "legalzinho",
+                "agradável demais", "agradavel demais",
+                "corresponde ao anunciado",
+                "compatível com a descrição", "compativel com a descricao",
+                "funcionamento aceitável",
+                "recomendo bastante",
+                "bem satisfatório", "bem satisfatorio",
+                "preço justo", "preco justo",
+                "gostei do atendimento",
+                "voltaria a comprar",
+                "ótima experiência", "otima experiencia"
+
         );
 
         // NEUTRO (0)
@@ -111,8 +141,22 @@ public class AnaliseSentimentoService {
                 "suporte ruim",
                 "frustrado", "frustrada",
                 "insatisfeito", "insatisfeita",
-                "pouco satisfeito", "pouco satisfeita",
-                "não gostei do atendimento", "nao gostei do atendimento"
+                "pouco satisfeito", "pouco satisfecha", "pouco satisfeita",
+                "não gostei do atendimento", "nao gostei do atendimento",
+                "qualidade ruim",
+                "bem fraco",
+                "abaixo da média", "abaixo da media",
+                "não funcionou como esperado", "nao funcionou como esperado",
+                "produto simples demais",
+                "me decepcionou um pouco",
+                "serviço fraco", "servico fraco",
+                "compatibilidade ruim",
+                "funciona, mas mal",
+                "podia melhorar bastante",
+                "não vale o preço", "nao vale o preco",
+                "experiência fraca", "experiencia fraca",
+                "qualidade inferior"
+
         );
 
         // MUITO NEGATIVO (-2)
@@ -156,7 +200,25 @@ public class AnaliseSentimentoService {
                 "não comprem", "nao comprem",
                 "vontade de devolver",
                 "quero devolver",
-                "horrível atendimento", "horrivel atendimento"
+                "horrível atendimento", "horrivel atendimento",
+                "péssimo demais", "pessimo demais",
+                "horrível demais", "horrivel demais",
+                "detestei muito",
+                "odiei demais",
+                "qualidade horrenda",
+                "deplorável", "deploravel",
+                "repugnante",
+                "nojento", "nojenta",
+                "lixo absoluto",
+                "desastre total",
+                "fracasso total",
+                "completamente inútil", "completamente inutil",
+                "dinheiro perdido",
+                "produto ridículo", "produto ridiculo",
+                "experiência traumatizante", "experiencia traumatizante",
+                "imprestável", "imprestavel",
+                "não funciona de jeito nenhum", "nao funciona de jeito nenhum",
+                "chegou destruído", "chegou destruido"
         );
     }
 
