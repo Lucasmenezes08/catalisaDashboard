@@ -51,7 +51,7 @@ export default function NivelSatisfacao() {
     return (
         <section className="w-full h-full flex flex-col rounded-xl border border-solid border-black bg-gray-100">
 
-            <section className="relative flex justify-center items-center p-4 border-b border-black bg-white rounded-t-xl">
+            <section className="relative flex justify-center items-center p-4 border-b border-black rounded-t-xl">
                 <h2 className="text-md font-medium text-black uppercase">Nível de Satisfação</h2>
                 <CiCircleInfo
                     className="absolute right-4 text-blue-700 cursor-pointer hover:text-blue-900"
