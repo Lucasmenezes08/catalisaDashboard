@@ -1,5 +1,7 @@
 package com.cesarschool.catalisabackend.models.dashboard;
 
+import com.cesarschool.catalisabackend.models.consumo.Consumo;
+import com.cesarschool.catalisabackend.models.consumo.ConsumoRepository;
 import com.cesarschool.catalisabackend.models.pesquisa.Pesquisa;
 import com.cesarschool.catalisabackend.models.pesquisa.PesquisaRepository;
 import com.cesarschool.catalisabackend.models.pesquisa.TipoCliente;
@@ -15,11 +17,13 @@ import java.util.Map;
 @Service
 public class DashboardService {
     private final PesquisaRepository pesquisaRepository;
+    private final ConsumoRepository consumoRepository;
     private final AnaliseSentimentoService analiseSentimentoService;
 
-    public DashboardService(PesquisaRepository pesquisaRepository, AnaliseSentimentoService analiseSentimentoService) {
+    public DashboardService(PesquisaRepository pesquisaRepository, AnaliseSentimentoService analiseSentimentoService, ConsumoRepository consumoRepository) {
         this.pesquisaRepository = pesquisaRepository;
         this.analiseSentimentoService = analiseSentimentoService;
+        this.consumoRepository = consumoRepository;
     }
 
     private List<Pesquisa> getTodasPesquisas() {
@@ -164,7 +168,7 @@ public class DashboardService {
         }
         return (double) soma / quantidade;
     }
-    public int getPorcentagemRespostasCSAT(){
+    public int  getPorcentagemRespostasCSAT(){
         if(getTodasPesquisas().isEmpty()) return 0;
         int contador = 0;
         int total = 0;
@@ -195,7 +199,7 @@ public class DashboardService {
 
             Sentimento s = analiseSentimentoService.classificar(resposta);
 
-            if (s == Sentimento.MUITO_POSITIVO || s == Sentimento.POSITIVO) {
+            if (s == Sentimento.MUITO_POSITIVO || s == Sentimento.POSITIVO || s == Sentimento.NEUTRO) {
                 positivos++;
             } else {
                 negativos++;
@@ -206,8 +210,8 @@ public class DashboardService {
         double percNegativos = 0.0;
 
         if (total > 0) {
-            percPositivos = (positivos * 100.0) / total;
-            percNegativos = (negativos * 100.0) / total;
+            percPositivos = Math.round(percPositivos * 10.0) / 10.0;
+            percNegativos = Math.round(percNegativos * 10.0) / 10.0;
         }
         Map<String, Object> resultado = new HashMap<>();
         resultado.put("tipoPesquisa", tipoPesquisa.name());
@@ -227,4 +231,24 @@ public class DashboardService {
     public Map<String, Object> calcularSentimentoCsat() {
         return calcularSentimentoPorPesquisa(TipoPesquisa.CSAT);
     }
+    public double getPorcentagemPesquisaConsumoCSAT() {
+        List<Consumo> consumos = consumoRepository.getAll();
+        int contConsumo = 0;
+        int contPesquisa = 0;
+
+        for (Consumo consumo : consumos) {
+            contConsumo++;
+            if (consumo.getPesquisa() != null) {
+                contPesquisa++;
+            }
+        }
+
+        if (contConsumo == 0) {
+            return 0.0;
+        }
+
+        double porcentagem = (contPesquisa * 100.0) / contConsumo;
+        return Math.round(porcentagem * 10.0) / 10.0;
+    }
+
 }
