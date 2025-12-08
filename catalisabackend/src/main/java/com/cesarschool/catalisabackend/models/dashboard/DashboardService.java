@@ -232,7 +232,7 @@ public class DashboardService {
         return calcularSentimentoPorPesquisa(TipoPesquisa.CSAT);
     }
     public double getPorcentagemPesquisaConsumoCSAT() {
-        List<Consumo> consumos = consumoRepository.getAll();
+        List<Consumo> consumos = consumoRepository.findAll();
         int contConsumo = 0;
         int contPesquisa = 0;
 
