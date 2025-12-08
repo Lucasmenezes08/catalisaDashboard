@@ -31,17 +31,16 @@ export function ConsumoButton({
         setIsLoading(true);
         setError(null);
 
-        // Define a data (ex: '2025-11-05')
         const dataConsumo = new Date().toISOString().split('T')[0];
 
-        // Payload para criar o 'Consumo' inicial
+
         const consumoRequest = {
             userId: user.id,
             productId: productId,
             dataConsumo: dataConsumo,
-            avaliacao: 1, // Nota placeholder (API exige se 'respondida' for true)
-            pesquisaRespondida: false, // <-- O MAIS IMPORTANTE
-            pesquisaId: null            // <-- O MAIS IMPORTANTE
+            avaliacao: 1,
+            pesquisaRespondida: false,
+            pesquisaId: null
         };
 
         try {

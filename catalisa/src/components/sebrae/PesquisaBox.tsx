@@ -4,6 +4,7 @@ import personagem from "../../assets/personagem.png";
 import { useAuth } from "@/store/useAuth.tsx";
 import { overlayVariants, modalVariants, newMessageVariants } from "@/utils/motionFunctions.ts";
 import type { ConsumoResponseDTO, PesquisaBoxProps } from "@/types/types.ts";
+import {useNavigate} from "react-router-dom";
 
 type MessageType = 'system' | 'user';
 
@@ -25,12 +26,17 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
     const [nota, setNota] = useState<number | null>(null);
     const [nomeProduto, setNomeProduto] = useState("este serviço");
     const isLoaded = useRef(false);
+    const navigate = useNavigate();
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
+
+    function navegarPagina (){
+        setTimeout(() => navigate('/sebrae') , 3000)
+    }
 
     useEffect(() => {
         if (!consumo.productId) {
@@ -61,6 +67,12 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
     useEffect(() => {
         scrollToBottom();
     }, [messages, step]);
+
+    useEffect(() => {
+        if (step === 5){
+            navegarPagina();
+        }
+    }, [step]);
 
     useEffect(() => {
         if (isLoaded.current || nomeProduto === "este serviço") return;
@@ -156,7 +168,6 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
     };
 
     const handleSendText = async () => {
-        if (!inputValue.trim() || nota === null) return;
         const comentarioFinal = inputValue.trim();
 
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', content: <p className="text-sm">{comentarioFinal}</p> }]);
@@ -356,6 +367,7 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
                                 {step === 5 && (
                                     <motion.div key="step5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full h-full flex items-center justify-center">
                                         <span className="text-green-400 text-sm font-bold animate-pulse">Enviado!</span>
+
                                     </motion.div>
                                 )}
 

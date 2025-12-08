@@ -82,7 +82,7 @@ export default function Login (){
                     {errorMessage && (<p className={"text-red-800 text-sm"}>{errorMessage}</p>)}
                 </section>
 
-                <section className="flex flex-col justify-start gap-3">
+                <section className="flex flex-col justify-start gap-3 pb-4">
                     <label className="text-sm" htmlFor="senha">Senha</label>
                     <section className={`flex flex-row justify-between items-center h-12 w-full text-sm px-4 text-gray-400 font-light border border-solid border-gray-400 rounded-lg ${errorMessage ? "border border-red-500" : ''}`}>
                         <input className={"w-full outline-none"} type={showPassword ? "text" : "password"} name="senha" placeholder="Sua senha" onChange={(e) => setPassword(e.target.value)} value={password} required/>
@@ -90,8 +90,6 @@ export default function Login (){
                         {showPassword && <FaEyeSlash className="cursor-pointer" size={18} onClick={handleShow}/>}
                     </section>
                 </section>
-
-                <p className="underline font-semibold text-center cursor-pointer">Esqueci a senha</p>
 
                 <button className="flex items-center justify-center w-full h-12 bg-[#2B1CD3] text-white rounded-xl font-semibold cursor-pointer">Entrar</button>
             </form>

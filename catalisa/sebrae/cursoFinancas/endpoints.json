@@ -1,0 +1,14 @@
+{
+	"origin" : "https://api-meu-sebrae.sebrae.com.br",
+	"mural" : "https://meuatendimento.sebrae.com.br",
+	"geolocation" : "https://geo.sebrae.com.br",
+	"endpoints" : {
+		"gerarAtendimento": "/v1/atendimento/gerarAtendimento",
+		"gerarAtendimentoEmail": "/v1/atendimento/gerarAtendimentoEmail",
+		"gerarAtendimentoWebinar": "/v1/atendimento/gerarAtendimentoWebinar",
+		"gerarAtendimentoPIN": "/v1/atendimento/gerarAtendimentoPIN",
+	    "gerarAtendimentoPRS": "/v1/atendimento/gerarAtendimentoPRS",
+	    "gerarAtendimentoCDB": "/v1/atendimento/gerarAtendimentoCDB",
+	    "gerarAtendimentoPWA": "/v1/atendimento/gerarAtendimentoPWA"
+	}
+}

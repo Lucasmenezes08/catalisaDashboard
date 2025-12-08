@@ -1,0 +1,83 @@
+/**
+ * Font:      Campuni
+ * Style:     Light (300)
+ * URL:       https://www.youworkforthem.com/font/T8984/campuni
+ * Foundry:   Moritz Kleinsorge
+ * Foundry:   https://www.youworkforthem.com/designer/1067/moritz-kleinsorge
+ * Copyright: Copyright © 2018 by Moritz Kleinsorge. All rights reserved.
+ * Version:   17
+ * Created:   August 18, 2020
+ * License:   https://www.youworkforthem.com/font-license
+ * License:   The WebFont(s) listed in this document must follow the YouWorkForThem
+ *            WebFont license rules. All other parties are strictly restricted
+ *            from using the WebFonts(s) listed without a purchased license.
+ *            All details above must always remain unaltered and visible in your CSS.
+ */
+@font-face {
+  font-family: "Campuni";
+  font-weight: 300;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("campuni-light.eot");                                    /* IE9 */
+  src: url("campuni-light.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+       url("campuni-light.woff2") format("woff2"),                  /* super modern browsers */
+       url("campuni-light.woff") format("woff"),                    /* modern browsers */
+       url("campuni-light.ttf") format("truetype"),                 /* Safari, Android or iOS */
+       url("campuni-light.svg#youworkforthem") format("svg");       /* legacy iOS */
+}
+
+/**
+ * Font:      Campuni
+ * Style:     Regular (500)
+ * URL:       https://www.youworkforthem.com/font/T8984/campuni
+ * Foundry:   Moritz Kleinsorge
+ * Foundry:   https://www.youworkforthem.com/designer/1067/moritz-kleinsorge
+ * Copyright: Copyright © 2018 by Moritz Kleinsorge. All rights reserved.
+ * Version:   17
+ * Created:   August 18, 2020
+ * License:   https://www.youworkforthem.com/font-license
+ * License:   The WebFont(s) listed in this document must follow the YouWorkForThem
+ *            WebFont license rules. All other parties are strictly restricted
+ *            from using the WebFonts(s) listed without a purchased license.
+ *            All details above must always remain unaltered and visible in your CSS.
+ */
+@font-face {
+  font-family: "Campuni";
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("campuni-regular.eot");                                    /* IE9 */
+  src: url("campuni-regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+       url("campuni-regular.woff2") format("woff2"),                  /* super modern browsers */
+       url("campuni-regular.woff") format("woff"),                    /* modern browsers */
+       url("campuni-regular.ttf") format("truetype"),                 /* Safari, Android or iOS */
+       url("campuni-regular.svg#youworkforthem") format("svg");       /* legacy iOS */
+}
+
+/**
+ * Font:      Campuni
+ * Style:     Bold (700)
+ * URL:       https://www.youworkforthem.com/font/T8984/campuni
+ * Foundry:   Moritz Kleinsorge
+ * Foundry:   https://www.youworkforthem.com/designer/1067/moritz-kleinsorge
+ * Copyright: Copyright © 2018 by Moritz Kleinsorge. All rights reserved.
+ * Version:   17
+ * Created:   August 18, 2020
+ * License:   https://www.youworkforthem.com/font-license
+ * License:   The WebFont(s) listed in this document must follow the YouWorkForThem
+ *            WebFont license rules. All other parties are strictly restricted
+ *            from using the WebFonts(s) listed without a purchased license.
+ *            All details above must always remain unaltered and visible in your CSS.
+ */
+@font-face {
+  font-family: "Campuni";
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("campuni-bold.eot");                                    /* IE9 */
+  src: url("campuni-bold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+       url("campuni-bold.woff2") format("woff2"),                  /* super modern browsers */
+       url("campuni-bold.woff") format("woff"),                    /* modern browsers */
+       url("campuni-bold.ttf") format("truetype"),                 /* Safari, Android or iOS */
+       url("campuni-bold.svg#youworkforthem") format("svg");       /* legacy iOS */
+}
