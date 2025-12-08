@@ -156,7 +156,6 @@ export default function PesquisaBox({ consumo }: PesquisaBoxProps) {
     };
 
     const handleSendText = async () => {
-        if (!inputValue.trim() || nota === null) return;
         const comentarioFinal = inputValue.trim();
 
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', content: <p className="text-sm">{comentarioFinal}</p> }]);

@@ -8,8 +8,7 @@ import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface RespostasData {
-    percComComentario?: number;
-    percSemComentario?: number;
+    porcentagemRespostas: number;
 }
 
 interface SentimentoData {
@@ -43,7 +42,6 @@ export default function Comentario() {
                 if (sentimentoResponse.ok) {
                     const data = await sentimentoResponse.json();
                     setSentimentoData(data);
-                    console.log(data)
                 }
             } catch (error) {
                 console.error("Erro na requisição:", error);
@@ -81,8 +79,8 @@ export default function Comentario() {
     const dataComComentario = {
         datasets: [{
             data: [
-                Math.round(respostasData?.percComComentario ?? 0),
-                Math.round(respostasData?.percSemComentario ?? 100),
+                respostasData?.porcentagemRespostas || 0,
+                100 - (respostasData?.porcentagemRespostas || 0) ,
             ],
             backgroundColor: ['#22c55e', '#e5e7eb'],
             borderWidth: 0,
@@ -128,13 +126,13 @@ export default function Comentario() {
                                 <Doughnut data={dataComComentario} options={chartOptionsComComentario} />
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <span className="text-3xl font-bold text-black">
-                                        {(respostasData?.percComComentario || 0).toFixed(1)}%
+                                        {(respostasData?.porcentagemRespostas || 0).toFixed(1)}%
                                     </span>
                                 </div>
                             </div>
                             <p className="text-center text-sm text-gray-700 mt-4 max-w-xs">
                                 Dos que responderam a pesquisa,{" "}
-                                <span className="font-bold">{(respostasData?.percComComentario || 0).toFixed(1)}%</span>{" "}
+                                <span className="font-bold">{(respostasData?.porcentagemRespostas || 100).toFixed(1)}%</span>{" "}
                                 deixaram algum comentário
                             </p>
                         </div>

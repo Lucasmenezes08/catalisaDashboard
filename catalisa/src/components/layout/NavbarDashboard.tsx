@@ -1,6 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-import catalizaLogo from '../../assets/catalizaLogo.png'
-import { IoPersonCircleOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import {useState} from "react";
 import ModalPerfil from "@/components/common/modalPerfil.tsx";

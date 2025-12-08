@@ -3,9 +3,6 @@ import icon from "../../assets/icon.svg"
 import catalisa from "../../assets/catalisa.svg"
 import person from "../../assets/person.svg"
 
-import { useNavigate } from "react-router-dom";
-
-
 export default function NavBar (){
 
     return (

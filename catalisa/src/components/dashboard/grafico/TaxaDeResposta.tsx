@@ -23,10 +23,11 @@ export default function TaxaDeResposta() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch('http://localhost:8080/api/v2/dashboard/csat/respostas');
+                const response = await fetch('http://localhost:8080/api/v2/dashboard/csat/pesquisa-consumo');
                 if (response.ok) {
                     const data = await response.json();
-                    setPercentage(data.porcentagemRespostas || 0);
+                    setPercentage(data.porcentagemPesquisaPorConsumo || 0);
+                    console.log(data);
                 }
             } catch (error) {
                 console.error("Erro ao buscar taxa de resposta:", error);
