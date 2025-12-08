@@ -20,13 +20,11 @@ export default function CsatCard() {
     useEffect(() => {
         async function fetchData() {
             try {
-                // ✅ Endpoint correto da documentação
                 const response = await fetch('http://localhost:8080/api/v2/dashboard/csat/distribuicao');
 
                 if (response.ok) {
                     const data = await response.json();
 
-                    console.log("Distribuição CSAT:", data); // Debug
 
                     // Extrai as notas
                     const nota1 = data.nota1 || 0;
@@ -35,11 +33,11 @@ export default function CsatCard() {
                     const nota4 = data.nota4 || 0;
                     const nota5 = data.nota5 || 0;
 
-                    // Total de avaliações
+
                     const total = nota1 + nota2 + nota3 + nota4 + nota5;
 
                     if (total > 0) {
-                        // ✅ CSAT = apenas notas 4 e 5 são consideradas "satisfeitos"
+
                         const satisfeitos = nota4 + nota5;
                         const porcentagem = Math.round((satisfeitos / total) * 100);
 
@@ -60,11 +58,11 @@ export default function CsatCard() {
     }, []);
 
     function getCarinha(valor: number) {
-        if (valor >= 80) return carinha100; // muito satisfeito 80-100%
-        if (valor >= 60) return carinha80;  // satisfeito 60-80%
-        if (valor >= 40) return carinha60;  // neutro 40-60%
-        if (valor >= 20) return carinha40;  // insatisfeito 20-40%
-        return carinha20;                   // muito insatisfeito 0-20%
+        if (valor >= 80) return carinha100;
+        if (valor >= 60) return carinha80;
+        if (valor >= 40) return carinha60;
+        if (valor >= 20) return carinha40;
+        return carinha20;
     }
 
     function getTextoSatisfacao(valor: number) {
@@ -86,7 +84,7 @@ export default function CsatCard() {
     return (
         <section className="w-full h-full flex flex-col rounded-xl border border-solid border-black bg-gray-100">
 
-            {/* HEADER */}
+
             <section className="relative flex justify-center items-center p-4 border-b border-black">
                 <h2 className="text-md font-medium text-black uppercase">CSAT</h2>
 
@@ -105,26 +103,26 @@ export default function CsatCard() {
                 )}
             </section>
 
-            {/* CONTENT */}
+
             <section className="flex flex-col justify-center items-center flex-1 p-4 gap-3">
 
                 {isLoading ? (
                     <div className="text-gray-400">Carregando...</div>
                 ) : (
                     <>
-                        {/* Carinha */}
+
                         <img
                             src={getCarinha(percentualSatisfacao)}
                             alt="Indicador de satisfação"
                             className="w-24 h-24 object-contain"
                         />
 
-                        {/* Porcentagem com cor dinâmica */}
+
                         <h3 className={`text-4xl font-bold ${getCorPorcentagem(percentualSatisfacao)}`}>
                             {percentualSatisfacao}%
                         </h3>
 
-                        {/* Texto de satisfação */}
+
                         <p className="text-base text-gray-700 font-medium">
                             {getTextoSatisfacao(percentualSatisfacao)}
                         </p>

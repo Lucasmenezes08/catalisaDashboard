@@ -123,7 +123,6 @@ export default function Comentario() {
                     </div>
                 ) : (respostasData || sentimentoData) ? (
                     <div className="h-full flex items-center justify-around gap-8">
-                        {/* Gráfico: Dos que responderam */}
                         <div className="flex flex-col items-center justify-center flex-1">
                             <div className="relative w-48 h-48">
                                 <Doughnut data={dataComComentario} options={chartOptionsComComentario} />
@@ -140,7 +139,6 @@ export default function Comentario() {
                             </p>
                         </div>
 
-                        {/* Gráfico: Negativos vs Positivos */}
                         <div className="flex flex-col items-center justify-center flex-1">
                             <div className="relative w-52 h-52">
                                 <Doughnut data={dataNegativos} options={chartOptionsNegativos} />
