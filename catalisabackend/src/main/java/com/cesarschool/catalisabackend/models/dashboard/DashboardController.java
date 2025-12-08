@@ -134,6 +134,13 @@ public class DashboardController {
         body.put("porcentagemRespostas", dashboardService.getPorcentagemRespostasCSAT());
         return ResponseEntity.ok(body);
     }
+    @GetMapping("/csat/pesquisa-consumo")
+    public ResponseEntity<?> getPesquisaConsumo() {
+        double perc = dashboardService.getPorcentagemPesquisaConsumoCSAT();
+        Map<String, Double> body = new HashMap<>();
+        body.put("porcentagemPesquisaPorConsumo", perc);
+        return ResponseEntity.ok(body);
+    }
     @GetMapping("/csat/sentimento")
     public ResponseEntity<?> getSentimentoCSAT() {
         Map<String, Object> resultado = dashboardService.calcularSentimentoCsat();

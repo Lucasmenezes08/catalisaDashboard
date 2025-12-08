@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 public interface ConsumoRepository extends JpaRepository<Consumo, Long> {
-
+    List<Consumo> getAll();
     List<Consumo> findByUser_Id(Long userId);
     Page<Consumo> findByUser_Id(Long userId, org.springframework.data.domain.Pageable pageable);
 
