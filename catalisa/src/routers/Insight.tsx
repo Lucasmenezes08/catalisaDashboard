@@ -3,7 +3,7 @@ import { usePesquisas } from "@/hooks/usePesquisas";
 import {useSelector} from "@/store/useStore.tsx";
 
 const StarRating = ({ nota }: { nota: number }) => (
-    <section className="flex gap-1 bg-[#E3C152CC]/80 px-2 py-1 rounded-md border border-yellow-100">
+    <section className="flex gap-1 bg-[#E3C152CC]/80 px-2 rounded-md border border-yellow-100">
         {Array.from({ length: 5 }).map((_, i) => {
             const active = i < (nota > 5 ? nota / 2 : nota);
             return (
@@ -63,7 +63,7 @@ export default function Insight() {
                             {data.content.map((pesquisa) => (
                                 <section key={pesquisa.id} className="p-4 rounded-xl bg-gray-50/30 hover:bg-gray-50  transition-colors flex flex-col gap-3">
                                     <section className="flex flex-wrap items-center justify-between gap-2">
-                                        <section className="flex items-center gap-3 flex-wrap">
+                                        <section className="flex items-center gap-5 flex-wrap">
                                             <h3 className="font-bold text-gray-800 text-sm uppercase tracking-wide">
                                                 {pesquisa.nomeUsuario || `CLIENTE #${pesquisa.consumoId}`}
                                             </h3>
@@ -81,9 +81,10 @@ export default function Insight() {
                                             <span className="text-xs text-gray-500 font-medium flex items-center gap-1">
                                                 {pesquisa.nomeProduto}
                                             </span>
+                                            <StarRating nota={pesquisa.nota} />
                                         </section>
 
-                                        <StarRating nota={pesquisa.nota} />
+
                                     </section>
 
                                     <section className={`p-8 rounded-md text-md leading-relaxed border ${
