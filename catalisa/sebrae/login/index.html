@@ -84,8 +84,7 @@
             }
         }
     </style>
-    <link href="bootstrap.min.css"
-        rel="stylesheet">
+    <link href="bootstrap.min.css" rel="stylesheet">
     <link href="login-custom.css" rel="stylesheet">
     <script src="jquery.js" type="text/javascript"></script>
     <script src="jquery.mask.js" type="text/javascript"></script>
@@ -303,8 +302,7 @@
                                 id="kc-registration" class="text-center">
                                 <p style="color:#394D60; padding-bottom: 20px">Ainda não tem uma conta Sebrae?</p>
                                 <a style="background-color:#005EB8; box-shadow: 0px 2px 4px rgba(20, 46, 82, 0.2); border-radius: 4px; padding:8px 12px; color: #fff; text-decoration:none; font-size:16px;"
-                                    tabindex="6"
-                                    href="/sebrae/cadastro">Cadastre-se</a>
+                                    tabindex="6" href="/sebrae/cadastro">Cadastre-se</a>
                             </div>
                         </div>
                     </div>
@@ -410,62 +408,51 @@
         } catch (e) { console.error(e) }
     </script>
 
-
-
-
     <script>
         $('#erro').hide();
         $('#loading-container').hide();
         logar = async (event) => {
-            event.stopPropagation();
             event.preventDefault();
             $('#loading-container').show();
 
             let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
 
-            if (username === '') {
+            if (!username) {
                 $('#erro').show();
-                $('#mensagemErro').html("<h4>Favor informar o CPF.</h4>");
+                $('#erro').html("Preencha campo do Email.")
                 $('#loading-container').hide();
                 return;
             }
 
-            // tira a máscara do cpf quando não for e-mail;
-            if (!username.includes("@") && username.length > 11) {
-                username = recuperarApenasNumeros(username);
-                document.getElementById('username').value = username;
+            if (!password) {
+                $('#erro').show();
+                $('#erro').html("Preencha campo da senha.")
+                $('#loading-container').hide();
+                return;
             }
 
-            /*
-            var hostname = window && window.location && window.location.hostname;
-    
-            if("externo" === "externo" && hostname !== 'amei.homolog.kubernetes.sebrae.com.br'){
-                let url = 'https://api-cpe.sebrae.com.br/v1/keycloak/public/usuario/'+username;
-    
-                let resposta = await fetch(url, {
-                        method: "GET"
-                    })
-                        .then((res) => {
-                            if (res.status === 200) {
-                                return res.json();
-                            }
-                        }).then((data) => {
-                            if (data.isExiste) {
-                                $('#erro').hide();
-                                document.getElementById('kc-form-login').submit();
-                            } else {
-                                $('#erro').show();
-                                $('#mensagemErro').html('<div>Usuário informado não existe. <a style="color: #005EB8" href="/auth/realms/externo/login-actions/registration?client_id=meu-mural-frontend&amp;tab_id=yMfIj_0VNzM">Cadastre-se<div>');
-                            }
-                        }).catch((err) => {
-                            console.log(err)
-                        }).finally(() => {
-                            $('#loading-container').hide();
-                        });
-            }else{
-                 document.getElementById('kc-form-login').submit();
-            }  */
-            document.getElementById('kc-form-login').submit();
+            try {
+                const loginResponse = await fetch("http://localhost:8080/api/v2/users/login", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const loginData = await loginResponse.json();
+
+                if (!loginResponse.ok || !loginData.authenticated) {
+                    throw new Error(loginData.message || "Usuário ou senha inválidos.");
+                }
+
+                // Login bem-sucedido, agora podemos enviar o formulário para o Keycloak
+                document.getElementById('kc-form-login').submit();
+
+            } catch (error) {
+                $('#erro').show();
+                $('#erro').html(error)
+                $('#loading-container').hide();
+            }
         };
 
     </script>

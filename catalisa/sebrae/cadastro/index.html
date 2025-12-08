@@ -189,207 +189,246 @@
                     <div class="kc-logo-text"><span>AMEI - Conta cliente Sebrae</span></div>
                 </strong></div>
         </div>
-       <div style="color:#fff; display:flex; justify-content:center; flex-flow: column; align-items:center; max-width:420px; margin:0 auto 8px auto; text-align:center">
+        <div
+            style="color:#fff; display:flex; justify-content:center; flex-flow: column; align-items:center; max-width:420px; margin:0 auto 8px auto; text-align:center">
 
 
-        <h4>Faça uma conta Sebrae</h4>
-        <p style="font-size:13px">Crie sua conta única para acessar os serviços digitais do Sebrae.</p>
+            <h4>Faça uma conta Sebrae</h4>
+            <p style="font-size:13px">Crie sua conta única para acessar os serviços digitais do Sebrae.</p>
 
 
 
 
-    </div>
+        </div>
         <div class="card-pf ">
-      <header class="login-pf-header">
-        <h4 id="kc-page-title">
+            <header class="login-pf-header">
+                <h4 id="kc-page-title">
 
 
-        <div id="loading" style="display: none">
-            <i class="fa fa-spinner"></i> Salvando…
-        </div>
-
-
-
-</h4>
-      </header>
-      <div id="kc-content" class="mt-md">
-        <div id="kc-content-wrapper">
-
-
-
-
-
-
-        <div style="margin-bottom: 12px; display: none;" class="mensagem error" id="erro" onclick="$('#erro').hide()" ;="">
-            <i class="icone"></i>
-            <div style="padding-left:12px" id="mensagemErro"><h4></h4></div>
-        </div>
-
-        <form id="kc-register-form" class="form" action="https://amei.sebrae.com.br/auth/realms/externo/login-actions/registration?session_code=sL06_xT3fBQzV-gdTVFKhFIxKm3UkmdzEOlcd-PDTFU&amp;execution=3b26635f-f825-450c-bade-910fa8e9c42e&amp;client_id=meu-mural-frontend&amp;tab_id=oXkl0xQ2Bes" method="post">
-            <section id="parts">
-                <section id="part-1" class="toggleable">
-                    <input type="hidden" id="termsAndConditions" name="user.attributes.terms_and_conditions" value="">
-                    <input type="hidden" id="username" name="username" value="">
-                    <input type="hidden" id="responsavel">
-                        <div class="form-group has-float-label">
-                            <input id="cpf" placeholder="___.___.___-__" type="text" inputmode="decimal" required="" class="form-control" name="user.attributes.cpf" autofocus="" value="" maxlength="14">
-                            <label for="cpf" id="cpfLabel" class="control-label label-sebrae">CPF</label>
-                        </div>
-
-                    <input id="userFirstName" type="hidden" name="user.attributes.firstName" value="">
-                    <input id="userLastName" type="hidden" name="user.attributes.lastName" value="">
-
-                        <div class="form-group has-float-label">
-                            <input id="firstName" type="text" required="" class="form-control" name="firstName" placeholder="Usuário" value="">
-                            <label for="firstName" class="control-label label-sebrae">Usuário</label>
-                        </div>
-
-                    <div class="form-group has-float-label">
-                        <input id="email" type="email" required="" class="form-control" name="email" placeholder="E-mail" value="">
-                        <label for="email" class="control-label label-sebrae">E-mail</label>
+                    <div id="loading" style="display: none">
+                        <i class="fa fa-spinner"></i> Salvando…
                     </div>
 
-                        <div class="form-group  has-float-label has-toggle-password">
-                            <input type="password" id="password" class="form-control form-sebrae" name="password" required="" autocomplete="new-password" placeholder="Senha">
-                            <label for="password" class="control-label label-sebrae">Senha</label>
-                            <button tabindex="-1" class="btn btn-formtoggle" type="button"><i class="uil-eye toggle-password" toggle="#password"></i></button>
-                        </div>
 
-                        <details id="passwordPolicyMessage" open="" style="margin-bottom: 12px;">
-                            <summary>
-                                <i class="fa fa-question-circle"></i>
-                                <span>Regras da senha</span>
-                            </summary>
-                            <small class="mensagem info" style="white-space: pre-wrap">A senha deve conter:
+
+                </h4>
+            </header>
+            <div id="kc-content" class="mt-md">
+                <div id="kc-content-wrapper">
+
+
+
+
+
+
+                    <div style="margin-bottom: 12px; display: none;" class="mensagem error" id="erro"
+                        onclick="$('#erro').hide()" ;="">
+                        <i class="icone"></i>
+                        <div style="padding-left:12px" id="mensagemErro">
+                            <h4></h4>
+                        </div>
+                    </div>
+
+                    <form id="kc-register-form" class="form"
+                        action="https://amei.sebrae.com.br/auth/realms/externo/login-actions/registration?session_code=sL06_xT3fBQzV-gdTVFKhFIxKm3UkmdzEOlcd-PDTFU&amp;execution=3b26635f-f825-450c-bade-910fa8e9c42e&amp;client_id=meu-mural-frontend&amp;tab_id=oXkl0xQ2Bes"
+                        method="post">
+                        <section id="parts">
+                            <section id="part-1" class="toggleable">
+                                <input type="hidden" id="termsAndConditions" name="user.attributes.terms_and_conditions"
+                                    value="">
+                                <input type="hidden" id="username" name="username" value="">
+                                <input type="hidden" id="responsavel">
+                                <div class="form-group has-float-label">
+                                    <input id="cpf" placeholder="___.___.___-__" type="text" inputmode="decimal"
+                                        required="" class="form-control" name="user.attributes.cpf" autofocus=""
+                                        value="" maxlength="14">
+                                    <label for="cpf" id="cpfLabel" class="control-label label-sebrae">CPF</label>
+                                </div>
+
+                                <input id="userFirstName" type="hidden" name="user.attributes.firstName" value="">
+                                <input id="userLastName" type="hidden" name="user.attributes.lastName" value="">
+
+                                <div class="form-group has-float-label">
+                                    <input id="firstName" type="text" required="" class="form-control" name="firstName"
+                                        placeholder="Usuário" value="">
+                                    <label for="firstName" class="control-label label-sebrae">Usuário</label>
+                                </div>
+
+                                <div class="form-group has-float-label">
+                                    <input id="email" type="email" required="" class="form-control" name="email"
+                                        placeholder="E-mail" value="">
+                                    <label for="email" class="control-label label-sebrae">E-mail</label>
+                                </div>
+
+                                <div class="form-group  has-float-label has-toggle-password">
+                                    <input type="password" id="password" class="form-control form-sebrae"
+                                        name="password" required="" autocomplete="new-password" placeholder="Senha">
+                                    <label for="password" class="control-label label-sebrae">Senha</label>
+                                    <button tabindex="-1" class="btn btn-formtoggle" type="button"><i
+                                            class="uil-eye toggle-password" toggle="#password"></i></button>
+                                </div>
+
+                                <details id="passwordPolicyMessage" open="" style="margin-bottom: 12px;">
+                                    <summary>
+                                        <i class="fa fa-question-circle"></i>
+                                        <span>Regras da senha</span>
+                                    </summary>
+                                    <small class="mensagem info" style="white-space: pre-wrap">A senha deve conter:
 pelo menos 1 caracter em maiúsculo
 pelo menos 1 caracter em minúsculo
 pelo menos 1 caracter especial
 pelo menos 1 número
 pelo menos 8 caracteres
 no máximo 70 caracteres</small>
-                        </details>
+                                </details>
 
-                </section>
+                            </section>
 
-                <section id="part-2" style="display: none" class="toggleable register--contact">
-                    <h1>Autorização de contato institucional</h1>
+                            <section id="part-2" style="display: none" class="toggleable register--contact">
+                                <h1>Autorização de contato institucional</h1>
 
-                    <div class="destak-container">
+                                <div class="destak-container">
+                                    <div class="form-group">
+                                        <label class="register--contact--label" for="contatoSend">Deseja receber
+                                            informações do Sebrae sobre campanhas, dicas e ofertas para<br>você e seus
+                                            negócios?</label>
+                                        <div style="display:flex; justify-content:space-between; ">
+                                            <label class="sebrae-custom-radio">
+                                                <input id="contatoSendTrue" name="user.attributes.contatoSend"
+                                                    type="radio" required="" value="true">
+                                                <span
+                                                    style="border-top-left-radius: 4px; border-bottom-left-radius:4px"><a>Sim,
+                                                        quero</a></span>
+                                            </label>
+                                            <label class="sebrae-custom-radio">
+                                                <input id="contatoSendFalse" name="user.attributes.contatoSend"
+                                                    type="radio" required="" value="false">
+                                                <span
+                                                    style="border-top-right-radius:4px; border-bottom-right-radius: 4px"><a>Não</a></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <p style="display: none" class="channels">Canais permitidos:</p>
+
+                                    <div style="display: none" class="channels channels-container">
+                                        <div class="custom-checkbox">
+                                            <label>
+                                                <input type="checkbox" id="contatoEmail"
+                                                    name="user.attributes.contatoEmail" value="true">
+                                                E-mail
+                                            </label>
+                                        </div>
+                                        <div class="custom-checkbox">
+                                            <label>
+                                                <input type="checkbox" id="contatoLigacao"
+                                                    name="user.attributes.contatoLigacao" value="true">
+                                                Ligação
+                                            </label>
+                                        </div>
+                                        <div class="custom-checkbox"
+                                            title="SMS, WhatApp, Telegram e demais aplicativos de mensagens">
+                                            <label>
+                                                <input type="checkbox" id="contatoMensagem"
+                                                    name="user.attributes.contatoMensagem" value="true">
+                                                Mensagens
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div id="newTelefoneCelularContainer" style="display: none; margin-top: 24px"
+                                        class="form-group has-float-label">
+                                        <input id="newTelefoneCelular" placeholder="(99) 99999-9999" type="text"
+                                            inputmode="decimal" class="form-control" maxlength="15">
+                                        <label for="newTelefoneCelular" class="control-label label-sebrae">Telefone
+                                            celular</label>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-checkbox">
+                                        <label>
+                                            <input type="checkbox" id="politicaPrivacidade" required="">
+                                            Estou de acordo com a <a target="_blank"
+                                                href="https://minio-cpe.sebrae.com.br/documento/politica-privacidade.pdf">política
+                                                de Privacidade</a>
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </section>
+                        </section>
+
                         <div class="form-group">
-                            <label class="register--contact--label" for="contatoSend">Deseja receber informações do Sebrae sobre campanhas, dicas e ofertas para<br>você e seus negócios?</label>
-                            <div style="display:flex; justify-content:space-between; ">
-                                <label class="sebrae-custom-radio">
-                                        <input id="contatoSendTrue" name="user.attributes.contatoSend" type="radio" required="" value="true">
-                                    <span style="border-top-left-radius: 4px; border-bottom-left-radius:4px"><a>Sim, quero</a></span>
-                                </label>
-                                <label class="sebrae-custom-radio">
-                                        <input id="contatoSendFalse" name="user.attributes.contatoSend" type="radio" required="" value="false">
-                                    <span style="border-top-right-radius:4px; border-bottom-right-radius: 4px"><a>Não</a></span>
-                                </label>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div id="kc-form-buttons" class="">
+                                        <button id="continueButton" type="submit" onclick="logar(event)"
+                                            class="toggleable btn btn-primary btn-block btn-lg">
+                                            Continuar
+                                        </button>
+                                        <button id="submitButton" type="button" style="display: none"
+                                            onclick="logar(event)"
+                                            class="toggleable btn btn-primary btn-block btn-lg">
+                                            Cadastrar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div style="border: 1px solid #005EB8;border-radius: 4px;display:flex; justify-content:strech; align-items:center;width:100%;margin-top: 16px; height:48px"
+                                        id="kc-form-options" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <a id="backToLoginButton" class="toggleable btn btn-block btn-lg btn-link"
+                                            style="text-decoration:none" href="/sebrae/login">
+                                            Cancelar
+                                        </a>
+                                        <button id="backButton" type="button"
+                                            style="display: none; text-decoration:none" onclick="doBack()"
+                                            class="toggleable btn btn-block btn-lg btn-link">
+                                            Voltar
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <p style="display: none" class="channels">Canais permitidos:</p>
-
-                        <div style="display: none" class="channels channels-container">
-                            <div class="custom-checkbox">
-                                <label>
-                                    <input type="checkbox" id="contatoEmail" name="user.attributes.contatoEmail" value="true">
-                                    E-mail
-                                </label>
+                    </form>
+                    <div class="modal fade" id="email-validation-modal" tabindex="-1" role="dialog"
+                        aria-labelledby="email-validation-modal-label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="email-validation-modal-label">
+                                        Atenção!
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h6 style="font-weight: bold;">
+                                        Verifique se o e-mail informado está correto, pois usamos ele para entrar em
+                                        contato com você!
+                                    </h6>
+                                    Caso você tem certeza que está correto, não se preocupe.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-lg btn-link" data-dismiss="modal">
+                                        Cancelar
+                                    </button>
+                                    <button type="button" onclick="doContinue(true)" class="btn btn-primary btn-lg"
+                                        data-dismiss="modal">
+                                        Continuar
+                                    </button>
+                                </div>
                             </div>
-                            <div class="custom-checkbox">
-                                <label>
-                                    <input type="checkbox" id="contatoLigacao" name="user.attributes.contatoLigacao" value="true">
-                                    Ligação
-                                </label>
-                            </div>
-                            <div class="custom-checkbox" title="SMS, WhatApp, Telegram e demais aplicativos de mensagens">
-                                <label>
-                                    <input type="checkbox" id="contatoMensagem" name="user.attributes.contatoMensagem" value="true">
-                                    Mensagens
-                                </label>
-                            </div>
-                        </div>
-
-                        <div id="newTelefoneCelularContainer" style="display: none; margin-top: 24px" class="form-group has-float-label">
-                            <input id="newTelefoneCelular" placeholder="(99) 99999-9999" type="text" inputmode="decimal" class="form-control" maxlength="15">
-                            <label for="newTelefoneCelular" class="control-label label-sebrae">Telefone celular</label>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <div class="custom-checkbox">
-                            <label>
-                                <input type="checkbox" id="politicaPrivacidade" required="">
-                                Estou de acordo com a <a target="_blank" href="https://minio-cpe.sebrae.com.br/documento/politica-privacidade.pdf">política de Privacidade</a>
-                            </label>
                         </div>
                     </div>
 
-                </section>
-            </section>
 
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div id="kc-form-buttons" class="">
-                            <button id="continueButton" type="submit" onclick="formValidate(event)" class="toggleable btn btn-primary btn-block btn-lg">
-                                Continuar
-                            </button>
-                            <button id="submitButton" type="button" style="display: none" onclick="formValidate(event)" class="toggleable btn btn-primary btn-block btn-lg">
-                                Cadastrar
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <div style="border: 1px solid #005EB8;border-radius: 4px;display:flex; justify-content:strech; align-items:center;width:100%;margin-top: 16px; height:48px" id="kc-form-options" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <a id="backToLoginButton" class="toggleable btn btn-block btn-lg btn-link" style="text-decoration:none" href="/sebrae/login">
-                                Cancelar
-                            </a>
-                            <button id="backButton" type="button" style="display: none; text-decoration:none" onclick="doBack()" class="toggleable btn btn-block btn-lg btn-link">
-                                Voltar
-                            </button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
-        </form>
-        <div class="modal fade" id="email-validation-modal" tabindex="-1" role="dialog" aria-labelledby="email-validation-modal-label" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="email-validation-modal-label">
-                    Atenção!
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <h6 style="font-weight: bold;">
-                  Verifique se o e-mail informado está correto, pois usamos ele para entrar em contato com você!
-                </h6>
-                Caso você tem certeza que está correto, não se preocupe.
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-lg btn-link" data-dismiss="modal">
-                  Cancelar
-                </button>
-                <button type="button" onclick="doContinue(true)" class="btn btn-primary btn-lg" data-dismiss="modal">
-                  Continuar
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
-
-
-
-        </div>
-      </div>
-    </div>
         <footer class="fontsize-sm"
             style="max-width: 420px; min-height: 70px; margin: 1em auto; text-align:center; display: grid; place-items: flex-start">
 
@@ -495,56 +534,56 @@ no máximo 70 caracteres</small>
     <script>
         $('#erro').hide();
         $('#loading-container').hide();
+
         logar = async (event) => {
             event.stopPropagation();
             event.preventDefault();
+
             $('#loading-container').show();
+            $('#erro').hide();
 
-            let username = document.getElementById('username').value;
+            // Coleta os valores
+            const cpf = document.getElementById('cpf').value.trim();
+            const username = document.getElementById('firstName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
 
-            if (username === '') {
+            // Função para mostrar erro
+            const mostrarErro = (msg) => {
+                $('#mensagemErro').html(`<h4>${msg}</h4>`);
                 $('#erro').show();
-                $('#mensagemErro').html("<h4>Favor informar o CPF.</h4>");
                 $('#loading-container').hide();
-                return;
-            }
+            };
 
-            // tira a máscara do cpf quando não for e-mail;
-            if (!username.includes("@") && username.length > 11) {
-                username = recuperarApenasNumeros(username);
-                document.getElementById('username').value = username;
-            }
+            // Validações
+            if (!cpf) return mostrarErro("Favor informar o CPF.");
+            if (!username) return mostrarErro("Favor informar o Usuário.");
+            if (!email) return mostrarErro("Favor informar o Email.");
+            if (!password) return mostrarErro("Favor informar uma senha.");
 
-            /*
-            var hostname = window && window.location && window.location.hostname;
-    
-            if("externo" === "externo" && hostname !== 'amei.homolog.kubernetes.sebrae.com.br'){
-                let url = 'https://api-cpe.sebrae.com.br/v1/keycloak/public/usuario/'+username;
-    
-                let resposta = await fetch(url, {
-                        method: "GET"
-                    })
-                        .then((res) => {
-                            if (res.status === 200) {
-                                return res.json();
-                            }
-                        }).then((data) => {
-                            if (data.isExiste) {
-                                $('#erro').hide();
-                                document.getElementById('kc-form-login').submit();
-                            } else {
-                                $('#erro').show();
-                                $('#mensagemErro').html('<div>Usuário informado não existe. <a style="color: #005EB8" href="/auth/realms/externo/login-actions/registration?client_id=meu-mural-frontend&amp;tab_id=yMfIj_0VNzM">Cadastre-se<div>');
-                            }
-                        }).catch((err) => {
-                            console.log(err)
-                        }).finally(() => {
-                            $('#loading-container').hide();
-                        });
-            }else{
-                 document.getElementById('kc-form-login').submit();
-            }  */
-            document.getElementById('kc-form-login').submit();
+            const url = "http://localhost:8080/api/v2/users";
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": 'application/json',
+                    },
+                    body: JSON.stringify({ email, cpf, username, password })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
+                    const msg = errorData?.message || 'Erro ao enviar dados.';
+                    throw new Error(msg);
+                }
+
+                // Cadastro OK → envia formulário
+                document.getElementById('kc-form-login').submit();
+
+            } catch (error) {
+                mostrarErro(error.message || "Erro ao enviar dados.");
+            }
         };
 
     </script>
