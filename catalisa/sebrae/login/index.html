@@ -41,7 +41,6 @@
         crossorigin="anonymous"
         integrity="sha384-z6SN+4u+ZOsIgYWusRxHPQ9aBi4w1u4L9UfLCVIX0xSiSVpm3SfVdEuAXmzYtysM"></script>
     <script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-WG5CCHZ"></script>
-    <script src="https://amei.sebrae.com.br/auth/js/keycloak.js" type="text/javascript"></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 
@@ -221,9 +220,7 @@
                     </div>
                     <div id="kc-form" class="row">
                         <div id="kc-form-wrapper" class="col-xs-12 login-pf-social-section">
-                            <form id="kc-form-login" onsubmit="login.disabled = true; return true;"
-                                action="sebrae/cursos"
-                                method="post">
+                            <form id="kc-form-login" onsubmit="return false;">
                                 <div class="form-group has-float-label">
 
 
@@ -397,16 +394,6 @@
             </div><iframe style="display: none;"></iframe>
         </div>
     </div>
-    <script src="/auth/resources/c0qt1/login/sebraecpf/js/theme.js" type="text/javascript"></script>
-    <script>
-        try {
-            fetch('/auth/realms/externo/gestao-amei/version')
-                .then(response => response.json())
-                .then(versions => ['AMEI:', versions.amei])
-                .then(versionList => versionList.join(' '))
-                .then(version => $('#version-info').text(version));
-        } catch (e) { console.error(e) }
-    </script>
 
     <script>
         $('#erro').hide();
@@ -415,10 +402,10 @@
             event.preventDefault();
             $('#loading-container').show();
 
-            let username = document.getElementById('username').value;
+            let email = document.getElementById('username').value;
             let password = document.getElementById('password').value;
 
-            if (!username) {
+            if (!email) {
                 $('#erro').show();
                 $('#erro').html("Preencha campo do Email.")
                 $('#loading-container').hide();
@@ -436,7 +423,7 @@
                 const loginResponse = await fetch("http://localhost:8080/api/v2/users/login", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
+                    body: JSON.stringify({ email, password })
                 });
 
                 const loginData = await loginResponse.json();
@@ -445,9 +432,22 @@
                     throw new Error(loginData.message || "Usuário ou senha inválidos.");
                 }
 
-                // Login bem-sucedido, agora podemos enviar o formulário para o Keycloak
-                document.getElementById('kc-form-login').submit();
+                const userResponse = await fetch(`http://localhost:8080/api/v2/users?email=${encodeURIComponent(email)}`);
 
+                const userDataPage = await userResponse.json();
+
+                const userData = userDataPage.content[0]
+
+                const state = JSON.stringify({
+                    state: {
+                        isAuthenticated: true,
+                        user: userData
+                    },
+                    version: 0
+                })
+                localStorage.setItem("auth-storage", state)
+
+                window.location.href = "/sebrae/cursos";
             } catch (error) {
                 $('#erro').show();
                 $('#erro').html(error)
@@ -456,11 +456,7 @@
         };
 
     </script>
-    <script type="text/javascript" id=""
-        charset="">(function (c, d, e) { o = "Navegg"; c[o] || (a = d.createElement("script"), a.src = e, b = document.getElementsByTagName("script")[0], b.parentNode.insertBefore(a, b), c[o] = c[o] || function (f) { c[o].q = c[o].q || []; c[o].q.push([this, f]) }) })(window, document, "https://tag.navdmp.com/universal.min.js"); window.naveggReady = window.naveggReady || []; window.nvg58439 = new Navegg({ acc: 58439 });</script>
     <iframe height="0" width="0" style="display: none; visibility: hidden;"></iframe>
-    <script type="text/javascript" id=""
-        charset="">(function (a, e, b, f, g, c, d) { a[b] = a[b] || function () { (a[b].q = a[b].q || []).push(arguments) }; c = e.createElement(f); c.async = 1; c.src = "https://www.clarity.ms/tag/" + g; d = e.getElementsByTagName(f)[0]; d.parentNode.insertBefore(c, d) })(window, document, "clarity", "script", "azkgi4pvk3");</script>
 </body>
 
 </html>
