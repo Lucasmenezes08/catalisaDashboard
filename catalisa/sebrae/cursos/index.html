@@ -6184,8 +6184,8 @@ Escolha o seu e matricule-se agora mesmo. ">
                 class="sb-structure__header__content__nav__menu__submenu user sbAccessibilityFontSize">
                 <a id="user__login" href="javascript:;"
                   class="sb-structure__header__content__nav__menu__submenu__open entrar sbAccessibilityFontSize"
-                  onclick="redirectToMural()" style="display: flex;" data-sb-acao="clique" data-sb-rotulo="Entrar">
-                  Entrar
+                  onclick="logout()" style="display: flex;" data-sb-acao="clique" data-sb-rotulo="Entrar">
+                  Logout
                 </a>
                 <a id="user-profile"
                   class="sb-structure__header__content__nav__menu__submenu__open sbAccessibilityFontSize"
@@ -10340,6 +10340,13 @@ Escolha o seu e matricule-se agora mesmo. ">
           </svg></button></div>
     </div>
   </div>
+  <script>
+    function logout() {
+      const userData = { state: { isAuthenticated: false, user: null }, version: 0 }
+      localStorage.setItem("auth-storage", userData)
+      window.location.href = "/sebrae";
+    }
+  </script>
 </body>
 
 </html>
