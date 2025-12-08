@@ -1,6 +1,7 @@
 package com.cesarschool.catalisabackend.models.pesquisa;
 
 import com.cesarschool.catalisabackend.models.consumo.Consumo;
+import com.cesarschool.catalisabackend.models.product.Product;
 
 import java.time.LocalDate;
 
@@ -34,13 +35,20 @@ public record PesquisaResponseDTO(
         String resposta,
         LocalDate dataPesquisa,
         TipoPesquisa tipoPesquisa,
-        TipoCliente tipoCliente
+        TipoCliente tipoCliente,
+        String produto
 ) {
     public static PesquisaResponseDTO fromEntity(Pesquisa p) {
         var c = p.getConsumo();
         Long uid = (c.getUser() != null) ? c.getUser().getId() : null;
         Long pid = (c.getProduto() != null) ? c.getProduto().getId() : null;
-
+        String nameProduto;
+        if(p.getConsumo().getProduto().getName() == null){
+            nameProduto = "Sem produto";
+        }
+        else{
+            nameProduto = p.getConsumo().getProduto().getName();
+        }
         return new PesquisaResponseDTO(
                 p.getId(),
                 c.getId(),
@@ -50,7 +58,8 @@ public record PesquisaResponseDTO(
                 p.getResposta(),
                 p.getDataPesquisa(),
                 p.getTipoPesquisa(),
-                p.getTipoCliente()
+                p.getTipoCliente(),
+                nameProduto
         );
     }
 }
