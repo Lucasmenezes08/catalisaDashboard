@@ -41,7 +41,7 @@ export default function NivelSatisfacao() {
     };
 
     const calcularRotacao = (nota: number) => {
-        const maxScore = 6;
+        const maxScore = 6.3;
         const porcentagem = nota / maxScore;
         return (180 * porcentagem) - 90;
     };
@@ -65,12 +65,12 @@ export default function NivelSatisfacao() {
                 )}
             </section>
 
-            <section className="flex-1 p-4 flex flex-col items-center justify-center relative w-full">
+            <section className="flex-1 p-2 flex flex-col items-center justify-center relative w-full">
                 {isLoading ? (
                     <Spinner />
                 ) : (
                     <>
-                        <div className="relative w-full h-full mt-3">
+                        <div className="relative w-full h-full mt-4 mb-[-4rem]">
                             <img
                                 src={nivelSatisfacao}
                                 alt="Gráfico de nível de satisfação"
@@ -78,7 +78,7 @@ export default function NivelSatisfacao() {
                             />
 
                             <div
-                                className="absolute bottom-18 left-[50%] w-15 h-30 origin-bottom z-10 transition-transform duration-1000 ease-out"
+                                className="absolute bottom-24 left-[51%] w-15 h-30 origin-bottom z-10 transition-transform duration-1000 ease-out"
                                 style={{
                                     transform: `translateX(-50%) rotate(${anguloRotacao}deg)`
                                 }}
