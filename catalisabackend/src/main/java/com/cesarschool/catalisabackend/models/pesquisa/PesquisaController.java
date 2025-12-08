@@ -110,10 +110,11 @@ public class PesquisaController {
         try {
             User user = pesquisaService.getUser(pesquisa);
 
-            UserResponseDTO dto = new UserResponseDTO(
+            ProdutoUserDTO dto = new ProdutoUserDTO(
                     user.getId(),
                     user.getEmail(),
-                    user.getUsername()
+                    user.getUsername(),
+                    pesquisa.getConsumo().getProduto().getName()
             );
 
             return ResponseEntity.ok(dto);
