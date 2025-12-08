@@ -206,8 +206,8 @@ public class DashboardService {
         double percNegativos = 0.0;
 
         if (total > 0) {
-            percPositivos = (positivos * 100.0) / total;
-            percNegativos = (negativos * 100.0) / total;
+            percPositivos = Math.round(percPositivos * 10.0) / 10.0;
+            percNegativos = Math.round(percNegativos * 10.0) / 10.0;
         }
         Map<String, Object> resultado = new HashMap<>();
         resultado.put("tipoPesquisa", tipoPesquisa.name());
