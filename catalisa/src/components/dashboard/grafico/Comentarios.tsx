@@ -81,8 +81,8 @@ export default function Comentario() {
     const dataComComentario = {
         datasets: [{
             data: [
-                respostasData?.percComComentario || 0,
-                respostasData?.percSemComentario || 100
+                Math.round(respostasData?.percComComentario ?? 0),
+                Math.round(respostasData?.percSemComentario ?? 100),
             ],
             backgroundColor: ['#22c55e', '#e5e7eb'],
             borderWidth: 0,
@@ -129,13 +129,13 @@ export default function Comentario() {
                                 <Doughnut data={dataComComentario} options={chartOptionsComComentario} />
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <span className="text-3xl font-bold text-black">
-                                        {respostasData?.percComComentario || 0}%
+                                        {(respostasData?.percComComentario || 0).toFixed(1)}%
                                     </span>
                                 </div>
                             </div>
                             <p className="text-center text-sm text-gray-700 mt-4 max-w-xs">
                                 Dos que responderam a pesquisa,{" "}
-                                <span className="font-bold">{respostasData?.percComComentario || 0}%</span>{" "}
+                                <span className="font-bold">{(respostasData?.percComComentario || 0).toFixed(1)}%</span>{" "}
                                 deixaram algum comentário
                             </p>
                         </div>
@@ -146,17 +146,17 @@ export default function Comentario() {
                                 <Doughnut data={dataNegativos} options={chartOptionsNegativos} />
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <span className="text-3xl font-bold text-black">
-                                        {sentimentoData?.percNegativos || 0}%
+                                        {(sentimentoData?.percNegativos || 0).toFixed(1)}%
                                     </span>
                                 </div>
                             </div>
                             <div className="text-center text-sm text-gray-700 mt-4">
                                 <p>
-                                    <span className="font-bold">{sentimentoData?.percNegativos || 0}%</span>{" "}
+                                    <span className="font-bold">{(sentimentoData?.percNegativos || 0).toFixed(1)}%</span>{" "}
                                     dos comentários são <span className="font-bold">negativos</span>
                                 </p>
                                 <p className="mt-1">
-                                    <span className="font-bold">{sentimentoData?.percPositivos || 0}%</span>{" "}
+                                    <span className="font-bold">{(sentimentoData?.percPositivos || 0).toFixed(1)}%</span>{" "}
                                     dos comentários são <span className="font-bold">positivos</span>
                                 </p>
                             </div>
