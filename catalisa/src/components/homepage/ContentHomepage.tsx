@@ -15,7 +15,7 @@ export default function ContentHomepage(){
             </p>
 
 
-            <a  className={"flex flex-row px-5 py-4 justify-center items-center border border-white rounded-lg gap-3 cursor-pointer"}>
+            <a  className={"flex flex-row px-5 py-4 justify-center items-center border border-white rounded-lg gap-3 cursor-pointer"} href={"#main"} >
                 <p className={"text-gray-300"}>Vamos trabalhar juntos</p>
                 <GoArrowDown size={32} className={"font-bold text-white"}/>
             </a>
