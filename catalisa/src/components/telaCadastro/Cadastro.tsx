@@ -51,6 +51,7 @@ export default function Cadastro (){
                     <section className={`flex flex-row justify-between items-center h-12 w-full text-sm px-4 text-gray-400 font-light border border-solid border-gray-400 rounded-lg ${errorMessage ? "border border-red-500" : ''}`}>
                         <input className="flex-1 outline-none" type="text" name={"email"} placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                     </section>
+                    {errorMessage && (<p className={"text-red-800 text-sm"}>{errorMessage}</p>)}
 
                 </section>
 
