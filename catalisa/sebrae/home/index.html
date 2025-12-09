@@ -9208,6 +9208,25 @@
           </svg></button></div>
     </div>
   </div>
+
+  <script>
+    function logout() {
+      const userData = { state: { isAuthenticated: false, user: null }, version: 0 }
+      localStorage.setItem("auth-storage", JSON.stringify(userData))
+      window.location.href = "/sebrae";
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+      const loginElement = document.getElementById("user__login")
+      const dataStorage = JSON.parse(localStorage.getItem("auth-storage"));  // exemplo — ajuste conforme seu app
+
+      if (dataStorage.state.user) {
+        loginElement.textContent = "Logout"
+        loginElement.href = "/sebrae"
+        loginElement.onclick = logout
+      }
+    });
+
+  </script>
 </body>
 
 </html>
