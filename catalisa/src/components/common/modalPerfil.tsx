@@ -11,7 +11,7 @@ export default function ModalPerfil({nome , onclick} : any){
             <IoIosCloseCircleOutline onClick={onclick} className={"absolute top-2 right-2 cursor-pointer"} size={25}/>
                 <IoPersonCircleOutline size={40}/>
                 <p className={"text-md"}>{nome}</p>
-                <Link className={"text-lg font-semibold"} to={"configuracoes"} onClick={onclick}> Meu perfil </Link>
+                {/* <Link className={"text-lg font-semibold"} to={"configuracoes"} onClick={onclick}> Meu perfil </Link> */}
                 <button className={"text-blue-700 cursor-pointer"} onClick={logout}>Log out</button>
         </section>
     )

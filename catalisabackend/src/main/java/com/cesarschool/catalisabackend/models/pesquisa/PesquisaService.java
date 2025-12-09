@@ -105,10 +105,10 @@ public class PesquisaService {
             erros.adicionar("Data da pesquisa não informada");
             valido = false;
         }
-        else if(pesquisa.getDataPesquisa().isAfter(LocalDate.now())){
-            valido = false;
-            erros.adicionar("Data da pesquisa superior a data atual");
-        }
+//        else if(pesquisa.getDataPesquisa().isAfter(LocalDate.now())){
+//            valido = false;
+//            erros.adicionar("Data da pesquisa superior a data atual");
+//        }
 
         if (pesquisa.getTipoPesquisa() == null){
             valido = false;

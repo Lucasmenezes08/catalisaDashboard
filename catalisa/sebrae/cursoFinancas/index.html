@@ -9083,14 +9083,17 @@
     document.getElementById("btnSubscription").addEventListener("click", async function (event) {
       event.preventDefault(); // Impede o redirecionamento imediato
 
-      const userId = localStorage.getItem("userId");  // exemplo — ajuste conforme seu app
-
-      const dataConsumo = new Date().toISOString().split('T')[0];
+      const dataStorage = localStorage.getItem("auth-storage");  // exemplo — ajuste conforme seu app
+      const userId = JSON.parse(dataStorage).state.user.id;
+      const today = new Date();
+      const localDate = today.getFullYear() + '-' +
+        String(today.getMonth() + 1).padStart(2, '0') + '-' +
+        String(today.getDate()).padStart(2, '0');
 
       const consumoRequest = {
         userId: userId,
         productId: 2,
-        dataConsumo: dataConsumo,
+        dataConsumo: localDate,
         avaliacao: 1,
         pesquisaRespondida: false,
         pesquisaId: null
@@ -9123,7 +9126,7 @@
   <script>
     function logout() {
       const userData = { state: { isAuthenticated: false, user: null }, version: 0 }
-      localStorage.setItem("auth-storage", userData)
+      localStorage.setItem("auth-storage", JSON.stringify(userData))
       window.location.href = "/sebrae";
     }
   </script>

@@ -92,11 +92,11 @@ public class ConsumoService {
             erros.adicionar("DataConsumo inexistente ou não atribuida");
             valido = false;
         }
-        LocalDate hoje = LocalDate.now(ZoneId.systemDefault());
-        if (consumo.getDataConsumo().isAfter(hoje)) {
-            erros.adicionar("Data do consumo no futuro");
-            valido = false;
-        }
+//        LocalDate hoje = LocalDate.now(ZoneId.systemDefault());
+//        if (consumo.getDataConsumo().isAfter(hoje)) {
+//            erros.adicionar("Data do consumo no futuro");
+//            valido = false;
+//        }
         return new ResultService(valido, realizado, erros);
     }
 }

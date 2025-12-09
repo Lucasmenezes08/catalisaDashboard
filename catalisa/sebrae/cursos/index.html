@@ -10343,7 +10343,7 @@ Escolha o seu e matricule-se agora mesmo. ">
   <script>
     function logout() {
       const userData = { state: { isAuthenticated: false, user: null }, version: 0 }
-      localStorage.setItem("auth-storage", userData)
+      localStorage.setItem("auth-storage", JSON.stringify(userData))
       window.location.href = "/sebrae";
     }
   </script>

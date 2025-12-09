@@ -6634,6 +6634,7 @@
           <div class="item sbAccessibilityFontSize">
             <div class="sb-components__card__destaque sb-dd-text-out sbAccessibilityFontSize">
               <a href="/sebrae/cursos" data-sb-acao="clique - 1"
+                onclick="handleCursos(event)"
                 data-sb-rotulo="Cursos Online - https://sebrae.com.br/sites/PortalSebrae/cursosonline"
                 class="sbAccessibilityFontSize">
                 <div class="sb-components__card__destaque__img sbAccessibilityFontSize">
@@ -9208,6 +9209,37 @@
           </svg></button></div>
     </div>
   </div>
+
+  <script>
+    function logout() {
+      const userData = { state: { isAuthenticated: false, user: null }, version: 0 }
+      localStorage.setItem("auth-storage", JSON.stringify(userData))
+      window.location.href = "/sebrae";
+    }
+    let hasUser = false;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const loginElement = document.getElementById("user__login")
+      const dataStorage = JSON.parse(localStorage.getItem("auth-storage"));  // exemplo — ajuste conforme seu app
+
+      hasUser = dataStorage.state.user
+      if (hasUser) {
+        loginElement.textContent = "Logout"
+        loginElement.href = "/sebrae"
+        loginElement.onclick = logout
+      }
+    });
+
+    handleCursos = (event) => {
+      event.preventDefault()
+      if (!hasUser){
+        window.location.href = "/sebrae/login";
+      } else {
+        window.location.href = "/sebrae/cursos"
+      }
+    }
+
+  </script>
 </body>
 
 </html>

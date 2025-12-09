@@ -85,6 +85,24 @@
     </style>
     <link href="bootstrap.min.css" rel="stylesheet">
     <link href="login-custom.css" rel="stylesheet">
+    <script src="jquery.js" type="text/javascript"></script>
+    <script src="jquery.mask.js" type="text/javascript"></script>
+    <script src="bootstrap.min.js" type="text/javascript"></script>
+    <script src="theme.js" type="text/javascript"></script>
+    <script src="axios.js" type="text/javascript"></script>
+    <script src="util.js" type="text/javascript"></script>
+    <script src="util-login.js" type="text/javascript"></script>
+    <script src="moment.js" type="text/javascript"></script>
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WG5CCHZ');</script>
 
     <!-- End Google Tag Manager -->
     <!-- Google Tag Manager (noscript) -->
@@ -245,20 +263,6 @@
                                     <button tabindex="-1" class="btn btn-formtoggle" type="button"><i
                                             class="uil-eye toggle-password" toggle="#password"></i></button>
                                 </div>
-
-                                <details id="passwordPolicyMessage" open="" style="margin-bottom: 12px;">
-                                    <summary>
-                                        <i class="fa fa-question-circle"></i>
-                                        <span>Regras da senha</span>
-                                    </summary>
-                                    <small class="mensagem info" style="white-space: pre-wrap">A senha deve conter:
-                                        pelo menos 1 caracter em maiúsculo
-                                        pelo menos 1 caracter em minúsculo
-                                        pelo menos 1 caracter especial
-                                        pelo menos 1 número
-                                        pelo menos 8 caracteres
-                                        no máximo 70 caracteres</small>
-                                </details>
 
                             </section>
 

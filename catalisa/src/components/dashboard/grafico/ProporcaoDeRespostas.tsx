@@ -189,7 +189,7 @@ export default function NivelSatisfacao() {
     const cor = getColor(nota);
 
     return (
-        <section className="w-full h-full flex flex-col rounded-xl border border-solid border-black bg-gray-100">
+        <section className="w-full flex flex-col rounded-xl border border-solid border-black bg-gray-100">
             <section className="relative flex justify-center items-center p-4 border-b border-black rounded-t-xl">
                 <h2 className="text-md font-medium text-black uppercase">Nível de Satisfação</h2>
                 <Info
@@ -204,12 +204,14 @@ export default function NivelSatisfacao() {
                 )}
             </section>
 
-            <section className="flex-1 p-6 flex flex-col items-center justify-center relative w-full">
+            <section className="p-6 flex flex-col items-center justify-center relative w-full">
+
                 {isLoading ? (
                     <Spinner />
                 ) : (
                     <>
-                        <div className="relative w-full max-w-sm aspect-square flex items-center justify-center mb-6">
+                        <div className="relative w-full max-w-sm h-50 flex items-center justify-center">
+
                             <svg viewBox="0 0 200 120" className="w-full h-auto">
                                 {/* Arco de fundo (cinza) */}
                                 <path
