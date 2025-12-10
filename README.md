@@ -1,6 +1,7 @@
 <div align="center">
   
-  <img src="catalisa.png" width="250" alt="Logo Catalisa">
+  <img src="catalisa.png" width="300" alt="Logo Catalisa">
+  <br>
   
   <br> 
   </div>
