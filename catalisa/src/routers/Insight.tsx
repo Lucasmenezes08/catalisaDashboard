@@ -15,6 +15,14 @@ const StarRating = ({ nota }: { nota: number }) => (
     </section>
 );
 
+const dataString = (str: String)=> {
+    const f = str.split("-");
+    const temp = f[2];
+    f[2] = f[0];
+    f[0] = temp;
+    return f.join("/")
+}
+
 export default function Insight() {
     const [page, setPage] = useState(0);
     const { tipoPesquisa } = useSelector();
@@ -69,7 +77,7 @@ export default function Insight() {
                                             </h3>
 
                                             <span className="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-md">
-                                                {pesquisa.dataPesquisa ? new Date(pesquisa.dataPesquisa).toLocaleDateString('pt-BR') : "--/--/----"}
+                                                {pesquisa.dataPesquisa ? dataString(pesquisa.dataPesquisa) : "--/--/----"}
                                             </span>
 
                                             <span className={`text-xs font-semibold px-3 py-1 rounded-md flex items-center gap-1 ${
