@@ -5,7 +5,7 @@ const URL = "http://localhost:8080/api/v2/pesquisas";
 export async function fetchPesquisas(
     page = 0,
     size = 10,
-    sort = "dataPesquisa,DESC",
+    sort = "id,DESC",
     tipoPesquisa = "NPS"
 ): Promise<Page<Pesquisa>> {
 

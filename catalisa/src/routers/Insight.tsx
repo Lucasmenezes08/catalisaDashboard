@@ -26,7 +26,7 @@ export default function Insight() {
     const { data, isLoading, isError, error, isPlaceholderData, refetch } = usePesquisas({
         page: page,
         size: 10,
-        sort: "dataPesquisa,DESC",
+        sort: "id,DESC",
         tipoPesquisa: tipoPesquisa,
     });
 

@@ -11,7 +11,7 @@ interface UsePesquisasParams {
 export const usePesquisas = ({
     page = 0,
     size = 10,
-    sort = "dataPesquisa,DESC",
+    sort = "id,DESC",
     tipoPesquisa = "NPS"
     }: UsePesquisasParams = {}) => {
     return useQuery({
