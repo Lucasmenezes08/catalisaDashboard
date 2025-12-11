@@ -18,6 +18,7 @@ Há **dois links para acessar a aplicação** desenvolvida no projeto. O primeir
   - [Site no Ar - Sebrae](http://104.248.217.165/sebrae)
 - Screencast
   - [Screencast - Aplicação](https://www.youtube.com/watch?v=piaWC0mmUvU)
+  - [Screencast - Aplicação Parte 2](https://youtu.be/QPwyJ2F9iow)
   - [Screencast - Prototipação](https://youtu.be/4Ie5NhUl014)
 
 
