@@ -40,6 +40,7 @@ public class User implements Serializable {
     @NotBlank
     @Column(nullable = false)
     @Setter(AccessLevel.NONE)
+    @JsonIgnore
     private String password;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
