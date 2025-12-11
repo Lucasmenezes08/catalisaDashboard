@@ -8,7 +8,17 @@
 
 O **Catalisa** é uma plataforma de gestão de *Customer Experience* desenvolvida para capturar, processar e visualizar o feedback de usuários. A solução integra uma simulação de ambiente real (no caso do projeto, o site do cliente Sebrae) com um **chatbox** interativo de pesquisa e um painel administrativo onde há duas seções: o **Dashboard** e os **Insights**, para análise dos dados coletados nas pesquisas de usuário.
 
-- [Site no Ar](http://104.248.217.165/)
+Há **dois links para acessar a aplicação** desenvolvida no projeto. O primeiro é o da plataforma do Catalisa, onde o gestor poderá ver os dados coletados nas pesquisas; e, o segundo é a réplica do site do nosso cliente (Sebrae), onde são realizadas às pesquisas de satifação na medida em que os usuários consomem produtos os serviços. 
+
+*Obs: É importante salientar que ambos sites rodam no mesmo deploy. Sendo assim, apesar de não ser o ideal, por ser uma solução MVP, ambos utilizam o mesmo usuário.*
+
+#### 🔗 Links Importantes
+- Deploy
+  - [Site no Ar - Catalisa](http://104.248.217.165/)
+  - [Site no Ar - Sebrae](http://104.248.217.165/sebrae)
+- Screencast
+  - [Screencast - Aplicação](https://www.youtube.com/watch?v=piaWC0mmUvU)
+  - [Screencast - Prototipação](https://youtu.be/4Ie5NhUl014)
 
 
 ---
@@ -49,11 +59,14 @@ O desenvolvimento seguiu uma arquitetura moderna, garantindo escalabilidade e pe
   <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
   <img src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white" alt="Spring" />
   <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Flyway-CC0200?style=for-the-badge&logo=flyway&logoColor=white" alt="Flyway" />
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python" />
 </div>
 
 Para mais detalhes, ver documentação completa:
+
 - [Front-End](https://docs.google.com/document/d/1BCPwgaPSz4-CjFFqfrTwOSaboBaHtbkMcTwyoGJeddg/edit?usp=sharing)
+
 - [Back-End](https://docs.google.com/document/d/1ZAj9sPM-V6TTuqKSapx4ZaFqVBlUtILXfcKax_1ekKY/edit?usp=sharing)
 
 
@@ -61,20 +74,19 @@ Para mais detalhes, ver documentação completa:
 
 ## 👥 Equipe
 #### Desenvolvedores
-* [Amanda Luz](alc2@cesar.school)
-* [Eric Gonçalves](ega2@cesar.school)
-* [Gabriel Aniceto](gasab@cesar.school)
-* [João Vitor Passos](jvap@cesar.school)
-* [Lucas Menezes](lms4@cesar.school)
-* [Gabriel Aniceto](gasab@cesar.school)
-* [Mircio Ferreira](mfsn@cesar.school)
-* [Ricardo Sérgio Freitas](rspff@cesar.school)
-* [Thiago Fernandes](tfm3@cesar.school)
+* [Amanda Luz](https://github.com/amandaaluzc) - alc2@cesar.school
+* [Eric Gonçalves](https://github.com/eric-albuquer) - ega2@cesar.school
+* [Gabriel Aniceto](https://github.com/gabrielaniceto1) - gasab@cesar.school
+* [João Vitor Passos](https://github.com/iampassos) - jvap@cesar.school
+* [Lucas Menezes](https://github.com/Lucasmenezes08) - lms4@cesar.school
+* [Mircio Ferreira](https://github.com/Mircio-Ferreira) - mfsn@cesar.school
+* [Ricardo Sérgio Freitas](https://github.com/whosricardo) - rspff@cesar.school
+* [Thiago Fernandes](https://github.com/ThIagoMedeiros21) - tfm3@cesar.school
 
 #### Designers
-* [Maria Eduarda Leal](melo@cesar.school)
-* [Mariana Padilha](mmp2@cesar.school)
-* [Rafael Lima](rlr@cesar.school)
+* Maria Eduarda Leal - melo@cesar.school
+* Mariana Padilha - mmp2@cesar.school
+* Rafael Lima - rlr@cesar.school
 
 #### Orientadora
 * Natália Aquino
