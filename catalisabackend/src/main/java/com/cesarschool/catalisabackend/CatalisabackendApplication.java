@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @ComponentScan(
         basePackages = {
-                "com.cesarschool.catalisabackend.models.user",
-                "com.cesarschool.catalisabackend.models.product",
-                "com.cesarschool.catalisabackend.models.pesquisa",
-                "com.cesarschool.catalisabackend.models.consumo",
-                "com.cesarschool.catalisabackend.models.dashboard",
+                "com.cesarschool.catalisabackend.controllers",
+                "com.cesarschool.catalisabackend.services",
+                "com.cesarschool.catalisabackend.utils",
+                "com.cesarschool.catalisabackend.dtos",
+                "com.cesarschool.catalisabackend.repositories",
                 "com.cesarschool.catalisabackend.config"
                 // + "com.cesarschool.catalisabackend.security" etc.
         },
@@ -24,16 +24,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         )
 )
 @EntityScan(basePackages = {
-        "com.cesarschool.catalisabackend.models.user",
-        "com.cesarschool.catalisabackend.models.product",
-        "com.cesarschool.catalisabackend.models.pesquisa",
-        "com.cesarschool.catalisabackend.models.consumo"
+        "com.cesarschool.catalisabackend.models"
 })
 @EnableJpaRepositories(basePackages = {
-        "com.cesarschool.catalisabackend.models.user",
-        "com.cesarschool.catalisabackend.models.product",
-        "com.cesarschool.catalisabackend.models.pesquisa",
-        "com.cesarschool.catalisabackend.models.consumo"
+        "com.cesarschool.catalisabackend.repositories"
 })
 public class CatalisabackendApplication {
     public static void main(String[] args) {
