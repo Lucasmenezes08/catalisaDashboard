@@ -12,6 +12,7 @@ import com.cesarschool.catalisabackend.models.User;
 import com.cesarschool.catalisabackend.repositories.PesquisaRepository;
 import com.cesarschool.catalisabackend.services.PesquisaService;
 import com.cesarschool.catalisabackend.utils.ResultService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "Pesquisas", description = "Endpoints relacionados as pesquisas")
 @RestController
 @RequestMapping("/api/v2/pesquisas")
 public class PesquisaController {

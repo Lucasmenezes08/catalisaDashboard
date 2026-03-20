@@ -6,6 +6,7 @@ import com.cesarschool.catalisabackend.repositories.UserRepository;
 import com.cesarschool.catalisabackend.dtos.request.UserRequestDTO;
 import com.cesarschool.catalisabackend.dtos.response.UserResponseDTO;
 import com.cesarschool.catalisabackend.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Tag(name = "Users", description = "Endpoints relacionados aos usuários")
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")

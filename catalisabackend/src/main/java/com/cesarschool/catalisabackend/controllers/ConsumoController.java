@@ -10,6 +10,7 @@ import com.cesarschool.catalisabackend.repositories.ProductRepository;
 import com.cesarschool.catalisabackend.models.User;
 import com.cesarschool.catalisabackend.repositories.UserRepository;
 import com.cesarschool.catalisabackend.utils.ResultService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Tag(name = "Consumos", description = "Endpoints relacionados aos consumos")
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v2/consumos")

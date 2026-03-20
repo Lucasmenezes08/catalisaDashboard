@@ -5,6 +5,7 @@ import com.cesarschool.catalisabackend.dtos.request.ProductRequestDTO;
 import com.cesarschool.catalisabackend.dtos.response.ProductResponseDTO;
 import com.cesarschool.catalisabackend.services.ProductService;
 import com.cesarschool.catalisabackend.utils.ResultService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.List;
  *  - DELETE /api/v2/products/{id}
  *  - DELETE /api/v2/products/by-name/{name}
  */
+@Tag(name = "Products", description = "Endpoints relacionados aos produtos")
 @CrossOrigin(origins = "*") // ajuste para o domínio/porta do front em produção
 @RestController
 @RequestMapping("/api/v2/products")

@@ -5,12 +5,14 @@ import com.cesarschool.catalisabackend.models.Sentimento;
 import com.cesarschool.catalisabackend.models.Pesquisa;
 import com.cesarschool.catalisabackend.models.TipoPesquisa;
 import com.cesarschool.catalisabackend.services.AnaliseSentimentoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Tag(name = "Dashboards", description = "Endpoints relacionados ao dashboard")
 @RestController
 @RequestMapping("/api/v2/dashboard")
 @CrossOrigin(origins = "*")
