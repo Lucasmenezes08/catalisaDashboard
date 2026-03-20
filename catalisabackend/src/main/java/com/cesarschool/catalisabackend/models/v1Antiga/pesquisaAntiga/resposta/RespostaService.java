@@ -1,8 +1,8 @@
 package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.resposta;
 
-import com.cesarschool.catalisabackend.models.utils.ListaString;
-import com.cesarschool.catalisabackend.models.utils.ResultService;
-import com.cesarschool.catalisabackend.models.utils.StringUtils;
+import com.cesarschool.catalisabackend.utils.ListaString;
+import com.cesarschool.catalisabackend.utils.ResultService;
+import com.cesarschool.catalisabackend.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -180,10 +180,10 @@
 //        ConsumoAntigo c = (targetOrNull != null) ? targetOrNull : new ConsumoAntigo();
 //
 //        if (dto.userId() != null) {
-//            c.setUser(em.getReference(com.cesarschool.catalisabackend.models.user.User.class, dto.userId()));
+//            c.setUser(em.getReference(com.cesarschool.catalisabackend.models.User.class, dto.userId()));
 //        }
 //        if (dto.productId() != null) {
-//            c.setProduct(em.getReference(com.cesarschool.catalisabackend.models.product.Product.class, dto.productId()));
+//            c.setProduct(em.getReference(com.cesarschool.catalisabackend.models.Product.class, dto.productId()));
 //        }
 //        c.setDataConsumo(dto.dataConsumo());
 //        c.setAvaliacao(dto.avaliacao() == null ? 0 : dto.avaliacao());

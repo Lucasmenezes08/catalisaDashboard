@@ -2,12 +2,12 @@ package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.pergunta;
 
 
 import org.springframework.stereotype.Service;
-import com.cesarschool.catalisabackend.models.utils.StringUtils;
-import com.cesarschool.catalisabackend.models.utils.ResultService;
+import com.cesarschool.catalisabackend.utils.StringUtils;
+import com.cesarschool.catalisabackend.utils.ResultService;
 import java.util.List;
 import java.util.Optional;
 
-import com.cesarschool.catalisabackend.models.utils.ListaString;
+import com.cesarschool.catalisabackend.utils.ListaString;
 import jakarta.transaction.Transactional;
 
 @Service
