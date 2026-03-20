@@ -1,8 +1,8 @@
 package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.consumoAntigo;
 
 import com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.PesquisaAntiga;
-import com.cesarschool.catalisabackend.models.product.Product;
-import com.cesarschool.catalisabackend.models.user.User;
+import com.cesarschool.catalisabackend.models.Product;
+import com.cesarschool.catalisabackend.models.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;

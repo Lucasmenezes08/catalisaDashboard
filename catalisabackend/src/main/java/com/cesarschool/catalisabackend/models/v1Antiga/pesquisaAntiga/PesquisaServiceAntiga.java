@@ -1,8 +1,8 @@
 package com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga;
 
 import com.cesarschool.catalisabackend.models.v1Antiga.pesquisaAntiga.consumoAntigo.ConsumoAntigo;
-import com.cesarschool.catalisabackend.models.utils.ListaString;
-import com.cesarschool.catalisabackend.models.utils.ResultService;
+import com.cesarschool.catalisabackend.utils.ListaString;
+import com.cesarschool.catalisabackend.utils.ResultService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
